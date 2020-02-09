@@ -4,13 +4,13 @@
 
 
 Being a non-native English speaker living in an English speaking
-country I want *My Smart Vocabulary Trainer* to help me and others expand on the expressions and vocabulary I use on a day-to-day basis.
+country I want *My Smart Vocabulary Trainer* to help the user learn words and phrases that they use on a day-to-day basis.
   
 **What can you do with** ***My Smart Vocabulary Trainer*** **?**
--  create a database of words and phrases with your own interpretation and translation  
--  enrich it with comments and translations from dictionaries
--  test yourself on your knowledge under timed conditions
--  track your progress on learning new phrases and adding new words
+-  create a database of words and phrases with your own interpretation  
+-  enrich it with comments and example sentences
+-  test yourself on your knowledge 
+-  track your learning progress 
 
 **Who can use it?**
 
@@ -22,13 +22,24 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
 > Let's Go! - *My Smart Vocabulary Trainer*
  
 ##User Stories
-- As a user I want to be able to enter 
-    - expressions and their meaning as well as 
-    - single words with their meaning and an example sentence
-- As a user I want to be able to add additional comments
-- As a user I want to be able to test myself on the entered words and expressions
+- As a user I want to be able to save words and phrases, their meaning, comments and example sentences to a database
+- As a user I want to be able to delete entries from the database
+- As a user I want to be able to test myself on a random selection from the database, based on the meanings and 
+example sentences I entered
+- As a user I want to be able to track my success rate and based on it have certain words/phrases suggested more often
+- As a user I want to be able to search for entries
 - As a user I want to have a profile where I can 
     - see and reset the statistics
-    - see and change or delete single words or expressions
-    - export the data in different formats, such as pdf and excel
-    - reset the data
+    - see and change or delete entries
+    - export the database in different formats, such as pdf and excel
+    - delete the entire database
+    - delete my profile
+    
+##Ideas for extended version
+- scrape websites for example sentences
+- call dictionaries to offer common synonyms
+- test yourself under timed conditions
+- keep track of how fast words are entered and track progress on that
+- remove unnecessary buttons such as the enter button (have next word/phrase appear once the old 
+one was successfully entered)
+- make an online version(?)
