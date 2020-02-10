@@ -36,6 +36,7 @@ example sentences I entered
     - delete my profile
     
 ##Ideas for extended version
+- offers me to change existing entry if I try to add new entry with same description
 - scrape websites for example sentences
 - call dictionaries to offer common synonyms
 - test yourself under timed conditions

@@ -9,9 +9,12 @@ class VocabTest {
     private Profile profile;
     private SingleEntry entry1;
     private SingleEntry entry2;
-    private Database database1;
-    private Database database2;
-    private Database database3;
+    private SingleEntry entry3;
+    private Database database0; //database with 0 entries
+    private Database database1; //database with 1 entry
+    private Database database2; //database with 2 entries
+    private Distribution distribution;
+    public static final int TIMES = 3;
 
 
     @BeforeEach
@@ -21,13 +24,14 @@ class VocabTest {
                 "riding down the hill with a toboggan");
         entry2 = new SingleEntry("eh", "right?", "used at end of sentence",
                 "it's cold, eh?");
+        entry3 = new SingleEntry("description", "meaning", "comment", "example");
+        database0 = new Database();
         database1 = new Database();
         database2 = new Database();
-        database3 = new Database();
 
+        database1.addEntry(entry1);
         database2.addEntry(entry1);
-        database3.addEntry(entry1);
-        database3.addEntry(entry2);
+        database2.addEntry(entry2);
     }
 
     @Test
@@ -45,21 +49,44 @@ class VocabTest {
     }
 
     @Test
+    void testDistributionConstructor() {
+        distribution = new Distribution(database2);
+        assertEquals(database2.getSize()*TIMES, distribution.getSize());
+    }
+    //TODO: why do I have to instantiate new Distribution inside test?
+
+    @Test
+    void testCheckIfCorrectDescription() {
+        assertTrue(entry1.checkIfCorrectDescription("toboggan"));
+        assertFalse(entry1.checkIfCorrectDescription("eh"));
+    }
+
+    @Test
     void testIsEmpty() {
-        assertTrue(database1.isEmpty());
-        assertFalse(database2.isEmpty());
+        assertTrue(database0.isEmpty());
+        assertFalse(database1.isEmpty());
     }
 
     @Test
     void testGetSize() {
-        assertEquals(2, database3.getSize());
+        assertEquals(2, database2.getSize());
     }
 
     @Test
-    void testGetEntry() {
-        assertEquals(entry2, database3.getEntry("eh"));
-        assertNull(database3.getEntry("random String"));
-        assertNull(database1.getEntry("ranom String"));
+    void testSearchEntry() {
+        assertEquals(entry2, database2.searchEntry("eh"));
+        assertNull(database2.searchEntry("random String"));
+        assertNull(database0.searchEntry("random String"));
+    }
+
+    @Test
+    void testRemoveEntry() {
+        database2.removeEntry(entry2);
+        assertEquals(1, database2.getSize());
+        database0.removeEntry(entry1);
+        assertEquals(0, database0.getSize());
+
     }
 
 }
+

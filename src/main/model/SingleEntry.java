@@ -12,6 +12,7 @@ public class SingleEntry {
     protected String comment;
     protected String example;
 
+
     //EFFECTS: constructs a hashmap consisting of keys and their values
     protected SingleEntry(String description, String meaning, String comment, String example) {
         this.description = description;
@@ -23,6 +24,11 @@ public class SingleEntry {
         entry.put("meaning: ", meaning);
         entry.put("comment: ", comment);
         entry.put("example: ", example);
+    }
+
+    // EFFECTS: checks if the string is the description
+    protected boolean checkIfCorrectDescription(String str) {
+        return (str.equals(description));
     }
 
     protected String getDescription() {
