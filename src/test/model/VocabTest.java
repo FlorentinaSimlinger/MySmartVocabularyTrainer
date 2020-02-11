@@ -13,7 +13,7 @@ class VocabTest {
     private Database database0; //database with 0 entries
     private Database database1; //database with 1 entry
     private Database database2; //database with 2 entries
-    private Distribution distribution;
+    private Database database3; //database with 3 entries
     public static final int TIMES = 3;
 
 
@@ -28,10 +28,14 @@ class VocabTest {
         database0 = new Database();
         database1 = new Database();
         database2 = new Database();
+        database3 = new Database();
 
         database1.addEntry(entry1);
         database2.addEntry(entry1);
         database2.addEntry(entry2);
+        database3.addEntry(entry1);
+        database3.addEntry(entry2);
+        database3.addEntry(entry3);
     }
 
     @Test
@@ -49,11 +53,10 @@ class VocabTest {
     }
 
     @Test
-    void testDistributionConstructor() {
-        distribution = new Distribution(database2);
-        assertEquals(database2.getSize()*TIMES, distribution.getSize());
+    void testDatabaseConstructor() {
+        assertTrue(database0.isEmptyEntries());
+        assertTrue(database0.isEmptyDistribution());
     }
-    //TODO: why do I have to instantiate new Distribution inside test?
 
     @Test
     void testCheckIfCorrectDescription() {
@@ -63,14 +66,10 @@ class VocabTest {
 
     @Test
     void testIsEmpty() {
-        assertTrue(database0.isEmpty());
-        assertFalse(database1.isEmpty());
+        assertTrue(database0.isEmptyEntries());
+        assertFalse(database1.isEmptyEntries());
     }
 
-    @Test
-    void testGetSize() {
-        assertEquals(2, database2.getSize());
-    }
 
     @Test
     void testSearchEntry() {
@@ -80,13 +79,64 @@ class VocabTest {
     }
 
     @Test
-    void testRemoveEntry() {
-        database2.removeEntry(entry2);
-        assertEquals(1, database2.getSize());
-        database0.removeEntry(entry1);
-        assertEquals(0, database0.getSize());
-
+    void testAddOneEntry() {
+        database0.addEntry(entry1);
+        assertEquals(1, database0.getSizeEntries());
+        assertEquals(1*TIMES, database0.getSizeDistribution());
+        assertEquals("toboggan", database0.getDescriptionFromDistribution(0));
+        assertEquals("toboggan", database0.getDescriptionFromDistribution(1));
+        assertEquals(entry1, database0.getEntryFromEntries(0));
     }
 
+    @Test
+    void testAddManyEntries() {
+        database0.addEntry(entry1);
+        database0.addEntry(entry2);
+        database0.addEntry(entry3);
+        assertEquals(3, database0.getSizeEntries());
+        assertEquals(3*TIMES, database0.getSizeDistribution());
+    }
+
+    @Test
+    void testRemoveOneEntry() {
+        database2.removeEntry(entry2);
+        assertEquals(1, database2.getSizeEntries());
+        assertEquals(1*TIMES, database2.getSizeDistribution());
+        database0.removeEntry(entry1);
+        assertEquals(0, database0.getSizeEntries());
+    }
+
+    @Test
+    void testRemoveManyEntries() {
+        database3.removeEntry(entry3);
+        database3.removeEntry(entry2);
+        assertEquals(1, database3.getSizeEntries());
+        assertEquals(3, database3.getSizeDistribution());
+    }
+
+    @Test
+    void testSelectFromDistribution() {
+       assertTrue(database3.getEntries().contains(database3.selectFromDistribution()));
+    }
+
+    @Test
+    void testAdjustDistributionSuccess() {
+        database1.adjustDistribution(entry1, "toboggan");
+        assertEquals(TIMES - 1, database1.getSizeDistribution());
+    }
+
+    @Test
+    void testAdjustDistributionFailure() {
+        database1.adjustDistribution(entry1, "this description does not exist");
+        assertEquals(TIMES + 1, database1.getSizeDistribution());
+    }
+
+    @Test
+    void testAdjustDistributionNotBelowOne() {
+        database1.adjustDistribution(entry1, "toboggan");
+        database1.adjustDistribution(entry1, "toboggan");
+        database1.adjustDistribution(entry1, "toboggan");
+        assertEquals(1, database1.getSizeDistribution());
+    }
 }
 

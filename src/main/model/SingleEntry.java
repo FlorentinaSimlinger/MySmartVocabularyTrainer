@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 //Represents a single entry consisting of a description, the meaning, a comment and an example
 public class SingleEntry {
-    protected HashMap<String, String> entry;
+    protected HashMap<String, String> match;
     protected String description;
     protected String meaning;
     protected String comment;
@@ -19,11 +19,11 @@ public class SingleEntry {
         this.meaning = meaning;
         this.comment = comment;
         this.example = example;
-        entry = new HashMap<String, String>();
-        entry.put("description: ", description);
-        entry.put("meaning: ", meaning);
-        entry.put("comment: ", comment);
-        entry.put("example: ", example);
+        match = new HashMap<>();
+        match.put("description: ", description);
+        match.put("meaning: ", meaning);
+        match.put("comment: ", comment);
+        match.put("example: ", example);
     }
 
     // EFFECTS: checks if the string is the description
@@ -32,23 +32,23 @@ public class SingleEntry {
     }
 
     protected String getDescription() {
-        return entry.get("description: ");
+        return match.get("description: ");
     }
 
     protected String getMeaning() {
-        return entry.get("meaning: ");
+        return match.get("meaning: ");
     }
 
     protected String getComment() {
-        return entry.get("comment: ");
+        return match.get("comment: ");
     }
 
     protected String getExample() {
-        return entry.get("example: ");
+        return match.get("example: ");
     }
 
     protected Collection getValues() {
-        return entry.values();
+        return match.values();
     }
 }
 
