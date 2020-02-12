@@ -60,59 +60,43 @@ public class VocabApp {
 
     //EFFECTS: processes user command
     //MODIFIES: this
-    //Source: TellerApp CPSC 2010
+    //Source: TellerApp CPSC 210
     private void processCommand(String command) {
         if (command.equals("add")) {
             doAddEntry();
-            System.out.println("What else would you like to do?");
         } else if (command.equals("remove")) {
             doRemoveEntry();
-            System.out.println("What else would you like to do?");
         } else if (command.equals("search")) {
             doSearchEntry();
-            System.out.println("What else would you like to do?");
         } else if (command.equals("display")) {
             doDisplayAllEntries();
-            System.out.println("What else would you like to do?");
         } else if (command.equals("test")) {
-            System.out.println("Your test is now recorded. "
-                    + "If you would like to return to the main menu, type one of its options.");
             doTestMyself();
-            System.out.println("What else would you like to do?");
         } else {
-            int random = new Random().nextInt(3);
-            if (random == 0) {
-                System.out.println("Sorry, I did not get that, please try again.");
-                input.nextLine();
-            } else if (random == 1) {
-                System.out.println("Roses are red, violets are blue, I think there's a typo, "
-                        + "no worries I got bugs too.");
-                input.nextLine();
-            } else if (random == 2) {
-                System.out.println("Cannot.compute...please.try.again...");
-                input.nextLine();
-            }
+            doHandleException();
         }
     }
 
     //EFFECTS: adds entry to database
     //MODIFIES: Database
     private void doAddEntry() {
+        input = new Scanner(System.in);
         System.out.println("Enter the word or phrase you'd like to add:");
-        input.nextLine();
+        //input.nextLine();
         String description = input.nextLine();
         System.out.println("Enter the meaning or synonym that you use:");
         String meaning = input.nextLine();
         System.out.println("Enter a comment, if you'd like to add one:");
         String comment = input.nextLine();
-        System.out.println("Enter an example sentence for the meaning or synonym");
+        System.out.println("Enter an example sentence for the meaning or synonym:");
         String example = input.nextLine();
 
         SingleEntry entry;
         entry = new SingleEntry(description, meaning, comment, example);
 
         profile.getDatabase().addEntry(entry);
-        System.out.println("You successfully added an entry for " + description + "!");
+        System.out.println("You successfully added an entry for " + description
+                + "\nWhat else would you like to do?\n");
     }
 
     //EFFECTS: removes entry from database
@@ -123,7 +107,7 @@ public class VocabApp {
         String description = input.nextLine();
 
         profile.getDatabase().removeEntry(description);
-        System.out.println("You successfully deleted " + description + ".");
+        System.out.println("You successfully deleted " + description + ".\n What else would you like to do?");
     }
 
     //EFFECTS: returns entry based on search
@@ -136,6 +120,7 @@ public class VocabApp {
         System.out.println("Meaning: " + profile.getDatabase().getEntryBasedOnValue(search).getMeaning());
         System.out.println("Comment: " + profile.getDatabase().getEntryBasedOnValue(search).getMeaning());
         System.out.println("Example: " + profile.getDatabase().getEntryBasedOnValue(search).getExample());
+        System.out.println("What else would you like to do?");
     }
 
     //EFFECTS: displays all entries
@@ -143,38 +128,53 @@ public class VocabApp {
         for (SingleEntry entry : profile.getDatabase().getEntries()) {
             System.out.println(entry.toString());
         }
+        System.out.println("What else would you like to do?");
     }
 
     //EFFECTS: tests user and adjusts distribution
     private void doTestMyself() {
+        System.out.println("Your test results are now recorded. "
+                + "If you would like to return to the main menu, type 'return'.");
         boolean keepStudying = true;
         while (keepStudying) {
+            input = new Scanner(System.in);
             SingleEntry selected = profile.getDatabase().selectFromDistribution();
             String shown = selected.getMeaning();
             System.out.println("What's another word or phrase for " + shown + "?");
-            input.nextLine();
             String meaning = input.nextLine();
-            if (meaning.equals("add") || meaning.equals("remove") || meaning.equals("search")
-                    || meaning.equals("display")) {
+            if (meaning.equals("return")) {
                 keepStudying = false;
-            }
-            if (selected.checkIfCorrectDescription(meaning)) {
+            } else if (selected.checkIfCorrectDescription(meaning)) {
                 System.out.println("Correct!");
             } else {
                 System.out.println("Unfortunately that was wrong.");
             }
             profile.getDatabase().adjustDistribution(selected, meaning);
-            doTestMyself();
+        }
+        System.out.println("What else would you like to do?");
+    }
+
+    private void doHandleException() {
+        int random = new Random().nextInt(3);
+        if (random == 0) {
+            System.out.println("Sorry, I did not get that, please try again.");
+            input.nextLine();
+        } else if (random == 1) {
+            System.out.println("Roses are red, violets are blue, I think there's a typo, "
+                    + "no worries I got bugs too.");
+            input.nextLine();
+        } else if (random == 2) {
+            System.out.println("Cannot.compute...please.try.again...");
+            input.nextLine();
         }
     }
 }
 
-// TODO: should the behavior of doDisplayAllEntries be only implemented in backend (ie is it okay to have the loop?)
-// TODO: is it okay to have methods that are currently not used?
-// TODO: is it okay that the return type is void?
-// TODO: is it okay to have requires clauses here?
-// TODO: is it okay to have all the tests in one class?
-// TODO: is there a better way than to have all the methods public?
-// TODO: fix for full code coverage
-// TODO: bug in toTestMyself - cannot get out of loop
+// TODO: is it okay to have loop in ui? Yes, as long as not too complex.
+// TODO: is it okay to have methods that are currently not used in ui? Yes, because might need later.
+// TODO: is it okay to have all the tests in one class? Yes, however split in more classes in future.
+// TODO: is there a better way than to have all the methods public? Could put more function in single method, but not
+//  advised because of modular approach
+// TODO: do we need to throw exceptions? Not at this point.
+// TODO: optimize distribution
 

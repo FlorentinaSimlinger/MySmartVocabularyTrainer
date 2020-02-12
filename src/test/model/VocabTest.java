@@ -43,6 +43,8 @@ class VocabTest {
     void testProfileConstructor() {
         assertEquals("", profile.getName());
         assertEquals(0, profile.getSuccessRate());
+        assertTrue(profile.getDatabase().isEmptyEntries());
+        assertTrue(profile.getDatabase().isEmptyDistribution());
     }
 
     @Test
@@ -116,6 +118,12 @@ class VocabTest {
     }
 
     @Test
+    void testToString() {
+        assertEquals(entry1.toString(),
+                "toboggan, sled, canadian for sled, riding down the hill with a toboggan");
+    }
+
+    @Test
     void testSelectFromDistribution() {
        assertTrue(database3.getEntries().contains(database3.selectFromDistribution()));
     }
@@ -139,5 +147,7 @@ class VocabTest {
         database1.adjustDistribution(entry1, "toboggan");
         assertEquals(1, database1.getSizeDistribution());
     }
+
+
 }
 
