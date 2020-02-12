@@ -19,7 +19,8 @@ class VocabTest {
 
     @BeforeEach
     void runBefore() {
-        profile = new Profile("Jane");
+        profile = new Profile();
+        profile.setName("");
         entry1 = new SingleEntry("toboggan", "sled", "canadian for sled",
                 "riding down the hill with a toboggan");
         entry2 = new SingleEntry("eh", "right?", "used at end of sentence",
@@ -40,7 +41,7 @@ class VocabTest {
 
     @Test
     void testProfileConstructor() {
-        assertEquals("Jane", profile.getName());
+        assertEquals("", profile.getName());
         assertEquals(0, profile.getSuccessRate());
     }
 
@@ -73,9 +74,9 @@ class VocabTest {
 
     @Test
     void testSearchEntry() {
-        assertEquals(entry2, database2.searchEntry("eh"));
-        assertNull(database2.searchEntry("random String"));
-        assertNull(database0.searchEntry("random String"));
+        assertEquals(entry2, database2.getEntryBasedOnValue("eh"));
+        assertNull(database2.getEntryBasedOnValue("random String"));
+        assertNull(database0.getEntryBasedOnValue("random String"));
     }
 
     @Test
@@ -85,7 +86,7 @@ class VocabTest {
         assertEquals(1*TIMES, database0.getSizeDistribution());
         assertEquals("toboggan", database0.getDescriptionFromDistribution(0));
         assertEquals("toboggan", database0.getDescriptionFromDistribution(1));
-        assertEquals(entry1, database0.getEntryFromEntries(0));
+        assertEquals(entry1, database0.getEntryBasedOnIndex(0));
     }
 
     @Test
@@ -99,17 +100,17 @@ class VocabTest {
 
     @Test
     void testRemoveOneEntry() {
-        database2.removeEntry(entry2);
+        database2.removeEntry("eh");
         assertEquals(1, database2.getSizeEntries());
         assertEquals(1*TIMES, database2.getSizeDistribution());
-        database0.removeEntry(entry1);
+        database0.removeEntry("toboggan");
         assertEquals(0, database0.getSizeEntries());
     }
 
     @Test
     void testRemoveManyEntries() {
-        database3.removeEntry(entry3);
-        database3.removeEntry(entry2);
+        database3.removeEntry("description");
+        database3.removeEntry("toboggan");
         assertEquals(1, database3.getSizeEntries());
         assertEquals(3, database3.getSizeDistribution());
     }

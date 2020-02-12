@@ -20,7 +20,7 @@ public class Database {
     //EFFECTS: adds entry to database and its description TIMES times to distribution
     //MODIFIES: this
     //REQUIRES: entry is not empty, entry does not yet exist
-    protected void addEntry(SingleEntry entry) {
+    public void addEntry(SingleEntry entry) {
         entries.add(entry);
         for (int i = 0; i < TIMES; i++) {
             distribution.add(entry.getDescription());
@@ -29,9 +29,8 @@ public class Database {
 
     //EFFECTS: removes entry and its description from database and distribution
     //MODIFIES: this
-    //REQUIRES: entry is in database, database is not empty, there are no duplicates in any of the fields
-    protected void removeEntry(SingleEntry entry) {
-        String description = entry.getDescription();
+    //REQUIRES: entry is in database, database is not empty, there are no duplicates
+    public void removeEntry(String description) {
         for (int i = 0; i < entries.size(); i++) {
             if (entries.get(i).getDescription().equals(description)) {
                 entries.remove(entries.get(i));
@@ -49,7 +48,7 @@ public class Database {
     //EFFECTS: removes description from distribution if guessed right unless would not be contained anymore,
     // adds if guessed wrong
     //MODIFIES: this
-    protected void adjustDistribution(SingleEntry entry, String input) {
+    public void adjustDistribution(SingleEntry entry, String input) {
         if ((entry.getDescription().equals(input))) {
             distribution.remove(entry.getDescription());
             if (!(distribution.contains(entry.getDescription()))) {
@@ -62,13 +61,13 @@ public class Database {
 
     //EFFECTS: returns an entry from entriesList based on randomly selected description in distribution
     //Sources: partly based on https://stackoverflow.com/questions/8065532/how-to-randomly-pick-an-element-from-an-array
-    protected SingleEntry selectFromDistribution() {
+    public SingleEntry selectFromDistribution() {
         int random = new Random().nextInt(distribution.size());
-        return searchEntry(distribution.get(random));
+        return getEntryBasedOnValue(distribution.get(random));
     }
 
-    //EFFECTS: returns an entry from database based on any value
-    protected SingleEntry searchEntry(String str) {
+    //EFFECTS: returns an entry based on any value
+    public SingleEntry getEntryBasedOnValue(String str) {
         for (SingleEntry entry : entries) {
             if (entry.getValues().contains(str)) {
                 return entry;
@@ -77,33 +76,40 @@ public class Database {
         return null;
     }
 
-    protected SingleEntry getEntryFromEntries(int i) {
+    //EFFECTS: returns an entry based on index in entries
+    public SingleEntry getEntryBasedOnIndex(int i) {
         return this.entries.get(i);
     }
 
-    protected String getDescriptionFromDistribution(int i) {
+    //EFFECTS: returns the description of entry based on index
+    public String getDescriptionFromDistribution(int i) {
         return this.distribution.get(i);
     }
 
-    //EFFECTS: returns true if database is empty, false otherwise
-    protected boolean isEmptyEntries() {
+    //EFFECTS: returns true if entries is empty, false otherwise
+    public boolean isEmptyEntries() {
         return entries.isEmpty();
     }
 
-    protected boolean isEmptyDistribution() {
+    //EFFECTS: returns true if distribution is empty, false otherwise
+    public boolean isEmptyDistribution() {
         return distribution.isEmpty();
     }
 
-    protected int getSizeEntries() {
+    //EFFECTS: returns the size of the entries list
+    public int getSizeEntries() {
         return entries.size();
     }
 
-    protected int getSizeDistribution() {
+    //EFFECTS: returns the size of the distribution list
+    public int getSizeDistribution() {
         return distribution.size();
     }
 
-    protected ArrayList<SingleEntry> getEntries() {
+    //returns the entries
+    public ArrayList<SingleEntry> getEntries() {
         return entries;
     }
+
 }
 

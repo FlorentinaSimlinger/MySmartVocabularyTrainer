@@ -38,10 +38,11 @@ example sentences I entered
 ##Ideas for extended version
 - offers me to change existing entry if I try to add new entry with same description
 - scrape websites for example sentences
-- keep track of success rate for individual entries (through making an new field)
+- keep track of success rate for individual entries (through making a new field)
+- ask the user for their goals in terms of rate of adding new entries and success rates and keep track of those goals
 - call dictionaries to offer common synonyms
 - test yourself under timed conditions
 - keep track of how fast words are entered and track progress on that
 - remove unnecessary buttons such as the enter button (have next word/phrase appear once the old 
 one was successfully entered)
-- make an online version(?)
+- make an online version

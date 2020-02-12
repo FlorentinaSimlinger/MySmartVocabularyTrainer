@@ -14,7 +14,7 @@ public class SingleEntry {
 
 
     //EFFECTS: constructs a hashmap consisting of keys and their values
-    protected SingleEntry(String description, String meaning, String comment, String example) {
+    public SingleEntry(String description, String meaning, String comment, String example) {
         this.description = description;
         this.meaning = meaning;
         this.comment = comment;
@@ -27,28 +27,34 @@ public class SingleEntry {
     }
 
     // EFFECTS: checks if the string is the description
-    protected boolean checkIfCorrectDescription(String str) {
+    public boolean checkIfCorrectDescription(String str) {
         return (str.equals(description));
     }
 
-    protected String getDescription() {
+    public String getDescription() {
         return match.get("description: ");
     }
 
-    protected String getMeaning() {
+    public String getMeaning() {
         return match.get("meaning: ");
     }
 
-    protected String getComment() {
+    public String getComment() {
         return match.get("comment: ");
     }
 
-    protected String getExample() {
+    public String getExample() {
         return match.get("example: ");
     }
 
-    protected Collection getValues() {
+    public Collection getValues() {
         return match.values();
     }
+
+    @Override
+    public String toString() {
+        return getDescription() + ", " + getMeaning() + ", " + getComment() + ", " + getExample();
+    }
 }
+
 
