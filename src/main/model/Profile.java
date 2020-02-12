@@ -4,7 +4,7 @@ package model;
 public class Profile {
     protected String name;        //profile owner name
     protected int successRate;    //rate of guessing words and expressions correctly
-    Database database;          //database of entries
+    Database database;            //database of entries
 
 
     //REQUIRES: profile name is of non-zero length

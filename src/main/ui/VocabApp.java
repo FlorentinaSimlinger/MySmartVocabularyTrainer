@@ -6,7 +6,7 @@ import model.SingleEntry;
 import java.util.Random;
 import java.util.Scanner;
 
-//Vocabulary trainer application
+//Represents a vocabulary trainer application
 public class VocabApp {
     private Scanner input;
     Profile profile;
@@ -43,7 +43,7 @@ public class VocabApp {
             }
         }
 
-        System.out.println("\nGoodbye");
+        System.out.println("Goodbye!");
     }
 
     //EFFECTS: displays the menu
@@ -132,6 +132,7 @@ public class VocabApp {
     }
 
     //EFFECTS: tests user and adjusts distribution
+    //MODIFIES: this
     private void doTestMyself() {
         System.out.println("Your test results are now recorded. "
                 + "If you would like to return to the main menu, type 'return'.");
