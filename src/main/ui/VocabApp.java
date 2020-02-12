@@ -107,7 +107,7 @@ public class VocabApp {
         String description = input.nextLine();
 
         profile.getDatabase().removeEntry(description);
-        System.out.println("You successfully deleted " + description + ".\n What else would you like to do?");
+        System.out.println("You successfully deleted " + description + ".\nWhat else would you like to do?");
     }
 
     //EFFECTS: returns entry based on search
