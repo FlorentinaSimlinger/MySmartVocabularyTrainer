@@ -22,13 +22,13 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
 > Let's Go! - *My Smart Vocabulary Trainer*
  
 ##User Stories
-- As a user I want to be able to save entries [implemented]
+- As a user I want to be able to save entries to a database [implemented]
 - As a user I want to be able to delete entries [implemented]
 - As a user I want to be able to search for entries [implemented]
 - As a user I want to be able to test myself on a random selection from the database [implemented]
-- As a user I want to be able to track the success rate and based on it have certain words/phrases appear more often
 - As a user I want to have a profile where I can 
-    - see and reset the statistics
+    - change my name
+    - see and reset statistics
     - see and change or delete entries
     - export the database in different formats, such as pdf and excel
     - delete the entire database

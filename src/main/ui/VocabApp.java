@@ -50,19 +50,22 @@ public class VocabApp {
     //Source: TellerApp CPSC 210
     private void displayMenu() {
         System.out.println("\nWhat would you like to do?");
-        System.out.println("\tTo add an entry, type 'add'");
-        System.out.println("\tTo remove an entry, type 'remove'");
-        System.out.println("\tTo search for an entry, type 'search'");
-        System.out.println("\tTo display all entries, type 'display'");
-        System.out.println("\tTo test yourself, type 'test'");
-        System.out.println("\tTo end your session, type 'quit'");
+        System.out.println("\tTo load an example database, enter 'load'");
+        System.out.println("\tTo add an entry, enter 'add'");
+        System.out.println("\tTo remove an entry, enter 'remove'");
+        System.out.println("\tTo search for an entry, enter 'search'");
+        System.out.println("\tTo display all entries, enter 'display'");
+        System.out.println("\tTo test yourself, enter 'test'");
+        System.out.println("\tTo end your session, enter 'quit'");
     }
 
     //EFFECTS: processes user command
     //MODIFIES: this
     //Source: TellerApp CPSC 210
     private void processCommand(String command) {
-        if (command.equals("add")) {
+        if (command.equals("load")) {
+            doLoadExampleEntries();
+        } else if (command.equals("add")) {
             doAddEntry();
         } else if (command.equals("remove")) {
             doRemoveEntry();
@@ -77,12 +80,24 @@ public class VocabApp {
         }
     }
 
+    private void doLoadExampleEntries() {
+        SingleEntry entry1 = new SingleEntry("toboggan", "sled",
+                "verb is 'to toboggan'", "riding down a hill with a sled");
+        SingleEntry entry2 = new SingleEntry("eh?", "'right?'",
+                "does not have to be used as question", "it's cold today, eh?");
+        SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
+                "yü-ˈbi-kwə-təs", "");
+        profile.getDatabase().addEntry(entry1);
+        profile.getDatabase().addEntry(entry2);
+        profile.getDatabase().addEntry(entry3);
+        System.out.println("What else would you like to do?");
+    }
+
     //EFFECTS: adds entry to database
     //MODIFIES: Database
     private void doAddEntry() {
         input = new Scanner(System.in);
         System.out.println("Enter the word or phrase you'd like to add:");
-        //input.nextLine();
         String description = input.nextLine();
         System.out.println("Enter the meaning or synonym that you use:");
         String meaning = input.nextLine();
@@ -118,8 +133,14 @@ public class VocabApp {
         System.out.println("The entry you're looking for has the following properties: ");
         System.out.println("Description: " + profile.getDatabase().getEntryBasedOnValue(search).getDescription());
         System.out.println("Meaning: " + profile.getDatabase().getEntryBasedOnValue(search).getMeaning());
-        System.out.println("Comment: " + profile.getDatabase().getEntryBasedOnValue(search).getMeaning());
+        System.out.println("Comment: " + profile.getDatabase().getEntryBasedOnValue(search).getComment());
         System.out.println("Example: " + profile.getDatabase().getEntryBasedOnValue(search).getExample());
+        if (profile.getDatabase().getEntryBasedOnValue(search).getAttempts() == 1) {
+            System.out.println("You have no tests recorded for this entry.");
+        } else {
+            System.out.println("Your success rate for this entry is "
+                    + profile.getDatabase().getEntryBasedOnValue(search).getSuccessRate() + "%.");
+        }
         System.out.println("What else would you like to do?");
     }
 
@@ -139,18 +160,20 @@ public class VocabApp {
         boolean keepStudying = true;
         while (keepStudying) {
             input = new Scanner(System.in);
-            SingleEntry selected = profile.getDatabase().selectFromDistribution();
+            double random = profile.getDatabase().getRandomFromSumOfFailureRates();
+            SingleEntry selected = profile.getDatabase().getEntryBasedOnRandom(random);
             String shown = selected.getMeaning();
             System.out.println("What's another word or phrase for " + shown + "?");
-            String meaning = input.nextLine();
-            if (meaning.equals("return")) {
+            String userInput = input.nextLine();
+            if (userInput.equals("return")) {
                 keepStudying = false;
-            } else if (selected.checkIfCorrectDescription(meaning)) {
+            } else if (selected.getDescription().equals(userInput)) {
                 System.out.println("Correct!");
             } else {
-                System.out.println("Unfortunately that was wrong.");
+                System.out.println("Unfortunately that was wrong. The correct answer is "
+                        + selected.getDescription() + ".");
             }
-            profile.getDatabase().adjustDistribution(selected, meaning);
+            selected.adjustDistribution(userInput);
         }
         System.out.println("What else would you like to do?");
     }
@@ -178,4 +201,8 @@ public class VocabApp {
 //  advised because of modular approach
 // TODO: do we need to throw exceptions? Not at this point.
 // TODO: optimize distribution
+// TODO: how can I better test random? had to split up method for testing but now I need to do a lot of
+//  backend in frontend
+// TODO: how to fix code coverage in getEntryBasedOnRandom? (ie, how to return outside for loop)
+// TODO: fix the successrate
 

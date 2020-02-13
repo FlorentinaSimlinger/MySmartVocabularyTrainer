@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VocabTest {
+class DatabaseTest {
     private Profile profile;
     private SingleEntry entry1;
     private SingleEntry entry2;
@@ -14,7 +14,6 @@ class VocabTest {
     private Database database1; //database with 1 entry
     private Database database2; //database with 2 entries
     private Database database3; //database with 3 entries
-    public static final int TIMES = 3;
 
 
     @BeforeEach
@@ -26,6 +25,14 @@ class VocabTest {
         entry2 = new SingleEntry("eh", "right?", "used at end of sentence",
                 "it's cold, eh?");
         entry3 = new SingleEntry("description", "meaning", "comment", "example");
+
+        entry1.setFailures(1);
+        entry1.setAttempts(1);
+        entry1.setFailures(1);
+        entry2.setAttempts(2);
+        entry3.setFailures(1);
+        entry3.setAttempts(4);
+
         database0 = new Database();
         database1 = new Database();
         database2 = new Database();
@@ -40,31 +47,8 @@ class VocabTest {
     }
 
     @Test
-    void testProfileConstructor() {
-        assertEquals("", profile.getName());
-        assertEquals(0, profile.getSuccessRate());
-        assertTrue(profile.getDatabase().isEmptyEntries());
-        assertTrue(profile.getDatabase().isEmptyDistribution());
-    }
-
-    @Test
-    void testEntryConstructor() {
-        assertEquals("toboggan", entry1.getDescription());
-        assertEquals("sled", entry1.getMeaning());
-        assertEquals("canadian for sled", entry1.getComment());
-        assertEquals("riding down the hill with a toboggan", entry1.getExample());
-    }
-
-    @Test
     void testDatabaseConstructor() {
         assertTrue(database0.isEmptyEntries());
-        assertTrue(database0.isEmptyDistribution());
-    }
-
-    @Test
-    void testCheckIfCorrectDescription() {
-        assertTrue(entry1.checkIfCorrectDescription("toboggan"));
-        assertFalse(entry1.checkIfCorrectDescription("eh"));
     }
 
     @Test
@@ -72,7 +56,6 @@ class VocabTest {
         assertTrue(database0.isEmptyEntries());
         assertFalse(database1.isEmptyEntries());
     }
-
 
     @Test
     void testSearchEntry() {
@@ -85,10 +68,8 @@ class VocabTest {
     void testAddOneEntry() {
         database0.addEntry(entry1);
         assertEquals(1, database0.getSizeEntries());
-        assertEquals(1*TIMES, database0.getSizeDistribution());
-        assertEquals("toboggan", database0.getDescriptionFromDistribution(0));
-        assertEquals("toboggan", database0.getDescriptionFromDistribution(1));
         assertEquals(entry1, database0.getEntryBasedOnIndex(0));
+        assertEquals(1, database0.getEntries().size());
     }
 
     @Test
@@ -97,14 +78,12 @@ class VocabTest {
         database0.addEntry(entry2);
         database0.addEntry(entry3);
         assertEquals(3, database0.getSizeEntries());
-        assertEquals(3*TIMES, database0.getSizeDistribution());
     }
 
     @Test
     void testRemoveOneEntry() {
         database2.removeEntry("eh");
         assertEquals(1, database2.getSizeEntries());
-        assertEquals(1*TIMES, database2.getSizeDistribution());
         database0.removeEntry("toboggan");
         assertEquals(0, database0.getSizeEntries());
     }
@@ -114,40 +93,27 @@ class VocabTest {
         database3.removeEntry("description");
         database3.removeEntry("toboggan");
         assertEquals(1, database3.getSizeEntries());
-        assertEquals(3, database3.getSizeDistribution());
     }
 
     @Test
-    void testToString() {
-        assertEquals(entry1.toString(),
-                "toboggan, sled, canadian for sled, riding down the hill with a toboggan");
+    void testGetRandomFromSumOfFailureRates() {
+        double random = database2.getRandomFromSumOfFailureRates();
+        assertTrue(random <= database2.getSumOfFailureRates());
     }
 
     @Test
-    void testSelectFromDistribution() {
-       assertTrue(database3.getEntries().contains(database3.selectFromDistribution()));
+    void testGetEntryBasedOnRandom() {
+        double random1 = 100;
+        double random2 = 150;
+        double random3 = 175;
+        assertEquals(entry1, database3.getEntryBasedOnRandom(random1));
+        assertEquals(entry2, database3.getEntryBasedOnRandom(random2));
+        assertEquals(entry3, database3.getEntryBasedOnRandom(random3));
     }
 
     @Test
-    void testAdjustDistributionSuccess() {
-        database1.adjustDistribution(entry1, "toboggan");
-        assertEquals(TIMES - 1, database1.getSizeDistribution());
+    void testGetSumOfFailureRates() {
+        assertEquals(100 + 50 + 25, database3.getSumOfFailureRates());
     }
-
-    @Test
-    void testAdjustDistributionFailure() {
-        database1.adjustDistribution(entry1, "this description does not exist");
-        assertEquals(TIMES + 1, database1.getSizeDistribution());
-    }
-
-    @Test
-    void testAdjustDistributionNotBelowOne() {
-        database1.adjustDistribution(entry1, "toboggan");
-        database1.adjustDistribution(entry1, "toboggan");
-        database1.adjustDistribution(entry1, "toboggan");
-        assertEquals(1, database1.getSizeDistribution());
-    }
-
-
 }
 
