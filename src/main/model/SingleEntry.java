@@ -7,20 +7,12 @@ import java.util.HashMap;
 //Represents an entry consisting of description, meaning, comment, example, hashmap, & total attempted and failed times
 public class SingleEntry {
     protected HashMap<String, String> match;
-    protected String description;
-    protected String meaning;
-    protected String comment;
-    protected String example;
     protected Integer failures;
     protected Integer attempts;
 
 
     //EFFECTS: constructs a hashmap consisting of keys and their values
     public SingleEntry(String description, String meaning, String comment, String example) {
-        this.description = description;
-        this.meaning = meaning;
-        this.comment = comment;
-        this.example = example;
         failures = 1;
         attempts = 1;
         match = new HashMap<>();
@@ -33,7 +25,7 @@ public class SingleEntry {
     //EFFECTS: adjusts the failure rate based on whether guessed right or wrong
     //MODIFIES: this
     public void adjustDistribution(String input) {
-        if (description.equals(input)) {
+        if (this.getDescription().equals(input)) {
             adjustFailuresDown();
         } else {
             adjustFailuresUp();

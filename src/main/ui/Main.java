@@ -1,51 +1,54 @@
 package ui;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Profile;
 import model.SingleEntry;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 //Main class
 public class Main {
-    public static void main(String[] args) {
+    // Source: partly based on https://www.studytrails.com/java/json/java-google-json-parse-json-to-java/
+    public static void main(String[] args) throws FileNotFoundException {
 //      new VocabApp();
 
         Profile profile1 = new Profile();
         profile1.setName("Flo");
-        SingleEntry entry1 = new SingleEntry("random", "random2", "hdfhdhf", "hahaj");
+        SingleEntry entry1 = new SingleEntry("description", "meaning", "hdfhdhf", "hahaj");
         profile1.getDatabase().addEntry(entry1);
+        SingleEntry entry2 = new SingleEntry("description2", "meaning2", "hdfhdj", "dhdjfh");
+        profile1.getDatabase().addEntry(entry2);
 
-        //Creating user1
-        JsonObject user1 = new JsonObject();
-        user1.put("name", "profilename");
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.setPrettyPrinting().create();
+        String json = gson.toJson(profile1);
+        System.out.println(json);
 
-        //Saving a single entry into the user
-        JsonObject entrynew = new JsonObject();
-        entrynew.put("description", "testdescription");
-        entrynew.put("meaning", "testmeaning");
-        entrynew.put("comment", "testcomment");
-        entrynew.put("example", "testexample");
-        entrynew.put("successRate", 50);
-
-        JsonObject entry2 = new JsonObject();
-        entrynew.put("description", "blah");
-        entrynew.put("meaning", "blob");
-        entrynew.put("comment", "blie");
-        entrynew.put("example", "blum");
-        entrynew.put("successRate", 50);
-
-        //create list and add entries to it
-        JsonArray entryList = new JsonArray();
-        entryList.add(entrynew);
-        entryList.add(entry2);
-
-        //Write JSON file
-        try (PrintWriter file = new PrintWriter("data/user.json")) {
-            file.write(user1.toJson());
+        try (FileWriter file = new FileWriter("data/user.json")) {
+            file.write(json);
             file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // https://gist.github.com/julianbonilla/2784293
+
+        try (FileReader reader = new FileReader("data/user.json")) {
+            Gson newGson = new Gson();
+            // Convert JSON File to Java Object
+            Profile newProfile = newGson.fromJson(reader, Profile.class);
+
+            //do stuff
+            System.out.println(newProfile.toString());
+            System.out.println(newProfile.getName());
+            System.out.println(newProfile.getDatabase());
+            System.out.println(newProfile.getDatabase().getEntries());
+            System.out.println(newProfile.getDatabase().getEntryBasedOnValue("description"));
+            System.out.println(newProfile.getDatabase().getEntryBasedOnValue("description").getMeaning());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,23 +57,16 @@ public class Main {
 
 
 
-//        // writing JSON to file:"JSONExample.json" in cwd
-//        PrintWriter pw = new PrintWriter("data/user.json");
-//        pw.write(user.toJson());
-//
-//        pw.flush();
-//        pw.close();
-//    }
-//
-//    public static void Reader(String[] args) throws FileNotFoundException {
-//        Object obj = new JSONParser().parse(new FileReader("data/user.json"));
-//        JsonObject user = (JsonObject) obj;
-//        String firstName = (String) user.get("name");
-//
-//    }
+
+
 
 
 //notes to myself:
 // - I create methods inside a class if I want to do more specific things than just access the fields
 // - if I simply want to access the fields I could call Database.fieldname.size()
 // - generally do NOT call the fields the same as the type name
+// https://www.w3schools.com/js/js_json_objects.asp
+// we can access values from a JSON object by just calling with . notation.
+// we need to use the parser if we have a String, which is often the case when we're
+// receiving data from a webserver.
+// https://stackoverflow.com/questions/7451600/jsonobject-how-to-get-a-value
