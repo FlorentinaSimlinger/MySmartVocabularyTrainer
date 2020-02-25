@@ -1,0 +1,28 @@
+{
+  "name": "Flo",
+  "successRate": 0,
+  "database": {
+    "entries": [
+      {
+        "match": {
+          "meaning: ": "meaning",
+          "description: ": "description",
+          "comment: ": "hdfhdhf",
+          "example: ": "hahaj"
+        },
+        "failures": 1,
+        "attempts": 1
+      },
+      {
+        "match": {
+          "meaning: ": "meaning2",
+          "description: ": "description2",
+          "comment: ": "hdfhdj",
+          "example: ": "dhdjfh"
+        },
+        "failures": 1,
+        "attempts": 1
+      }
+    ]
+  }
+}
