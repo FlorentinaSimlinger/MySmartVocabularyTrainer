@@ -24,13 +24,9 @@ public class VocabApp {
         String command = null;
         input = new Scanner(System.in);
 
-        System.out.println("Welcome to My Smart Vocabulary Trainer! To create a profile, please enter your name.");
-        String name = input.nextLine();
-        profile = new Profile();
-        profile.setName(name);
-        System.out.println("Hi " + name + ", let's get started!");
-
+        loginOrSignUp();
         displayMenu();
+
 
         while (keepGoing) {
             command = input.next();
@@ -44,6 +40,29 @@ public class VocabApp {
         }
 
         System.out.println("Goodbye!");
+    }
+
+    private void loginOrSignUp() {
+        System.out.println("Welcome to My Smart Vocabulary Trainer! To login or sign up, please enter your name.");
+        String name = input.nextLine();
+        //TODO: if profile already exists load profile, else creates new profile
+        loadProfile(name);
+        signUp(name);
+        System.out.println("Hi " + name + ", let's get started!");
+    }
+
+
+    //EFFECTS: loads existing profile
+    private void loadProfile(String name) {
+        //TODO: find existing profile
+
+    }
+
+    //EFFECTS: creates new profile
+    private void signUp(String name) {
+        profile = new Profile();
+        profile.setName(name);
+        //TODO: modify json file?
     }
 
     //EFFECTS: displays the menu
