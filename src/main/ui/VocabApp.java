@@ -2,14 +2,17 @@ package ui;
 
 import model.Profile;
 import model.SingleEntry;
+import persistence.Reader;
+import persistence.Writer;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 //Represents a vocabulary trainer application
 public class VocabApp {
     private Scanner input;
     Profile profile;
+    List<Profile> profiles = new ArrayList<>();
+    Reader reader = new Reader();
 
     //EFFECTS: runs the vocabulary app
     public VocabApp() {
@@ -38,32 +41,26 @@ public class VocabApp {
                 processCommand(command);
             }
         }
-
+        Writer.write(profiles);
         System.out.println("Goodbye!");
     }
 
     private void loginOrSignUp() {
         System.out.println("Welcome to My Smart Vocabulary Trainer! To login or sign up, please enter your name.");
         String name = input.nextLine();
-        //TODO: if profile already exists load profile, else creates new profile
-        loadProfile(name);
-        signUp(name);
+        profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
+        Profile userProfile = reader.findProfile(name);
+        if (userProfile == null) {
+            userProfile = new Profile();
+            userProfile.setName(name);
+            System.out.println("We created a new profile for you!");
+            profiles.add(userProfile);
+        }
+        profile = userProfile;
         System.out.println("Hi " + name + ", let's get started!");
     }
 
 
-    //EFFECTS: loads existing profile
-    private void loadProfile(String name) {
-        //TODO: find existing profile
-
-    }
-
-    //EFFECTS: creates new profile
-    private void signUp(String name) {
-        profile = new Profile();
-        profile.setName(name);
-        //TODO: modify json file?
-    }
 
     //EFFECTS: displays the menu
     //Source: TellerApp CPSC 210
@@ -129,6 +126,7 @@ public class VocabApp {
         entry = new SingleEntry(description, meaning, comment, example);
 
         profile.getDatabase().addEntry(entry);
+
         System.out.println("You successfully added an entry for " + description
                 + "\nWhat else would you like to do?\n");
     }

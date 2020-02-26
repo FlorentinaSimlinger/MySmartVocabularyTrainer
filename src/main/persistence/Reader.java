@@ -5,28 +5,38 @@ import model.Profile;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 //Represents a reader to read files from json file
 public class Reader {
+    Profile[] profiles;
 
     //EFFECTS: constructs a reader
     //SOURCE: code partly based on https://gist.github.com/julianbonilla/2784293
-    public Reader() throws IOException {
+    public Reader() {
         try (FileReader reader = new FileReader("data/profiles.json")) {
-            Gson newGson = new Gson();
-            // Convert JSON File to Java Object
-            Profile newProfile = newGson.fromJson(reader, Profile.class);
+            Gson gson = new Gson();
+            profiles = gson.fromJson(reader, Profile[].class);
+            System.out.println(Arrays.toString(profiles));
 
-            //do stuff
-            System.out.println(newProfile.toString());
-            System.out.println(newProfile.getName());
-            System.out.println(newProfile.getDatabase());
-            System.out.println(newProfile.getDatabase().getEntries());
-            System.out.println(newProfile.getDatabase().getEntryBasedOnValue("description"));
-            System.out.println(newProfile.getDatabase().getEntryBasedOnValue("description").getMeaning());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public Profile[] getProfiles() {
+        return profiles;
+    }
+
+    //EFFECTS: returns the profile that is being searched for
+    public Profile findProfile(String name) {
+        for (Profile profile : profiles) {
+            if (profile.getName().equals(name)) {
+                return profile;
+            }
+        }
+        return null;
+    }
+
 }
 
