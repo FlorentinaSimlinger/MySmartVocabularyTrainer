@@ -16,7 +16,7 @@ public class ReaderTest {
         try {
             assertEquals("Flo", new Reader().findProfile("Flo").getName());
             //assertEquals(null, new Reader().findProfile("NonExistentProfileName"));
-            assertEquals(2, new Reader().getProfiles().length);
+            assertEquals(1, new Reader().getProfiles().length);
         } catch (IOException e) {
             fail("IOException should not have been thrown");
         }
