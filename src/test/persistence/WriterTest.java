@@ -15,22 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WriterTest {
     private Profile profile;
-    private Profile profile1;
     List<Profile> profiles;
     private SingleEntry entry1;
-    private SingleEntry entry2;
 
-    //Source: Teller App CPSC 210
+    //SOURCE: partly based on TellerApp CPSC 210
     @BeforeEach
     void runBefore() throws FileNotFoundException, UnsupportedEncodingException {
         profile = new Profile();
-        profile1 = new Profile();
         profile.setName("Flo");
-        profile1.setName("Random");
         entry1 = new SingleEntry("toboggan", "sled", "canadian for sled",
                 "riding down the hill with a toboggan");
-        entry2 = new SingleEntry("eh", "right?", "used at end of sentence",
-                "it's cold, eh?");
         profile.getDatabase().addEntry(entry1);
         profiles = new ArrayList<>();
         profiles.add(profile);

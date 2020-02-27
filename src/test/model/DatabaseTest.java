@@ -109,6 +109,7 @@ class DatabaseTest {
         assertEquals(entry1, database3.getEntryBasedOnRandom(random1));
         assertEquals(entry2, database3.getEntryBasedOnRandom(random2));
         assertEquals(entry3, database3.getEntryBasedOnRandom(random3));
+        assertNull(database0.getEntryBasedOnRandom(random1));
     }
 
     @Test

@@ -20,6 +20,8 @@ public class Reader {
         profiles = gson.fromJson(reader, Profile[].class);
     }
 
+    //EFFECTS: returns a list of profiles
+    //SOURCE: partly based on https://gist.github.com/julianbonilla/2784293 and help from TA
     public static Profile[] readForTestPurposes(File file) throws IOException {
         FileReader reader = new FileReader(file);
         Gson gson = new Gson();
@@ -43,12 +45,3 @@ public class Reader {
     }
 
 }
-
-//try (FileReader reader = new FileReader("data/profiles.json")) {
-//        Gson gson = new Gson();
-//        profiles = gson.fromJson(reader, Profile[].class);
-//        System.out.println(Arrays.toString(profiles));
-//
-//        } catch (IOException e) {
-//        e.printStackTrace();
-//        }
