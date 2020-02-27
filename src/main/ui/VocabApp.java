@@ -5,6 +5,7 @@ import model.SingleEntry;
 import persistence.Reader;
 import persistence.Writer;
 
+import java.io.IOException;
 import java.util.*;
 
 //Represents a vocabulary trainer application
@@ -12,7 +13,6 @@ public class VocabApp {
     private Scanner input;
     Profile profile;
     List<Profile> profiles = new ArrayList<>();
-    Reader reader = new Reader();
 
     //EFFECTS: runs the vocabulary app
     public VocabApp() {
@@ -41,23 +41,33 @@ public class VocabApp {
                 processCommand(command);
             }
         }
-        Writer.write(profiles);
+
+        try {
+            Writer.write(profiles);
+        } catch (IOException e) {
+            System.out.println("Unfortunately an error occurred.");
+        }
         System.out.println("Goodbye!");
     }
 
     private void loginOrSignUp() {
         System.out.println("Welcome to My Smart Vocabulary Trainer! To login or sign up, please enter your name.");
         String name = input.nextLine();
-        profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
-        Profile userProfile = reader.findProfile(name);
-        if (userProfile == null) {
-            userProfile = new Profile();
-            userProfile.setName(name);
-            System.out.println("We created a new profile for you!");
-            profiles.add(userProfile);
+        try {
+            Reader reader = new Reader();
+            profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
+            Profile userProfile = reader.findProfile(name);
+            if (userProfile == null) {
+                userProfile = new Profile();
+                userProfile.setName(name);
+                System.out.println("We created a new profile for you!");
+                profiles.add(userProfile);
+            }
+            profile = userProfile;
+            System.out.println("Hi " + name + ", let's get started!");
+        } catch (IOException e) {
+            System.out.println("Unfortunately something went wrong.");
         }
-        profile = userProfile;
-        System.out.println("Hi " + name + ", let's get started!");
     }
 
 

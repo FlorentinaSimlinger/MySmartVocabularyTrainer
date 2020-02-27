@@ -13,18 +13,15 @@ public class Writer {
 
     //EFFECTS: constructs a Writer
     //SOURCE: partly based on https://www.studytrails.com/java/json/java-google-json-parse-json-to-java/
-    public static void write(List<Profile> list) {
+    public static void write(List<Profile> list) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.setPrettyPrinting().create();
         String json = gson.toJson(list);
         System.out.println(json);
 
-        try (FileWriter file = new FileWriter("data/profiles.json")) {
-            file.write(json);
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileWriter file = new FileWriter("data/profiles.json");
+        file.write(json);
+        file.flush();
     }
 }
 
@@ -37,3 +34,9 @@ public class Writer {
 //        jsonArray.add(jsonNew);
 //        System.out.println(jsonNew);
 
+//        try (FileWriter file = new FileWriter("data/profiles.json")) {
+//                file.write(json);
+//                file.flush();
+//                } catch (IOException e) {
+//                e.printStackTrace();
+//                }
