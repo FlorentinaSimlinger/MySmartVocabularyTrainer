@@ -30,7 +30,6 @@ public class VocabApp {
         loginOrSignUp();
         displayMenu();
 
-
         while (keepGoing) {
             command = input.next();
             command = command.toLowerCase();
@@ -50,6 +49,8 @@ public class VocabApp {
         System.out.println("Goodbye!");
     }
 
+    //EFFECTS: searches for profile in JSON and returns it or creates new profile, catches error thrown by Reader
+    //MODIFIES: JSON file
     private void loginOrSignUp() {
         System.out.println("Welcome to My Smart Vocabulary Trainer! To login or sign up, please enter your name.");
         String name = input.nextLine();
@@ -69,8 +70,6 @@ public class VocabApp {
             System.out.println("Unfortunately something went wrong.");
         }
     }
-
-
 
     //EFFECTS: displays the menu
     //Source: TellerApp CPSC 210
@@ -106,6 +105,8 @@ public class VocabApp {
         }
     }
 
+    //EFFECTS: loads example entries
+    //MODIFIES: Database
     private void doLoadExampleEntries() {
         SingleEntry entry1 = new SingleEntry("toboggan", "sled",
                 "verb is 'to toboggan'", "riding down a hill with a sled");
@@ -205,6 +206,7 @@ public class VocabApp {
         System.out.println("What else would you like to do?");
     }
 
+    //EFFECTS: prints statements
     private void doHandleException() {
         int random = new Random().nextInt(3);
         if (random == 0) {
@@ -230,6 +232,5 @@ public class VocabApp {
 // TODO: optimize distribution
 // TODO: how can I better test random? had to split up method for testing but now I need to do a lot of
 //  backend in frontend
-// TODO: how to fix code coverage in getEntryBasedOnRandom? (ie, how to return outside for loop)
 // TODO: fix the successrate
 

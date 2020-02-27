@@ -22,7 +22,6 @@ public class ReaderTest {
         }
     }
 
-
     @Test
     void testReadTestProfiles1() {
         try {
