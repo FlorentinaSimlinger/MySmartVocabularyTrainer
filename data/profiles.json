@@ -1,5 +1,43 @@
 [
   {
+    "name": "John Doe",
+    "successRate": 0,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
     "name": "Flo",
     "successRate": 0,
     "database": {
@@ -8,8 +46,66 @@
           "match": {
             "meaning: ": "sled",
             "description: ": "toboggan",
-            "comment: ": "canadian for sled",
-            "example: ": "riding down the hill with a toboggan"
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 6,
+          "attempts": 6
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "complicated, detailed",
+            "description: ": "intricate",
+            "comment: ": "",
+            "example: ": "an intricate pattern"
+          },
+          "failures": 1,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "rendomnewmeaning",
+            "description: ": "randomnewword",
+            "comment: ": "dfd",
+            "example: ": "dfd"
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Bhavesh",
+    "successRate": 0,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "randommeaning",
+            "description: ": "ranondomword",
+            "comment: ": "dfd",
+            "example: ": "dfd"
           },
           "failures": 1,
           "attempts": 1
