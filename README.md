@@ -32,8 +32,8 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
     - see and change or delete entries
     - delete the entire database
     - delete my profile
- - As a user I want to be able to save my profile
- - As a user I want to be able to reload my profile
+ - As a user I want to be able to save my profile [implemented]
+ - As a user I want to be able to reload my profile [implemented]
     
 ##Ideas for extended version
 - option to change existing entry if new entry with duplicate description is added
@@ -44,4 +44,6 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
 - testing under timed conditions
 - tracking response time 
 - export the database in different formats, such as pdf and excel
+- be able to import data
+- be able to categorize my vocabulary in different categories and display only certain categories which a checkbox
 - make an online version

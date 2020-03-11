@@ -10,7 +10,10 @@ import javafx.stage.Stage;
 
 public class SignUpAlert {
 
-    public static void displaySignUpAlert() {
+    static boolean answer;
+
+    //EFFECTS: displays alert that new profile is created, returns true if sample data is to be loaded, false otherwise
+    public static boolean displaySignUpAlert() {
         Stage window = new Stage();
 
         //blocking user interaction with other windows until this window is closed
@@ -18,19 +21,30 @@ public class SignUpAlert {
         window.setTitle("Sign up");
         window.setMinWidth(250);
 
-        Label label = new Label("You do not have have a profile yet, we set a new one up.");
-        Button closeButton = new Button("Continue");
-        closeButton.setOnAction(e -> window.close());
+        Label label = new Label();
+        label.setText("Thank you for signing up for us. We have created a new profile for you. Would you like to " +
+                "continue with sample data? You can also decide later to add sample data.");
+
+        //Yes and no buttons
+        Button yesButton = new Button("Continue with sample database");
+        Button noButton = new Button("No thanks");
+        yesButton.setOnAction(e -> {
+            answer = true;
+            window.close();
+        });
+        noButton.setOnAction(e -> {
+            answer = false;
+            window.close();
+        });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
+        layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-
-
+        return answer;
     }
 }
 

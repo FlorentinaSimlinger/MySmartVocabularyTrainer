@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 
 public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
 
-    Button loginButton;
-    Button mainButton;
-    Button testButton;
+    Button loginToMainButton;
+    Button mainToTestButton;
+    Button mainToQuitButton;
+    Button testToMainButton;
     Scene loginScene;
     Scene mainScene;
     Scene profileScene;
@@ -30,51 +31,64 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //SET WINDOW
         window = primaryStage;
         primaryStage.setTitle("Welcome to MySmartVocabularyTrainer!");
+        window.setOnCloseRequest(e -> closeProgram());
 
         //LOGIN
         loginLabel = new Label("Welcome to the login scene.");
-        loginButton = new Button("Go to main scene");
-        loginButton.setOnAction(this);
+        loginToMainButton = new Button("Go to main scene");
+        loginToMainButton.setOnAction(this);
 
         VBox loginLayout = new VBox(20);
-        loginLayout.getChildren().addAll(loginButton, loginLabel);
+        loginLayout.getChildren().addAll(loginToMainButton, loginLabel);
         loginScene = new Scene(loginLayout, 300, 250);
 
         //MAIN
         mainLabel = new Label("Welcome to the main page.");
-        mainButton = new Button("Go to test scene.");
-        mainButton.setOnAction(this);
+        mainToTestButton = new Button("Go to test scene");
+        mainToTestButton.setOnAction(this);
+        mainToQuitButton = new Button("Quit");
+        mainToQuitButton.setOnAction(this);
+
 
         VBox mainLayout = new VBox(20);
-        mainLayout.getChildren().addAll(mainLabel, mainButton);
+        mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
         mainScene = new Scene(mainLayout, 300, 250);
 
         //TEST
-        testButton = new Button("Go back to main scene");
-        testButton.setOnAction(this);
+        testToMainButton = new Button("Go back to main scene");
+        testToMainButton.setOnAction(this);
 
         VBox testLayout = new VBox(20);
-        testLayout.getChildren().add(testButton);
+        testLayout.getChildren().add(testToMainButton);
         testScene = new Scene(testLayout, 600, 600);
 
+        //DISPLAY WINDOW
         window.setScene(loginScene);
         window.show();
     }
 
     @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == loginButton) {
+        if (event.getSource() == loginToMainButton) {
+            boolean result = SignUpAlert.displaySignUpAlert();
             window.setScene(mainScene);
-            System.out.println("Go to main scene");
-        } else if (event.getSource() == mainButton) {
+            System.out.println("TODO: implement result: " + result);
+        } else if (event.getSource() == mainToTestButton) {
             window.setScene(testScene);
-            System.out.println("Go to test scene");
-        } else if (event.getSource() == testButton) {
+        } else if (event.getSource() == mainToQuitButton) {
+            closeProgram();
+        } else if (event.getSource() == testToMainButton) {
             window.setScene(mainScene);
-            System.out.println("Go back to main scene");
         }
+    }
+
+    private void closeProgram() {
+        //add save here
+        System.out.println("TODO: implement save here");
+        window.close();
     }
 }
 
