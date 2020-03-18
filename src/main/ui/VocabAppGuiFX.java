@@ -1,11 +1,14 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +21,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     Button mainToTestButton;
     Button mainToQuitButton;
     Button testToMainButton;
+    Button databaseAddButton;
+    Button databaseDeleteButton;
     Scene loginScene;
     Scene mainScene;
     Scene profileScene;
@@ -28,7 +33,17 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     Label mainLabel;
     Stage window;
     TextField loginInput;
-    ComboBox<String> comboBox;
+    TextField descriptionInput;
+    TextField meaningInput;
+    TextField commentInput;
+    TextField exampleSentenceInput;
+    ComboBox<String> moreComboBox;
+    TableView<SingleEntryExport> table;
+    BorderPane mainLayout;
+    VBox databaseVBox;
+    HBox databaseHBox;
+    Menu moreMenu;
+    MenuBar menuBar;
 
     public static void main(String[] args) {
         launch(args);
@@ -70,31 +85,51 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainToQuitButton = new Button("Quit");
         mainToQuitButton.setOnAction(this);
 
-        //create comboBox
-        comboBox = new ComboBox<>();
-        //get Items returns the ObservableList object which you can add items into
-        comboBox.getItems().add("DATABASE");
-        comboBox.getItems().add("SEARCH");
-        comboBox.getItems().add("TEST");
-        //set default value of choice box
-        comboBox.setPromptText("MORE");
-        //listen for selection changes
-        comboBox.setOnAction(this);
+//        //create comboBox
+//        moreComboBox = new ComboBox<>();
+//        //get Items returns the ObservableList object which you can add items into
+//        moreComboBox.getItems().add("DATABASECombo");
+//        moreComboBox.getItems().add("SEARCH");
+//        moreComboBox.getItems().add("TEST");
+//        //set default value of choice box
+//        moreComboBox.setPromptText("MORE");
+//        //listen for selection changes
+//        moreComboBox.setOnAction(this);
 
-        VBox mainLayout = new VBox(20);
-        mainLayout.getChildren().addAll(comboBox, mainLabel, mainToTestButton, mainToQuitButton);
+        //Menu
+        moreMenu = new Menu("MORE");
+
+        //Menu items
+        MenuItem databaseMenuItem = new MenuItem("DATABASE");
+        MenuItem searchMenuItem = new MenuItem("SEARCH");
+        MenuItem testMenuItem = new MenuItem("TEST");
+        moreMenu.getItems().add(databaseMenuItem);
+        moreMenu.getItems().add(new SeparatorMenuItem());
+        moreMenu.getItems().add(searchMenuItem);
+        moreMenu.getItems().add(new SeparatorMenuItem());
+        moreMenu.getItems().add(testMenuItem);
+        databaseMenuItem.setOnAction(e -> {
+            System.out.println("Implement database scene");
+            window.setScene(databaseScene);
+        });
+        searchMenuItem.setOnAction(e -> {
+            System.out.println("Implement search scene");
+            window.setScene(searchScene);
+        });
+        testMenuItem.setOnAction(e -> {
+            System.out.println("Implement test scene");
+            window.setScene(testScene);
+        });
+
+
+        //main Menu bar
+        menuBar = new MenuBar();
+        menuBar.getMenus().addAll(moreMenu);
+
+        mainLayout = new BorderPane();
+        mainLayout.setTop(menuBar);
+        mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
         mainScene = new Scene(mainLayout, 300, 250);
-
-        //MAIN TOP (doesn't work atm)
-        HBox topMenu = new HBox();
-        Button topMenuToAboutButton = new Button("ABOUT");
-        Button topMenuToProfileButton = new Button("PROFILE");
-        Button topMenuToMoreButton = new Button("MORE");
-        topMenu.getChildren().addAll(topMenuToAboutButton, topMenuToProfileButton, topMenuToMoreButton);
-
-        //BORDER PANE WITH TOPMENU (doesn't work atm)
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(topMenu);
 
         //TEST
         testToMainButton = new Button("Go back to main scene");
@@ -104,8 +139,75 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         testLayout.getChildren().add(testToMainButton);
         testScene = new Scene(testLayout, 600, 600);
 
+        //DATABASE
+        //description column
+        TableColumn<SingleEntryExport, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setMinWidth(200);
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("description"));
+
+        //meaning column
+        TableColumn<SingleEntryExport, String> meaningColumn = new TableColumn<>("Meaning");
+        meaningColumn.setMinWidth(200);
+        meaningColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("meaning"));
+
+        //comment column
+        TableColumn<SingleEntryExport, String> commentColumn = new TableColumn<>("Comment");
+        commentColumn.setMinWidth(200);
+        commentColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("comment"));
+
+        //sentence column
+        TableColumn<SingleEntryExport, String> sentenceColumn = new TableColumn<>("Example Sentence");
+        sentenceColumn.setMinWidth(200);
+        sentenceColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("exampleSentence"));
+
+        //successRate column
+        TableColumn<SingleEntryExport, Double> successRateColumn = new TableColumn<>("Success Rate");
+        successRateColumn.setMinWidth(100);
+        successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, Double>("successRate"));
+
+        //description input
+        descriptionInput = new TextField();
+        descriptionInput.setPromptText("description");
+        descriptionInput.setMinWidth(100);
+
+        //meaning input
+        meaningInput = new TextField();
+        meaningInput.setPromptText("meaning");
+        meaningInput.setMinWidth(100);
+
+        //comment input
+        commentInput = new TextField();
+        commentInput.setPromptText("comment");
+        commentInput.setMinWidth(100);
+
+        //example sentence input
+        exampleSentenceInput = new TextField();
+        exampleSentenceInput.setPromptText("example sentence");
+        exampleSentenceInput.setMinWidth(100);
+
+        //add and delete button
+        databaseAddButton = new Button("Add");
+        databaseAddButton.setOnAction(this);
+        databaseDeleteButton = new Button("Delete");
+        databaseDeleteButton.setOnAction(this);
+
+        //HBox with add and delete option
+        databaseHBox = new HBox();
+        databaseHBox.setPadding(new Insets(10, 10, 10, 10));
+        databaseHBox.setSpacing(10);
+        databaseHBox.getChildren().addAll(descriptionInput, meaningInput, commentInput, exampleSentenceInput,
+                databaseAddButton, databaseDeleteButton);
+
+        table = new TableView<>();
+        table.setItems(getSingleEntryExport());
+        table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
+
+        databaseVBox = new VBox();
+        databaseVBox.getChildren().addAll(table, databaseHBox);
+        databaseScene = new Scene(databaseVBox);
+
         //DISPLAY WINDOW
-        window.setScene(loginScene);
+        window.setScene(mainScene);
         window.show();
     }
 
@@ -119,15 +221,19 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             }
             boolean result = SignUpAlert.displaySignUpAlert();
             window.setScene(mainScene);
-            System.out.println("TODO: implement result: " + result);
+            System.out.println("implement result: " + result);
         } else if (event.getSource() == mainToTestButton) {
             window.setScene(testScene);
         } else if (event.getSource() == mainToQuitButton) {
             closeProgram();
-        } else if (event.getSource() == comboBox) {
-            System.out.println("TODO: implement choice of " + comboBox.getValue());
         } else if (event.getSource() == testToMainButton) {
             window.setScene(mainScene);
+        } else if (event.getSource() == databaseAddButton) {
+            System.out.println("implement add to database");
+            addButtonClicked();
+        } else if (event.getSource() == databaseDeleteButton) {
+            System.out.println("implement delete from database");
+            deleteButtonClicked();
         }
     }
 
@@ -141,9 +247,44 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         }
     }
 
+    //Add button clicked
+    public void addButtonClicked() {
+        SingleEntryExport singleEntryExport = new SingleEntryExport();
+        singleEntryExport.setDescription(descriptionInput.getText());
+        singleEntryExport.setMeaning(meaningInput.getText());
+        singleEntryExport.setComment(commentInput.getText());
+        singleEntryExport.setExampleSentence(exampleSentenceInput.getText());
+        singleEntryExport.setSuccessRate(0);
+        table.getItems().add(singleEntryExport);
+        descriptionInput.clear();
+        meaningInput.clear();
+        commentInput.clear();
+        exampleSentenceInput.clear();
+    }
+
+    //Delete button clicked
+    public void deleteButtonClicked() {
+        ObservableList<SingleEntryExport> selectedSingleEntryExports;
+        ObservableList<SingleEntryExport> allSingleEntryExports;
+        selectedSingleEntryExports = table.getSelectionModel().getSelectedItems();
+        allSingleEntryExports = table.getItems();
+
+        selectedSingleEntryExports.forEach(allSingleEntryExports::remove);
+    }
+
+    //Get all of the products
+    public ObservableList<SingleEntryExport> getSingleEntryExport() {
+        ObservableList<SingleEntryExport> singleEntryExports = FXCollections.observableArrayList();
+        singleEntryExports.add(new SingleEntryExport("toboggan", "sled",
+                "random comment", "random example sentence", 0.30));
+        singleEntryExports.add(new SingleEntryExport("spinning wheels", "being exhausted",
+                "another random comment", "another random example sentence", 0.40));
+        return singleEntryExports;
+    }
+
     private void closeProgram() {
         //add save here
-        System.out.println("TODO: implement save here");
+        System.out.println("implement save here");
         window.close();
     }
 }
