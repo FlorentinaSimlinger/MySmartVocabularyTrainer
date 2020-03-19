@@ -94,18 +94,18 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         moreMenu.getItems().add(searchMenuItem);
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(testMenuItem);
-//        databaseMenuItem.setOnAction(e -> {
-//            System.out.println("Implement database scene");
-//            window.setScene(databaseScene);
-//        });
-//        searchMenuItem.setOnAction(e -> {
-//            System.out.println("Implement search scene");
-//            window.setScene(searchScene);
-//        });
-//        testMenuItem.setOnAction(e -> {
-//            System.out.println("Implement test scene");
-//            window.setScene(testScene);
-//        });
+        databaseMenuItem.setOnAction(e -> {
+            System.out.println("Implement database scene");
+            window.setScene(databaseScene);
+        });
+        searchMenuItem.setOnAction(e -> {
+            System.out.println("Implement search scene");
+            window.setScene(searchScene);
+        });
+        testMenuItem.setOnAction(e -> {
+            System.out.println("Implement test scene");
+            window.setScene(testScene);
+        });
 
 
         //Menu bar
@@ -198,10 +198,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
 
         databaseLayout = new BorderPane();
-        databaseLayout.setTop(menuBar);
+        //databaseLayout.setTop(menuBar);
         databaseLayout.setCenter(table);
         databaseLayout.setBottom(databaseHBox);
-        //databaseLayout.getChildren().addAll(table, databaseHBox);
 
         databaseScene = new Scene(databaseLayout);
 
