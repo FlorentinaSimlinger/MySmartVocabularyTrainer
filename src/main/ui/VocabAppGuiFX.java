@@ -40,8 +40,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     ComboBox<String> moreComboBox;
     TableView<SingleEntryExport> table;
     BorderPane mainLayout;
-    VBox databaseVBox;
+    BorderPane databaseLayout;
     HBox databaseHBox;
+    VBox mainVBox;
     Menu moreMenu;
     MenuBar menuBar;
 
@@ -76,27 +77,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         loginToMainButton.setOnAction(this);
 
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
-        loginScene = new Scene(loginLayout, 500, 500);
+        loginScene = new Scene(loginLayout, 850, 500);
 
         //MAIN
-        mainLabel = new Label("Welcome to the main page.");
-        mainToTestButton = new Button("Go to test scene");
-        mainToTestButton.setOnAction(this);
-        mainToQuitButton = new Button("Quit");
-        mainToQuitButton.setOnAction(this);
+        mainLayout = new BorderPane();
 
-//        //create comboBox
-//        moreComboBox = new ComboBox<>();
-//        //get Items returns the ObservableList object which you can add items into
-//        moreComboBox.getItems().add("DATABASECombo");
-//        moreComboBox.getItems().add("SEARCH");
-//        moreComboBox.getItems().add("TEST");
-//        //set default value of choice box
-//        moreComboBox.setPromptText("MORE");
-//        //listen for selection changes
-//        moreComboBox.setOnAction(this);
-
-        //Menu
+        //More Menu
         moreMenu = new Menu("MORE");
 
         //Menu items
@@ -108,28 +94,37 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         moreMenu.getItems().add(searchMenuItem);
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(testMenuItem);
-        databaseMenuItem.setOnAction(e -> {
-            System.out.println("Implement database scene");
-            window.setScene(databaseScene);
-        });
-        searchMenuItem.setOnAction(e -> {
-            System.out.println("Implement search scene");
-            window.setScene(searchScene);
-        });
-        testMenuItem.setOnAction(e -> {
-            System.out.println("Implement test scene");
-            window.setScene(testScene);
-        });
+//        databaseMenuItem.setOnAction(e -> {
+//            System.out.println("Implement database scene");
+//            window.setScene(databaseScene);
+//        });
+//        searchMenuItem.setOnAction(e -> {
+//            System.out.println("Implement search scene");
+//            window.setScene(searchScene);
+//        });
+//        testMenuItem.setOnAction(e -> {
+//            System.out.println("Implement test scene");
+//            window.setScene(testScene);
+//        });
 
 
-        //main Menu bar
+        //Menu bar
         menuBar = new MenuBar();
         menuBar.getMenus().addAll(moreMenu);
 
-        mainLayout = new BorderPane();
+        //Main VBox
+        mainVBox = new VBox();
+        mainLabel = new Label("Welcome to the main page.");
+        mainToTestButton = new Button("Go to test scene");
+        mainToTestButton.setOnAction(this);
+        mainToQuitButton = new Button("Quit");
+        mainToQuitButton.setOnAction(this);
+        mainVBox.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
+
         mainLayout.setTop(menuBar);
-        mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
-        mainScene = new Scene(mainLayout, 300, 250);
+        mainLayout.setCenter(mainVBox);
+
+        mainScene = new Scene(mainLayout, 500, 250);
 
         //TEST
         testToMainButton = new Button("Go back to main scene");
@@ -202,9 +197,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         table.setItems(getSingleEntryExport());
         table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
 
-        databaseVBox = new VBox();
-        databaseVBox.getChildren().addAll(table, databaseHBox);
-        databaseScene = new Scene(databaseVBox);
+        databaseLayout = new BorderPane();
+        databaseLayout.setTop(menuBar);
+        databaseLayout.setCenter(table);
+        databaseLayout.setBottom(databaseHBox);
+        //databaseLayout.getChildren().addAll(table, databaseHBox);
+
+        databaseScene = new Scene(databaseLayout);
 
         //DISPLAY WINDOW
         window.setScene(mainScene);
@@ -242,7 +241,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             int name = Integer.parseInt(input.getText());
             throw new Exception("You entered an integer.");
         } catch (NumberFormatException e) {
-            System.out.println("This is expected since you inputed a string");
+            System.out.println("This is expected since you inputted a string");
             return true;
         }
     }
