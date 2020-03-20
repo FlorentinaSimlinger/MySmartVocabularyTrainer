@@ -24,7 +24,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     Button databaseAddButton;
     Button databaseDeleteButton;
     Scene loginScene;
-    Scene mainScene;
+    Scene rootScene;
     Scene profileScene;
     Scene databaseScene;
     Scene searchScene;
@@ -39,12 +39,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     TextField exampleSentenceInput;
     ComboBox<String> moreComboBox;
     TableView<SingleEntryExport> table;
-    BorderPane mainLayout;
+    BorderPane rootLayout;
     BorderPane databaseLayout;
     HBox databaseHBox;
     VBox mainVBox;
     Menu moreMenu;
     MenuBar menuBar;
+    MenuItem databaseMenuItem;
+    MenuItem searchMenuItem;
+    MenuItem testMenuItem;
 
     public static void main(String[] args) {
         launch(args);
@@ -79,28 +82,25 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
         loginScene = new Scene(loginLayout, 850, 500);
 
-        //MAIN
-        mainLayout = new BorderPane();
+        //MAIN / ROOT
+        rootLayout = new BorderPane();
 
         //More Menu
         moreMenu = new Menu("MORE");
 
         //Menu items
-        MenuItem databaseMenuItem = new MenuItem("DATABASE");
-        MenuItem searchMenuItem = new MenuItem("SEARCH");
-        MenuItem testMenuItem = new MenuItem("TEST");
+        databaseMenuItem = new MenuItem("DATABASE");
+        searchMenuItem = new MenuItem("SEARCH");
+        testMenuItem = new MenuItem("TEST");
         moreMenu.getItems().add(databaseMenuItem);
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(searchMenuItem);
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(testMenuItem);
-        databaseMenuItem.setOnAction(e -> {
-            System.out.println("Implement database scene");
-            window.setScene(databaseScene);
-        });
+        databaseMenuItem.setOnAction(this);
         searchMenuItem.setOnAction(e -> {
             System.out.println("Implement search scene");
-            window.setScene(searchScene);
+            rootLayout.setCenter(new Label ("This is the search option"));
         });
         testMenuItem.setOnAction(e -> {
             System.out.println("Implement test scene");
@@ -121,10 +121,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainToQuitButton.setOnAction(this);
         mainVBox.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
 
-        mainLayout.setTop(menuBar);
-        mainLayout.setCenter(mainVBox);
+        rootLayout.setTop(menuBar);
+        rootLayout.setCenter(mainVBox);
 
-        mainScene = new Scene(mainLayout, 500, 250);
+        rootScene = new Scene(rootLayout, 500, 250);
 
         //TEST
         testToMainButton = new Button("Go back to main scene");
@@ -205,7 +205,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseScene = new Scene(databaseLayout);
 
         //DISPLAY WINDOW
-        window.setScene(mainScene);
+        window.setScene(rootScene);
         window.show();
     }
 
@@ -218,14 +218,14 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
                 System.out.println("Do not enter an integer.");
             }
             boolean result = SignUpAlert.displaySignUpAlert();
-            window.setScene(mainScene);
+            window.setScene(rootScene);
             System.out.println("implement result: " + result);
         } else if (event.getSource() == mainToTestButton) {
             window.setScene(testScene);
         } else if (event.getSource() == mainToQuitButton) {
             closeProgram();
         } else if (event.getSource() == testToMainButton) {
-            window.setScene(mainScene);
+            window.setScene(rootScene);
         } else if (event.getSource() == databaseAddButton) {
             System.out.println("implement add to database");
             addButtonClicked();
