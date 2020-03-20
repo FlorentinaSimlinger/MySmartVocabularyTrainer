@@ -17,34 +17,44 @@ import javafx.stage.Stage;
 
 public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
 
-    Button loginToMainButton;
-    Button mainToTestButton;
-    Button mainToQuitButton;
-    Button testToMainButton;
-    Button databaseAddButton;
-    Button databaseDeleteButton;
-    Scene loginScene;
-    Scene rootScene;
-    Label loginLabel;
-    Label mainLabel;
-    Stage window;
-    TextField loginInput;
-    TextField descriptionInput;
-    TextField meaningInput;
-    TextField commentInput;
-    TextField exampleSentenceInput;
-    ComboBox<String> moreComboBox;
-    TableView<SingleEntryExport> table;
-    BorderPane rootLayout;
-    BorderPane databaseLayout;
-    HBox databaseHBox;
-    VBox mainLayout;
-    VBox testLayout;
-    Menu moreMenu;
-    MenuBar menuBar;
-    MenuItem databaseMenuItem;
-    MenuItem searchMenuItem;
-    MenuItem testMenuItem;
+    private Button loginToMainButton;
+    private Button mainToTestButton;
+    private Button mainToQuitButton;
+    private Button testToMainButton;
+    private Button databaseAddButton;
+    private Button databaseDeleteButton;
+    private Button searchButton;
+    private Scene loginScene;
+    private Scene rootScene;
+    private Label loginLabel;
+    private Label mainLabel;
+    private Label aboutMenuLabel;
+    private Label profileMenuLabel;
+    private Label searchFoundLabel;
+    private Label searchLabel;
+    private Label searchNotFoundLabel;
+    private Stage window;
+    private TextField loginInput;
+    private TextField descriptionInput;
+    private TextField meaningInput;
+    private TextField commentInput;
+    private TextField exampleSentenceInput;
+    private TextField searchInput;
+    private TableView<SingleEntryExport> table;
+    private BorderPane rootLayout;
+    private BorderPane databaseLayout;
+    private HBox databaseHBox;
+    private VBox mainLayout;
+    private VBox testLayout;
+    private Menu moreMenu;
+    private Menu aboutMenu;
+    private Menu profileMenu;
+    private MenuBar menuBar;
+    private MenuItem databaseMenuItem;
+    private MenuItem searchMenuItem;
+    private MenuItem testMenuItem;
+    private VBox searchLayout;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -82,7 +92,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //ROOT
         rootLayout = new BorderPane();
 
-        //Menu
+        //Menus
         moreMenu = new Menu("MORE");
 
         databaseMenuItem = new MenuItem("DATABASE");
@@ -97,8 +107,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         searchMenuItem.setOnAction(this);
         testMenuItem.setOnAction(this);
 
+        //Menus without MenuItems don't fire, therefore workaround,
+        //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
+        aboutMenuLabel = new Label("ABOUT");
+        profileMenuLabel = new Label("PROFILE");
+        aboutMenu = new Menu("", aboutMenuLabel);
+        profileMenu = new Menu("", profileMenuLabel);
+
         menuBar = new MenuBar();
-        menuBar.getMenus().addAll(moreMenu);
+        menuBar.getMenus().addAll(aboutMenu, profileMenu, moreMenu);
 
         rootLayout.setTop(menuBar);
 
@@ -189,6 +206,41 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseLayout.setCenter(table);
         databaseLayout.setBottom(databaseHBox);
 
+        //SEARCH
+        searchLayout = new VBox();
+        searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
+        searchFoundLabel = new Label("We found the following entries for you.");
+        searchNotFoundLabel = new Label("Oops, we could not find such entry. Would you like to add one?");
+        searchButton = new Button("SEARCH");
+        searchInput = new TextField();
+        searchInput.setPromptText("word or phrase");
+        searchLayout.getChildren().addAll(searchLabel, searchInput,
+                searchFoundLabel, searchNotFoundLabel, searchButton);
+
+        searchButton.setOnAction(this);
+
+        //ABOUT
+        VBox aboutLayout = new VBox();
+        Label aboutLabel = new Label("This is my 210 project");
+        aboutLayout.getChildren().add(aboutLabel);
+
+        aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
+
+
+        //PROFILE
+        VBox profileLayout = new VBox();
+        Label profileLabel = new Label("MY PROFILE");
+        Label profileSuccessRateLabel = new Label("Successrate");
+        Label profileEntriesLabel = new Label("Entries");
+        Label profileAchievementsLabel = new Label("Achievements");
+        Label profileExportDataLabel = new Label("Export my data");
+        Button profileDeleteProfileButton = new Button("DELETE MY PROFILE");
+
+        profileLayout.getChildren().addAll(profileLabel, profileSuccessRateLabel, profileEntriesLabel,
+                profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
+        profileMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(profileLayout));
+
+
         //DISPLAY WINDOW
         window.setScene(rootScene);
         window.show();
@@ -220,9 +272,11 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         } else if (event.getSource() == databaseMenuItem) {
             rootLayout.setCenter(databaseLayout);
         } else if (event.getSource() == searchMenuItem) {
-            rootLayout.setCenter(new Label("This is the search option"));
+            rootLayout.setCenter(searchLayout);
         } else if (event.getSource() == testMenuItem) {
             rootLayout.setCenter(testLayout);
+        } else if (event.getSource() == searchButton) {
+            System.out.println("Implement searching");
         }
     }
 
