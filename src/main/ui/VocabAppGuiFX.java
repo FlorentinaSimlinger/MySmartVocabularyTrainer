@@ -25,10 +25,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     Button databaseDeleteButton;
     Scene loginScene;
     Scene rootScene;
-    Scene profileScene;
-    Scene databaseScene;
-    Scene searchScene;
-    Scene testScene;
     Label loginLabel;
     Label mainLabel;
     Stage window;
@@ -42,7 +38,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     BorderPane rootLayout;
     BorderPane databaseLayout;
     HBox databaseHBox;
-    VBox mainVBox;
+    VBox mainLayout;
+    VBox testLayout;
     Menu moreMenu;
     MenuBar menuBar;
     MenuItem databaseMenuItem;
@@ -82,13 +79,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
         loginScene = new Scene(loginLayout, 850, 500);
 
-        //MAIN / ROOT
+        //ROOT
         rootLayout = new BorderPane();
 
-        //More Menu
+        //Menu
         moreMenu = new Menu("MORE");
 
-        //Menu items
         databaseMenuItem = new MenuItem("DATABASE");
         searchMenuItem = new MenuItem("SEARCH");
         testMenuItem = new MenuItem("TEST");
@@ -98,41 +94,33 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(testMenuItem);
         databaseMenuItem.setOnAction(this);
-        searchMenuItem.setOnAction(e -> {
-            System.out.println("Implement search scene");
-            rootLayout.setCenter(new Label ("This is the search option"));
-        });
-        testMenuItem.setOnAction(e -> {
-            System.out.println("Implement test scene");
-            window.setScene(testScene);
-        });
+        searchMenuItem.setOnAction(this);
+        testMenuItem.setOnAction(this);
 
-
-        //Menu bar
         menuBar = new MenuBar();
         menuBar.getMenus().addAll(moreMenu);
 
-        //Main VBox
-        mainVBox = new VBox();
+        rootLayout.setTop(menuBar);
+
+        //Main Layout
+        mainLayout = new VBox();
         mainLabel = new Label("Welcome to the main page.");
         mainToTestButton = new Button("Go to test scene");
         mainToTestButton.setOnAction(this);
         mainToQuitButton = new Button("Quit");
         mainToQuitButton.setOnAction(this);
-        mainVBox.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
+        mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
 
-        rootLayout.setTop(menuBar);
-        rootLayout.setCenter(mainVBox);
+        rootLayout.setCenter(mainLayout);
 
-        rootScene = new Scene(rootLayout, 500, 250);
+        rootScene = new Scene(rootLayout, 900, 900);
 
         //TEST
         testToMainButton = new Button("Go back to main scene");
         testToMainButton.setOnAction(this);
 
-        VBox testLayout = new VBox(20);
+        testLayout = new VBox(20);
         testLayout.getChildren().add(testToMainButton);
-        testScene = new Scene(testLayout, 600, 600);
 
         //DATABASE
         //description column
@@ -198,11 +186,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
 
         databaseLayout = new BorderPane();
-        //databaseLayout.setTop(menuBar);
         databaseLayout.setCenter(table);
         databaseLayout.setBottom(databaseHBox);
-
-        databaseScene = new Scene(databaseLayout);
 
         //DISPLAY WINDOW
         window.setScene(rootScene);
@@ -221,17 +206,23 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             window.setScene(rootScene);
             System.out.println("implement result: " + result);
         } else if (event.getSource() == mainToTestButton) {
-            window.setScene(testScene);
+            rootLayout.setCenter(testLayout);
         } else if (event.getSource() == mainToQuitButton) {
             closeProgram();
         } else if (event.getSource() == testToMainButton) {
-            window.setScene(rootScene);
+            rootLayout.setCenter(mainLayout);
         } else if (event.getSource() == databaseAddButton) {
             System.out.println("implement add to database");
             addButtonClicked();
         } else if (event.getSource() == databaseDeleteButton) {
             System.out.println("implement delete from database");
             deleteButtonClicked();
+        } else if (event.getSource() == databaseMenuItem) {
+            rootLayout.setCenter(databaseLayout);
+        } else if (event.getSource() == searchMenuItem) {
+            rootLayout.setCenter(new Label("This is the search option"));
+        } else if (event.getSource() == testMenuItem) {
+            rootLayout.setCenter(testLayout);
         }
     }
 
