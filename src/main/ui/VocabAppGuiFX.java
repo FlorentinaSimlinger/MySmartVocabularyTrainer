@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +25,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Button databaseAddButton;
     private Button databaseDeleteButton;
     private Button searchButton;
+    private Button profileDeleteProfileButton;
     private Scene loginScene;
     private Scene rootScene;
     private Label loginLabel;
@@ -33,6 +35,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label searchFoundLabel;
     private Label searchLabel;
     private Label searchNotFoundLabel;
+    private Label aboutLabel;
+    private Label profileLabel;
+    private Label profileSuccessRateLabel;
+    private Label profileEntriesLabel;
+    private Label profileAchievementsLabel;
+    private Label profileExportDataLabel;
+    private Label mainMenuLabel;
     private Stage window;
     private TextField loginInput;
     private TextField descriptionInput;
@@ -44,16 +53,22 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private BorderPane rootLayout;
     private BorderPane databaseLayout;
     private HBox databaseHBox;
+    private HBox menuBarHBox;
     private VBox mainLayout;
     private VBox testLayout;
+    private VBox aboutLayout;
+    private VBox profileLayout;
+    private VBox searchLayout;
     private Menu moreMenu;
     private Menu aboutMenu;
     private Menu profileMenu;
+    private Menu mainMenu;
     private MenuBar menuBar;
     private MenuItem databaseMenuItem;
     private MenuItem searchMenuItem;
     private MenuItem testMenuItem;
-    private VBox searchLayout;
+    private MenuItem quitMenuItem;
+
 
 
     public static void main(String[] args) {
@@ -64,7 +79,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     public void start(Stage primaryStage) throws Exception {
         //SET WINDOW
         window = primaryStage;
-        primaryStage.setTitle("Welcome to MySmartVocabularyTrainer!");
+        primaryStage.setTitle("MySmartVocabularyTrainer");
         window.setOnCloseRequest(e -> closeProgram());
 
         //LOGIN
@@ -98,26 +113,34 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseMenuItem = new MenuItem("DATABASE");
         searchMenuItem = new MenuItem("SEARCH");
         testMenuItem = new MenuItem("TEST");
+        quitMenuItem = new MenuItem("QUIT");
         moreMenu.getItems().add(databaseMenuItem);
-        moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(searchMenuItem);
-        moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(testMenuItem);
+        moreMenu.getItems().add(new SeparatorMenuItem());
+        moreMenu.getItems().add(quitMenuItem);
         databaseMenuItem.setOnAction(this);
         searchMenuItem.setOnAction(this);
         testMenuItem.setOnAction(this);
+        quitMenuItem.setOnAction(this);
 
         //Menus without MenuItems don't fire, therefore workaround,
         //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
+        mainMenuLabel = new Label("MAIN");
         aboutMenuLabel = new Label("ABOUT");
         profileMenuLabel = new Label("PROFILE");
+        mainMenu = new Menu("", mainMenuLabel);
         aboutMenu = new Menu("", aboutMenuLabel);
         profileMenu = new Menu("", profileMenuLabel);
 
         menuBar = new MenuBar();
-        menuBar.getMenus().addAll(aboutMenu, profileMenu, moreMenu);
+        menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
 
-        rootLayout.setTop(menuBar);
+        menuBarHBox = new HBox();
+        menuBarHBox.getChildren().add(menuBar);
+        menuBarHBox.setAlignment(Pos.CENTER_RIGHT);
+
+        rootLayout.setTop(menuBarHBox);
 
         //Main Layout
         mainLayout = new VBox();
@@ -127,6 +150,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainToQuitButton = new Button("Quit");
         mainToQuitButton.setOnAction(this);
         mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
+        mainLayout.setAlignment(Pos.CENTER);
 
         rootLayout.setCenter(mainLayout);
 
@@ -219,30 +243,35 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         searchButton.setOnAction(this);
 
+        //MAIN
+        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
+
         //ABOUT
-        VBox aboutLayout = new VBox();
-        Label aboutLabel = new Label("This is my 210 project");
+        aboutLayout = new VBox();
+        aboutLabel = new Label("This is my 210 project");
+
         aboutLayout.getChildren().add(aboutLabel);
+        aboutLayout.setAlignment(Pos.CENTER);
 
         aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
 
-
         //PROFILE
-        VBox profileLayout = new VBox();
-        Label profileLabel = new Label("MY PROFILE");
-        Label profileSuccessRateLabel = new Label("Successrate");
-        Label profileEntriesLabel = new Label("Entries");
-        Label profileAchievementsLabel = new Label("Achievements");
-        Label profileExportDataLabel = new Label("Export my data");
-        Button profileDeleteProfileButton = new Button("DELETE MY PROFILE");
+        profileLayout = new VBox();
+        profileLabel = new Label("MY PROFILE");
+        profileSuccessRateLabel = new Label("Successrate");
+        profileEntriesLabel = new Label("Entries");
+        profileAchievementsLabel = new Label("Achievements");
+        profileExportDataLabel = new Label("Export my data");
+        profileDeleteProfileButton = new Button("DELETE MY PROFILE");
 
         profileLayout.getChildren().addAll(profileLabel, profileSuccessRateLabel, profileEntriesLabel,
                 profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
+        profileLayout.setAlignment(Pos.CENTER);
         profileMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(profileLayout));
 
 
         //DISPLAY WINDOW
-        window.setScene(rootScene);
+        window.setScene(loginScene);
         window.show();
     }
 
@@ -275,6 +304,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             rootLayout.setCenter(searchLayout);
         } else if (event.getSource() == testMenuItem) {
             rootLayout.setCenter(testLayout);
+        } else if (event.getSource() == quitMenuItem) {
+            closeProgram();
         } else if (event.getSource() == searchButton) {
             System.out.println("Implement searching");
         }
