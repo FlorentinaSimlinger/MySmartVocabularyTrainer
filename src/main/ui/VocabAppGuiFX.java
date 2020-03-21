@@ -26,6 +26,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Button databaseDeleteButton;
     private Button searchButton;
     private Button profileDeleteProfileButton;
+    private Button mainAddButton;
     private Scene loginScene;
     private Scene rootScene;
     private Label loginLabel;
@@ -42,13 +43,21 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label profileAchievementsLabel;
     private Label profileExportDataLabel;
     private Label mainMenuLabel;
+    private Label testLabel;
+    private Label testQuestionLabel;
+    private Label testCorrectLabel;
+    private Label testIncorrectLabel;
     private Stage window;
     private TextField loginInput;
-    private TextField descriptionInput;
-    private TextField meaningInput;
-    private TextField commentInput;
-    private TextField exampleSentenceInput;
+    private TextField databaseDescriptionInput;
+    private TextField databaseMeaningInput;
+    private TextField databaseCommentInput;
+    private TextField databaseExampleSentenceInput;
     private TextField searchInput;
+    private TextField mainDescriptionInput;
+    private TextField mainMeaningInput;
+    private TextField mainCommentInput;
+    private TextField mainExampleSentenceInput;
     private TableView<SingleEntryExport> table;
     private BorderPane rootLayout;
     private BorderPane databaseLayout;
@@ -142,14 +151,25 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         rootLayout.setTop(menuBarHBox);
 
-        //Main Layout
+        //MAIN
         mainLayout = new VBox();
-        mainLabel = new Label("Welcome to the main page.");
-        mainToTestButton = new Button("Go to test scene");
+        mainLabel = new Label("To get started, enter a word or phrase you'd like to learn, the synonym you're"
+                + " familiar with, a comment and an example sentence if you'd like.");
+        mainDescriptionInput = new TextField();
+        mainDescriptionInput.setPromptText("description");
+        mainMeaningInput = new TextField();
+        mainMeaningInput.setPromptText("meaning");
+        mainCommentInput = new TextField();
+        mainCommentInput.setPromptText("comment");
+        mainExampleSentenceInput = new TextField();
+        mainExampleSentenceInput.setPromptText("example sentence");
+        mainAddButton = new Button("Add");
+        mainToTestButton = new Button("Test myself");
         mainToTestButton.setOnAction(this);
         mainToQuitButton = new Button("Quit");
         mainToQuitButton.setOnAction(this);
-        mainLayout.getChildren().addAll(mainLabel, mainToTestButton, mainToQuitButton);
+        mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
+                mainExampleSentenceInput, mainAddButton, mainToTestButton, mainToQuitButton);
         mainLayout.setAlignment(Pos.CENTER);
 
         rootLayout.setCenter(mainLayout);
@@ -157,11 +177,16 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         rootScene = new Scene(rootLayout, 900, 900);
 
         //TEST
-        testToMainButton = new Button("Go back to main scene");
+        testLabel = new Label("TEST");
+        testQuestionLabel = new Label("What's the synonym for ");
+        testCorrectLabel = new Label("Correct!");
+        testIncorrectLabel = new Label("Incorrect, the correct word or sentence is ");
+        testToMainButton = new Button("Return to main");
         testToMainButton.setOnAction(this);
 
         testLayout = new VBox(20);
-        testLayout.getChildren().add(testToMainButton);
+        testLayout.getChildren().addAll(testLabel, testQuestionLabel, testCorrectLabel,
+                testIncorrectLabel, testToMainButton);
 
         //DATABASE
         //description column
@@ -190,24 +215,24 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, Double>("successRate"));
 
         //description input
-        descriptionInput = new TextField();
-        descriptionInput.setPromptText("description");
-        descriptionInput.setMinWidth(100);
+        databaseDescriptionInput = new TextField();
+        databaseDescriptionInput.setPromptText("description");
+        databaseDescriptionInput.setMinWidth(100);
 
         //meaning input
-        meaningInput = new TextField();
-        meaningInput.setPromptText("meaning");
-        meaningInput.setMinWidth(100);
+        databaseMeaningInput = new TextField();
+        databaseMeaningInput.setPromptText("meaning");
+        databaseMeaningInput.setMinWidth(100);
 
         //comment input
-        commentInput = new TextField();
-        commentInput.setPromptText("comment");
-        commentInput.setMinWidth(100);
+        databaseCommentInput = new TextField();
+        databaseCommentInput.setPromptText("comment");
+        databaseCommentInput.setMinWidth(100);
 
         //example sentence input
-        exampleSentenceInput = new TextField();
-        exampleSentenceInput.setPromptText("example sentence");
-        exampleSentenceInput.setMinWidth(100);
+        databaseExampleSentenceInput = new TextField();
+        databaseExampleSentenceInput.setPromptText("example sentence");
+        databaseExampleSentenceInput.setMinWidth(100);
 
         //add and delete button
         databaseAddButton = new Button("Add");
@@ -219,8 +244,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseHBox = new HBox();
         databaseHBox.setPadding(new Insets(10, 10, 10, 10));
         databaseHBox.setSpacing(10);
-        databaseHBox.getChildren().addAll(descriptionInput, meaningInput, commentInput, exampleSentenceInput,
-                databaseAddButton, databaseDeleteButton);
+        databaseHBox.getChildren().addAll(databaseDescriptionInput, databaseMeaningInput, databaseCommentInput,
+                databaseExampleSentenceInput, databaseAddButton, databaseDeleteButton);
 
         table = new TableView<>();
         table.setItems(getSingleEntryExport());
@@ -234,12 +259,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         searchLayout = new VBox();
         searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
         searchFoundLabel = new Label("We found the following entries for you.");
-        searchNotFoundLabel = new Label("Oops, we could not find such entry. Would you like to add one?");
+        searchNotFoundLabel = new Label("Oops, we could not find such entry.");
         searchButton = new Button("SEARCH");
         searchInput = new TextField();
         searchInput.setPromptText("word or phrase");
-        searchLayout.getChildren().addAll(searchLabel, searchInput,
-                searchFoundLabel, searchNotFoundLabel, searchButton);
+        searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
+                searchFoundLabel, searchNotFoundLabel);
 
         searchButton.setOnAction(this);
 
@@ -324,16 +349,16 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //Add button clicked
     public void addButtonClicked() {
         SingleEntryExport singleEntryExport = new SingleEntryExport();
-        singleEntryExport.setDescription(descriptionInput.getText());
-        singleEntryExport.setMeaning(meaningInput.getText());
-        singleEntryExport.setComment(commentInput.getText());
-        singleEntryExport.setExampleSentence(exampleSentenceInput.getText());
+        singleEntryExport.setDescription(databaseDescriptionInput.getText());
+        singleEntryExport.setMeaning(databaseMeaningInput.getText());
+        singleEntryExport.setComment(databaseCommentInput.getText());
+        singleEntryExport.setExampleSentence(databaseExampleSentenceInput.getText());
         singleEntryExport.setSuccessRate(0);
         table.getItems().add(singleEntryExport);
-        descriptionInput.clear();
-        meaningInput.clear();
-        commentInput.clear();
-        exampleSentenceInput.clear();
+        databaseDescriptionInput.clear();
+        databaseMeaningInput.clear();
+        databaseCommentInput.clear();
+        databaseExampleSentenceInput.clear();
     }
 
     //Delete button clicked
@@ -366,3 +391,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
 //Notes: the stage is the entire window, the scene is the content in the window
 //TODO: why is it  GridPane.setConstraints(loginLabel, 0, 0); instead of  loginLayout.setConstraints(loginLabel, 0, 0);?
+//TODO: make sure user has to enter something for description and meaning, but does not have to enter for comment and
+// example sentence both in main and in database
+//TODO: provide user with example input
