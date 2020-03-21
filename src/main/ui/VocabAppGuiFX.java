@@ -185,7 +185,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainExampleInput.setMaxWidth(500);
 
         mainAddButton = new Button("Add");
-        mainAddButton.setOnMouseClicked(e -> addToDatabase());
+        mainAddButton.setOnMouseClicked(e -> mainAddButtonClicked());
 
         mainToTestButton = new Button("Test myself");
         mainToTestButton.setOnAction(this);
@@ -260,9 +260,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         //add and delete button
         databaseAddButton = new Button("Add");
-        databaseAddButton.setOnAction(this);
+        databaseAddButton.setOnMouseClicked(e -> databaseAddButtonClicked());
         databaseDeleteButton = new Button("Delete");
-        databaseDeleteButton.setOnAction(this);
+        databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
 
         //HBox with add and delete option
         databaseHBox = new HBox();
@@ -272,7 +272,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
                 databaseExampleInput, databaseAddButton, databaseDeleteButton);
 
         table = new TableView<>();
-        table.setItems(getDatabase());
+        table.setItems(getDatabaseTable());
         table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
 
         databaseLayout = new BorderPane();
@@ -377,12 +377,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             closeProgram();
         } else if (event.getSource() == testToMainButton) {
             rootLayout.setCenter(mainLayout);
-        } else if (event.getSource() == databaseAddButton) {
-            System.out.println("implement add to database");
-            addButtonClicked();
-        } else if (event.getSource() == databaseDeleteButton) {
-            System.out.println("implement delete from database");
-            deleteButtonClicked();
+//        } else if (event.getSource() == databaseAddButton) {
+//            System.out.println("implement add to database");
+//            //databaseAddButtonClicked();
+//        } else if (event.getSource() == databaseDeleteButton) {
+//            System.out.println("implement delete from database");
+//            //databaseDeleteButtonClicked();
         } else if (event.getSource() == databaseMenuItem) {
             rootLayout.setCenter(databaseLayout);
         } else if (event.getSource() == searchMenuItem) {
@@ -407,13 +407,14 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 
     //Add button clicked
-    public void addButtonClicked() {
+    public void databaseAddButtonClicked() {
         SingleEntry singleEntry = new SingleEntry();
         singleEntry.setDescription(databaseDescriptionInput.getText());
         singleEntry.setMeaning(databaseMeaningInput.getText());
         singleEntry.setComment(databaseCommentInput.getText());
         singleEntry.setExample(databaseExampleInput.getText());
         table.getItems().add(singleEntry);
+        profile.getDatabase().addEntry(singleEntry);
         databaseDescriptionInput.clear();
         databaseMeaningInput.clear();
         databaseCommentInput.clear();
@@ -421,7 +422,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 
     //Delete button clicked
-    public void deleteButtonClicked() {
+    public void databaseDeleteButtonClicked() {
         ObservableList<SingleEntry> selectedSingleEntries;
         ObservableList<SingleEntry> allSingleEntries;
         selectedSingleEntries = table.getSelectionModel().getSelectedItems();
@@ -431,7 +432,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 
     //Get the entries
-    public ObservableList<SingleEntry> getDatabase() {
+    public ObservableList<SingleEntry> getDatabaseTable() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
         databaseTable.add(new SingleEntry("toboggan", "sled",
                 "random comment", "random example sentence"));
@@ -446,11 +447,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         window.close();
     }
 
-    private void addToDatabase() {
-        SingleEntry entry;
-        entry = new SingleEntry(mainDescriptionInput.getText(), mainMeaningInput.getText(),
+    private void mainAddButtonClicked() {
+        SingleEntry singleEntry;
+        singleEntry = new SingleEntry(mainDescriptionInput.getText(), mainMeaningInput.getText(),
                 mainCommentInput.getText(), mainExampleInput.getText());
-        profile.getDatabase().addEntry(entry);
+        profile.getDatabase().addEntry(singleEntry);
+        table.getItems().add(singleEntry);
         mainDescriptionInput.clear();
         mainMeaningInput.clear();
         mainCommentInput.clear();
