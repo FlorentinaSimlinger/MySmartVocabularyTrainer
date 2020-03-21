@@ -15,9 +15,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Profile;
+import model.SingleEntry;
+import persistence.Reader;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
-
+    private Profile profile;
+    private ArrayList<Profile> profiles;
+    private Reader reader;
+    private String name;
     private Button loginToMainButton;
     private Button mainToTestButton;
     private Button mainToQuitButton;
@@ -86,6 +96,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        loadProfiles();
+
         //SET WINDOW
         window = primaryStage;
         primaryStage.setTitle("MySmartVocabularyTrainer");
@@ -96,6 +108,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         loginLayout.setPadding(new Insets(10, 10, 10, 10));
         loginLayout.setVgap(8);
         loginLayout.setHgap(10);
+
         //login label
         loginLabel = new Label("Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue.");
         GridPane.setConstraints(loginLabel, 0, 0);
@@ -108,13 +121,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //login button
         loginToMainButton = new Button("Continue");
         GridPane.setConstraints(loginToMainButton, 1, 2);
-        loginToMainButton.setOnAction(this);
+
+        loginToMainButton.setOnMouseClicked(e -> findOrCreateProfile());
 
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
         loginScene = new Scene(loginLayout, 850, 500);
 
         //ROOT
         rootLayout = new BorderPane();
+        rootLayout.setPadding(new Insets(10, 10, 10, 10));
 
         //Menus
         moreMenu = new Menu("MORE");
@@ -153,17 +168,23 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         //MAIN
         mainLayout = new VBox();
-        mainLabel = new Label("To get started, enter a word or phrase you'd like to learn, the synonym you're"
-                + " familiar with, a comment and an example sentence if you'd like.");
+        mainLabel = new Label("Welcome " + name + ". To get started, enter a word or phrase you'd like to learn,"
+                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.");
+        mainLabel.setMaxWidth(500);
         mainDescriptionInput = new TextField();
         mainDescriptionInput.setPromptText("description");
+        mainDescriptionInput.setMaxWidth(500);
         mainMeaningInput = new TextField();
         mainMeaningInput.setPromptText("meaning");
+        mainMeaningInput.setMaxWidth(500);
         mainCommentInput = new TextField();
         mainCommentInput.setPromptText("comment");
+        mainCommentInput.setMaxWidth(500);
         mainExampleSentenceInput = new TextField();
         mainExampleSentenceInput.setPromptText("example sentence");
+        mainExampleSentenceInput.setMaxWidth(500);
         mainAddButton = new Button("Add");
+        mainAddButton.setOnMouseClicked(e -> addToDatabase());
         mainToTestButton = new Button("Test myself");
         mainToTestButton.setOnAction(this);
         mainToQuitButton = new Button("Quit");
@@ -171,10 +192,11 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
                 mainExampleSentenceInput, mainAddButton, mainToTestButton, mainToQuitButton);
         mainLayout.setAlignment(Pos.CENTER);
+        mainLayout.setSpacing(20);
 
         rootLayout.setCenter(mainLayout);
 
-        rootScene = new Scene(rootLayout, 900, 900);
+        rootScene = new Scene(rootLayout, 900, 600);
 
         //TEST
         testLabel = new Label("TEST");
@@ -300,17 +322,53 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         window.show();
     }
 
+    private void loadProfiles() {
+        try {
+            reader = new Reader();
+            profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
+        } catch (IOException e) {
+            System.out.println("Unfortunately something went wrong.");
+        }
+    }
+
+    private void findOrCreateProfile() {
+        name = loginInput.getText().trim(); //Note: trim excludes any space at end
+        profile = new Profile();
+        if (reader.findProfile(name) == null) {
+            profile.setName(name);
+            profiles.add(profile);
+            if (SignUpAlert.displaySignUpAlert(name)) {
+                loadExampleDatabase();
+            }
+        } else {
+            profile = reader.findProfile(name);
+        }
+        window.setScene(rootScene);
+    }
+
+    private void loadExampleDatabase() {
+        SingleEntry entry1 = new SingleEntry("toboggan", "sled",
+                "verb is 'to toboggan'", "riding down a hill with a sled");
+        SingleEntry entry2 = new SingleEntry("eh?", "'right?'",
+                "does not have to be used as question", "it's cold today, eh?");
+        SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
+                "yü-ˈbi-kwə-təs", "");
+        profile.getDatabase().addEntry(entry1);
+        profile.getDatabase().addEntry(entry2);
+        profile.getDatabase().addEntry(entry3);
+    }
+
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == loginToMainButton) {
-            try {
-                isString(loginInput, loginInput.getText());
-            } catch (Exception e) {
-                System.out.println("Do not enter an integer.");
-            }
-            boolean result = SignUpAlert.displaySignUpAlert();
-            window.setScene(rootScene);
-            System.out.println("implement result: " + result);
+//            try {
+//                isString(loginInput, loginInput.getText());
+//            } catch (Exception e) {
+//                System.out.println("Do not enter an integer.");
+//            }
+//            boolean result = SignUpAlert.displaySignUpAlert(name);
+//            window.setScene(rootScene);
+//            System.out.println("implement result: " + result);
         } else if (event.getSource() == mainToTestButton) {
             rootLayout.setCenter(testLayout);
         } else if (event.getSource() == mainToQuitButton) {
@@ -371,7 +429,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         selectedSingleEntryExports.forEach(allSingleEntryExports::remove);
     }
 
-    //Get all of the products
+    //Get the entries
     public ObservableList<SingleEntryExport> getSingleEntryExport() {
         ObservableList<SingleEntryExport> singleEntryExports = FXCollections.observableArrayList();
         singleEntryExports.add(new SingleEntryExport("toboggan", "sled",
@@ -386,7 +444,16 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         System.out.println("implement save here");
         window.close();
     }
+
+    private void addToDatabase() {
+        SingleEntry entry;
+        entry = new SingleEntry(mainDescriptionInput.getText(), mainMeaningInput.getText(),
+                mainCommentInput.getText(), mainExampleSentenceInput.getText());
+        profile.getDatabase().addEntry(entry);
+    }
 }
+
+//TODO: check if database table updates with addToDatabase
 
 
 //Notes: the stage is the entire window, the scene is the content in the window

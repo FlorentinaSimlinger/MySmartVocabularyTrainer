@@ -13,7 +13,7 @@ public class SignUpAlert {
     static boolean answer;
 
     //EFFECTS: displays alert that new profile is created, returns true if sample data is to be loaded, false otherwise
-    public static boolean displaySignUpAlert() {
+    public static boolean displaySignUpAlert(String name) {
         Stage window = new Stage();
 
         //blocking user interaction with other windows until this window is closed
@@ -22,8 +22,8 @@ public class SignUpAlert {
         window.setMinWidth(250);
 
         Label label = new Label();
-        label.setText("Thank you for signing up for us. We have created a new profile for you. Would you like to " +
-                "continue with sample data? You can also decide later to add sample data.");
+        label.setText("Thank you for signing up with us, " + name + ". We have created a new profile for you.\n"
+                + "Would you like to continue with sample data?");
 
         //Yes and no buttons
         Button yesButton = new Button("Continue with sample database");
