@@ -62,13 +62,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private TextField databaseDescriptionInput;
     private TextField databaseMeaningInput;
     private TextField databaseCommentInput;
-    private TextField databaseExampleSentenceInput;
+    private TextField databaseExampleInput;
     private TextField searchInput;
     private TextField mainDescriptionInput;
     private TextField mainMeaningInput;
     private TextField mainCommentInput;
-    private TextField mainExampleSentenceInput;
-    private TableView<SingleEntryExport> table;
+    private TextField mainExampleInput;
+    private TableView<SingleEntry> table;
     private BorderPane rootLayout;
     private BorderPane databaseLayout;
     private HBox databaseHBox;
@@ -180,23 +180,25 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainCommentInput = new TextField();
         mainCommentInput.setPromptText("comment");
         mainCommentInput.setMaxWidth(500);
-        mainExampleSentenceInput = new TextField();
-        mainExampleSentenceInput.setPromptText("example sentence");
-        mainExampleSentenceInput.setMaxWidth(500);
+        mainExampleInput = new TextField();
+        mainExampleInput.setPromptText("example sentence");
+        mainExampleInput.setMaxWidth(500);
+
         mainAddButton = new Button("Add");
         mainAddButton.setOnMouseClicked(e -> addToDatabase());
+
         mainToTestButton = new Button("Test myself");
         mainToTestButton.setOnAction(this);
         mainToQuitButton = new Button("Quit");
         mainToQuitButton.setOnAction(this);
         mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
-                mainExampleSentenceInput, mainAddButton, mainToTestButton, mainToQuitButton);
+                mainExampleInput, mainAddButton, mainToTestButton, mainToQuitButton);
         mainLayout.setAlignment(Pos.CENTER);
         mainLayout.setSpacing(20);
 
         rootLayout.setCenter(mainLayout);
 
-        rootScene = new Scene(rootLayout, 900, 600);
+        rootScene = new Scene(rootLayout, 920, 600);
 
         //TEST
         testLabel = new Label("TEST");
@@ -212,29 +214,29 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         //DATABASE
         //description column
-        TableColumn<SingleEntryExport, String> descriptionColumn = new TableColumn<>("Description");
+        TableColumn<SingleEntry, String> descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setMinWidth(200);
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("description"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("description"));
 
         //meaning column
-        TableColumn<SingleEntryExport, String> meaningColumn = new TableColumn<>("Meaning");
+        TableColumn<SingleEntry, String> meaningColumn = new TableColumn<>("Meaning");
         meaningColumn.setMinWidth(200);
-        meaningColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("meaning"));
+        meaningColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("meaning"));
 
         //comment column
-        TableColumn<SingleEntryExport, String> commentColumn = new TableColumn<>("Comment");
+        TableColumn<SingleEntry, String> commentColumn = new TableColumn<>("Comment");
         commentColumn.setMinWidth(200);
-        commentColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("comment"));
+        commentColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("comment"));
 
         //sentence column
-        TableColumn<SingleEntryExport, String> sentenceColumn = new TableColumn<>("Example Sentence");
+        TableColumn<SingleEntry, String> sentenceColumn = new TableColumn<>("Example Sentence");
         sentenceColumn.setMinWidth(200);
-        sentenceColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, String>("exampleSentence"));
+        sentenceColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("example"));
 
         //successRate column
-        TableColumn<SingleEntryExport, Double> successRateColumn = new TableColumn<>("Success Rate");
+        TableColumn<SingleEntry, Double> successRateColumn = new TableColumn<>("Success Rate");
         successRateColumn.setMinWidth(100);
-        successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntryExport, Double>("successRate"));
+        successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, Double>("successRate"));
 
         //description input
         databaseDescriptionInput = new TextField();
@@ -252,9 +254,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseCommentInput.setMinWidth(100);
 
         //example sentence input
-        databaseExampleSentenceInput = new TextField();
-        databaseExampleSentenceInput.setPromptText("example sentence");
-        databaseExampleSentenceInput.setMinWidth(100);
+        databaseExampleInput = new TextField();
+        databaseExampleInput.setPromptText("example sentence");
+        databaseExampleInput.setMinWidth(100);
 
         //add and delete button
         databaseAddButton = new Button("Add");
@@ -267,10 +269,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseHBox.setPadding(new Insets(10, 10, 10, 10));
         databaseHBox.setSpacing(10);
         databaseHBox.getChildren().addAll(databaseDescriptionInput, databaseMeaningInput, databaseCommentInput,
-                databaseExampleSentenceInput, databaseAddButton, databaseDeleteButton);
+                databaseExampleInput, databaseAddButton, databaseDeleteButton);
 
         table = new TableView<>();
-        table.setItems(getSingleEntryExport());
+        table.setItems(getDatabase());
         table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
 
         databaseLayout = new BorderPane();
@@ -406,37 +408,36 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
     //Add button clicked
     public void addButtonClicked() {
-        SingleEntryExport singleEntryExport = new SingleEntryExport();
-        singleEntryExport.setDescription(databaseDescriptionInput.getText());
-        singleEntryExport.setMeaning(databaseMeaningInput.getText());
-        singleEntryExport.setComment(databaseCommentInput.getText());
-        singleEntryExport.setExampleSentence(databaseExampleSentenceInput.getText());
-        singleEntryExport.setSuccessRate(0);
-        table.getItems().add(singleEntryExport);
+        SingleEntry singleEntry = new SingleEntry();
+        singleEntry.setDescription(databaseDescriptionInput.getText());
+        singleEntry.setMeaning(databaseMeaningInput.getText());
+        singleEntry.setComment(databaseCommentInput.getText());
+        singleEntry.setExample(databaseExampleInput.getText());
+        table.getItems().add(singleEntry);
         databaseDescriptionInput.clear();
         databaseMeaningInput.clear();
         databaseCommentInput.clear();
-        databaseExampleSentenceInput.clear();
+        databaseExampleInput.clear();
     }
 
     //Delete button clicked
     public void deleteButtonClicked() {
-        ObservableList<SingleEntryExport> selectedSingleEntryExports;
-        ObservableList<SingleEntryExport> allSingleEntryExports;
-        selectedSingleEntryExports = table.getSelectionModel().getSelectedItems();
-        allSingleEntryExports = table.getItems();
+        ObservableList<SingleEntry> selectedSingleEntries;
+        ObservableList<SingleEntry> allSingleEntries;
+        selectedSingleEntries = table.getSelectionModel().getSelectedItems();
+        allSingleEntries = table.getItems();
 
-        selectedSingleEntryExports.forEach(allSingleEntryExports::remove);
+        selectedSingleEntries.forEach(allSingleEntries::remove);
     }
 
     //Get the entries
-    public ObservableList<SingleEntryExport> getSingleEntryExport() {
-        ObservableList<SingleEntryExport> singleEntryExports = FXCollections.observableArrayList();
-        singleEntryExports.add(new SingleEntryExport("toboggan", "sled",
-                "random comment", "random example sentence", 0.30));
-        singleEntryExports.add(new SingleEntryExport("spinning wheels", "being exhausted",
-                "another random comment", "another random example sentence", 0.40));
-        return singleEntryExports;
+    public ObservableList<SingleEntry> getDatabase() {
+        ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
+        databaseTable.add(new SingleEntry("toboggan", "sled",
+                "random comment", "random example sentence"));
+        databaseTable.add(new SingleEntry("spinning wheels", "being exhausted",
+                "another random comment", "another random example sentence"));
+        return databaseTable;
     }
 
     private void closeProgram() {
@@ -448,8 +449,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private void addToDatabase() {
         SingleEntry entry;
         entry = new SingleEntry(mainDescriptionInput.getText(), mainMeaningInput.getText(),
-                mainCommentInput.getText(), mainExampleSentenceInput.getText());
+                mainCommentInput.getText(), mainExampleInput.getText());
         profile.getDatabase().addEntry(entry);
+        mainDescriptionInput.clear();
+        mainMeaningInput.clear();
+        mainCommentInput.clear();
+        mainExampleInput.clear();
     }
 }
 

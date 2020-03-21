@@ -22,6 +22,17 @@ public class SingleEntry {
         match.put("example: ", example);
     }
 
+    //EFFECTS: constructs a hashmap consisting of keys and their values
+    public SingleEntry() {
+        failures = 1;
+        attempts = 1;
+        match = new HashMap<>();
+        match.put("description: ", "");
+        match.put("meaning: ", "");
+        match.put("comment: ", "");
+        match.put("example: ", "");
+    }
+
     //EFFECTS: adjusts the failure rate based on whether guessed right or wrong
     //MODIFIES: this
     public void adjustDistribution(String input) {
@@ -69,16 +80,32 @@ public class SingleEntry {
         return match.get("description: ");
     }
 
+    public void setDescription(String description) {
+        match.replace("description: ", description);
+    }
+
     public String getMeaning() {
         return match.get("meaning: ");
+    }
+
+    public void setMeaning(String meaning) {
+        match.replace("meaning: ", meaning);
     }
 
     public String getComment() {
         return match.get("comment: ");
     }
 
+    public void setComment(String comment) {
+        match.replace("comment: ", comment);
+    }
+
     public String getExample() {
         return match.get("example: ");
+    }
+
+    public void setExample(String example) {
+        match.replace("example: ", example);
     }
 
     public int getFailures() {
