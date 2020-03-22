@@ -56,7 +56,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label searchLabel;
     private Label aboutLabel;
     private Label profileLabel;
-    private Label profileSuccessRateLabel;
     private Label profileEntriesLabel;
     private Label profileAchievementsLabel;
     private Label profileExportDataLabel;
@@ -97,14 +96,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private MenuItem quitMenuItem;
 
     //EFFECTS: launches the app
+    //SOURCE: if not otherwise indicated, code of the entire app is partly based on
+    // https://www.youtube.com/watch?v=FLkOX4Eez6o&list=PLkY8n-MZcmgRwjYDebUGDcf1PCxT3JA5z and the following videos in
+    // that series
     public static void main(String[] args) {
         launch(args);
     }
 
     //EFFECTS: starts the app
     //MODIFIES: this
-    //SOURCE: large parts based on https://www.youtube.com/watch?v=FLkOX4Eez6o&list=PLkY8n-MZcmgRwjYDebUGDcf1PCxT3JA5z
-    // and following videos
     @Override
     public void start(Stage primaryStage) throws Exception {
         loadProfiles();
@@ -117,25 +117,26 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
         initializeAboutLayout();
         initializeProfileLayout();
-        //DISPLAY WINDOW
+
         window.setScene(loginScene);
         window.show();
     }
 
+    //EFFECTS: creates the profile Layout and sets it to center of root Layout
+    //MODIFIES: this
     private void initializeProfileLayout() {
-        //PROFILE
         profileLayout = new VBox();
         profileLabel = new Label("MY PROFILE");
         profileEntriesLabel = new Label("Entries");
         profileAchievementsLabel = new Label("Achievements");
         profileExportDataLabel = new Label("Export my data");
         profileDeleteProfileButton = new Button("DELETE MY PROFILE");
-        //defining the axes
+
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of sessions");
         yAxis.setLabel("Success rate in % per session");
-        //creating the chart
+
         lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 
         profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
@@ -147,8 +148,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         });
     }
 
+    //EFFECTS: initializes the About Layout and sets it to center of root Layout
+    //MODIFIES: this
     private void initializeAboutLayout() {
-        //ABOUT
         aboutLayout = new VBox();
         aboutLabel = new Label("This is my 210 project");
 
@@ -158,8 +160,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
     }
 
+    //EFFECTS: initializes the Search Layout
+    //MODIFIES: this
     private void initializeSearchLayout() {
-        //SEARCH
         searchLayout = new VBox();
         searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
         searchInput = new TextField();
@@ -171,8 +174,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
                 searchFeedbackLabel);
     }
 
+    //EFFECTS: initializes the Database Layout
+    //MODIFIES: this
     private void initializeDatabaseLayout() {
-        //DATABASE
         //description column
         TableColumn<SingleEntry, String> descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setMinWidth(200);
@@ -210,6 +214,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseLayout.setBottom(databaseHBox);
     }
 
+    //EFFECTS: adds Add and Delete Buttons to Database Layout, changes Database Layout and actual database
+    //MODIFIES: this
     private void addAddAndDeleteButtonsToDatabase() {
         //add and delete button
         databaseAddButton = new Button("Add");
@@ -225,6 +231,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
                 databaseExampleInput, databaseAddButton, databaseDeleteButton);
     }
 
+    //EFFECTS: creates fields for user input
     private void listenToUserInputInDatabase() {
         //description input
         databaseDescriptionInput = new TextField();
@@ -247,8 +254,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseExampleInput.setMinWidth(100);
     }
 
+    //EFFECTS: initializes TEST Layout
+    //MODIFIES: this
     private void initializeTestLayout() {
-        //TEST
         testLabel = new Label("TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
                 + "'Return to main' to return to main page.");
         Button testStartButton = new Button("Start!");
@@ -271,6 +279,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
                 testFeedbackLabel, testToMainButton);
     }
 
+    //EFFECTS: initializes MAIN layout
+    //MODIFIES: this
     private void initializeMainLayout() {
         //MAIN
         mainLayout = new VBox();
@@ -296,6 +306,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         setMainLayout();
     }
 
+    //EFFECTS: sets MAIN layout
+    //MODIFIES: this
     private void setMainLayout() {
         mainToTestButton = new Button("Test myself");
         mainToTestButton.setOnAction(e -> rootLayout.setCenter(testLayout));
@@ -311,6 +323,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         rootScene = new Scene(rootLayout, 920, 600);
     }
 
+    //EFFECTS: initializes ROOT layout
+    //MODIFIES: this
     private void initializeRootLayout() {
         //ROOT
         rootLayout = new BorderPane();
@@ -345,6 +359,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         setMenuBar();
     }
 
+    //EFFECTS: sets Menu bar
+    //MODIFIES: this
     private void setMenuBar() {
         menuBar = new MenuBar();
         menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
@@ -356,6 +372,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         rootLayout.setTop(menuBarHBox);
     }
 
+    //EFFECTS: initializes window and login
+    //MODIFIES: this
     private void initializeAndLogin(Stage primaryStage) {
         //SET WINDOW
         window = primaryStage;

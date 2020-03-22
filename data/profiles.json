@@ -8,10 +8,11 @@
       66.66666666666667,
       66.66666666666667,
       81.25,
-      81.25
+      81.25,
+      72.22222222222223
     ],
     "successes": 13,
-    "attempts": 16,
+    "attempts": 18,
     "database": {
       "entries": [
         {
@@ -43,6 +44,26 @@
           },
           "failures": 1,
           "attempts": 5
+        },
+        {
+          "match": {
+            "meaning: ": "an inoffensive expression substituted for an offensive one",
+            "description: ": "euphemism",
+            "comment: ": "",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "nearly perfect",
+            "description: ": "on fleek",
+            "comment: ": "",
+            "example: ": "My outfit is on fleek today!"
+          },
+          "failures": 1,
+          "attempts": 1
         }
       ]
     }
