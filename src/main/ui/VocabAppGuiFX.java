@@ -34,6 +34,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private SingleEntry selected;
     private Reader reader;
     private String name;
+    private XYChart.Series series;
+    private LineChart<Number,Number> lineChart;
     private Button loginToMainButton;
     private Button mainToTestButton;
     private Button mainToQuitButton;
@@ -148,10 +150,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         moreMenu.getItems().add(testMenuItem);
         moreMenu.getItems().add(new SeparatorMenuItem());
         moreMenu.getItems().add(quitMenuItem);
-        databaseMenuItem.setOnAction(this);
-        searchMenuItem.setOnAction(this);
-        testMenuItem.setOnAction(this);
-        quitMenuItem.setOnAction(this);
+        databaseMenuItem.setOnAction(e -> rootLayout.setCenter(databaseLayout));
+        searchMenuItem.setOnAction(e -> rootLayout.setCenter(searchLayout));
+        testMenuItem.setOnAction(e -> rootLayout.setCenter(testLayout));
+        quitMenuItem.setOnAction(e -> closeProgram());
 
         //Menus without MenuItems don't fire, therefore workaround,
         //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
@@ -193,9 +195,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         mainAddButton.setOnMouseClicked(e -> mainAddButtonClicked());
 
         mainToTestButton = new Button("Test myself");
-        mainToTestButton.setOnAction(this);
+        mainToTestButton.setOnAction(e -> rootLayout.setCenter(testLayout));
         mainToQuitButton = new Button("Quit");
-        mainToQuitButton.setOnAction(this);
+        mainToQuitButton.setOnAction(e -> closeProgram());
         mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
                 mainExampleInput, mainAddButton, mainToTestButton, mainToQuitButton);
         mainLayout.setAlignment(Pos.CENTER);
@@ -219,7 +221,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         });
 
         testToMainButton = new Button("Return to main");
-        testToMainButton.setOnAction(this);
+        testToMainButton.setOnAction(e -> rootLayout.setCenter(mainLayout));
 
         testLayout = new VBox(20);
         testLayout.getChildren().addAll(testLabel, testQuestionLabel,
@@ -297,13 +299,11 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
         searchInput = new TextField();
         searchInput.setPromptText("word or phrase");
-        search(searchInput.getText());
         searchFeedbackLabel = new Label("");
         searchButton = new Button("SEARCH");
+        searchButton.setOnMouseClicked(e -> search(searchInput.getText()));
         searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
                 searchFeedbackLabel);
-
-        searchButton.setOnAction(this);
 
         //MAIN
         mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
@@ -325,7 +325,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         profileExportDataLabel = new Label("Export my data");
         profileDeleteProfileButton = new Button("DELETE MY PROFILE");
 
-
+        //Sign Chart
+        //updateSignChart();
         //SOURCE: https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
         //Sign chart
         //defining the axes
@@ -334,14 +335,16 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         xAxis.setLabel("Attempts");
         yAxis.setLabel("Success");
         //creating the chart
-        final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+        lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 
         lineChart.setTitle("My Success Rate");
         //defining a series
-        XYChart.Series series = new XYChart.Series();
+        series = new XYChart.Series();
         series.setName("Success Rate");
         //populating the series with data
-        series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
+        //series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
+        series.getData().add(new XYChart.Data(0, 0));
+        series.getData().add(new XYChart.Data(30, 40));
 
 
         lineChart.getData().add(series);
@@ -441,26 +444,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
     @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == loginToMainButton) {
-            //
-        } else if (event.getSource() == mainToTestButton) {
-            rootLayout.setCenter(testLayout);
-        } else if (event.getSource() == mainToQuitButton) {
-            closeProgram();
-        } else if (event.getSource() == testToMainButton) {
-            rootLayout.setCenter(mainLayout);
-
-        } else if (event.getSource() == databaseMenuItem) {
-            rootLayout.setCenter(databaseLayout);
-        } else if (event.getSource() == searchMenuItem) {
-            rootLayout.setCenter(searchLayout);
-        } else if (event.getSource() == testMenuItem) {
-            rootLayout.setCenter(testLayout);
-        } else if (event.getSource() == quitMenuItem) {
-            closeProgram();
-        } else if (event.getSource() == searchButton) {
-            System.out.println("Implement searching");
-        }
     }
 
 
@@ -521,7 +504,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 }
 
-//TODO: check if database table updates with addToDatabase
+
 
 
 //Notes: the stage is the entire window, the scene is the content in the window

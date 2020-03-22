@@ -112,5 +112,81 @@
         }
       ]
     }
+  },
+  {
+    "name": "sfdsf",
+    "successRate": 0,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "sdfsd",
+    "successRate": 0,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
   }
 ]
