@@ -5,7 +5,9 @@ import java.util.ArrayList;
 //Represents a profile having owner name, overall success rate, database of entries, distribution of entries
 public class Profile {
     protected String name;        //profile owner name
-    protected int successRate;    //rate of guessing words and expressions correctly
+    protected ArrayList<Double> successRates;    //rate of guessing words and expressions correctly
+    protected int successes;
+    protected int attempts;
     Database database;            //database of entries
 
 
@@ -13,7 +15,10 @@ public class Profile {
     //EFFECTS: constructs a profile and sets initial success rate to 0 and creates empty database
     public Profile() {
         name = "";
-        successRate = 0;
+        successRates = new ArrayList<>();
+        successRates.add(0.0);
+        successes = 0;
+        attempts = 0;
         database = new Database();
     }
 
@@ -29,16 +34,26 @@ public class Profile {
         return name;
     }
 
-    public int getSuccessRate() {
-        return successRate;
+    public ArrayList<Double> getSuccessRates() {
+        return successRates;
     }
 
     public void setDatabase(Database database) {
         this.database = database;
     }
 
+    //EFFECTS: adds success rate to list of success rates
+    //MODIFIES: this
+    public void addSuccessRateOfSession() {
+        successes = getTotalSuccesses();
+        attempts = getTotalAttempts();
+        Double successRateDouble = (successes / attempts) * 100.0;
+        successRates.add(successRateDouble);
+    }
+
+    //EFFECTS: return the successes of all entries
     public int getTotalSuccesses() {
-        int successes = 0;
+        successes = 0;
         ArrayList<SingleEntry> allEntries = database.getEntries();
         for (SingleEntry entry : allEntries) {
             successes += entry.getSuccesses();
@@ -46,8 +61,9 @@ public class Profile {
         return successes;
     }
 
+    //EFFECTS: return the attempts of all entries
     public int getTotalAttempts() {
-        int attempts = 0;
+        attempts = 0;
         ArrayList<SingleEntry> allEntries = database.getEntries();
         for (SingleEntry entry : allEntries) {
             attempts += entry.getAttempts();

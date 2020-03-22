@@ -361,9 +361,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         series = new XYChart.Series();
         series.setName("Success Rate");
         //populating the series with data
-        //series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
-        series.getData().add(new XYChart.Data(0, 0));
-        series.getData().add(new XYChart.Data(30, 40));
+        series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
+        //series.getData().add(new XYChart.Data(0, 0));
+        //series.getData().add(new XYChart.Data(30, 40));
 
         lineChart.getData().add(series);
     }

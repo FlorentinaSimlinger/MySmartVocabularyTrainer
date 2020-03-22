@@ -1,7 +1,11 @@
 [
   {
     "name": "John Doe",
-    "successRate": 0,
+    "successRates": [
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {
@@ -39,7 +43,11 @@
   },
   {
     "name": "Flo",
-    "successRate": 0,
+    "successRates": [
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {
@@ -50,7 +58,7 @@
             "example: ": "riding down a hill with a sled"
           },
           "failures": 7,
-          "attempts": 7
+          "attempts": 9
         },
         {
           "match": {
@@ -60,7 +68,7 @@
             "example: ": "it\u0027s cold today, eh?"
           },
           "failures": 1,
-          "attempts": 3
+          "attempts": 4
         },
         {
           "match": {
@@ -97,7 +105,11 @@
   },
   {
     "name": "Bhavesh",
-    "successRate": 0,
+    "successRates": [
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {
@@ -115,7 +127,11 @@
   },
   {
     "name": "sfdsf",
-    "successRate": 0,
+    "successRates": [
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {
@@ -153,7 +169,11 @@
   },
   {
     "name": "sdfsd",
-    "successRate": 0,
+    "successRates": [
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {

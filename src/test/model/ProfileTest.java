@@ -42,25 +42,26 @@ public class ProfileTest {
     @Test
     void testProfileConstructor() {
         assertEquals("", profile.getName());
-        assertEquals(0, profile.getSuccessRate());
+        assertEquals(0, profile.getSuccessRates().get(0));
         assertEquals(0, profile.getDatabase().getSizeEntries());
         assertTrue(profile.getDatabase().isEmptyEntries());
     }
 
     @Test
-    void testGetTotalSuccesses() {
+    void testAddSuccessRateOfSession() {
+        profile.setDatabase(database2);
+        assertEquals(0, profile.getTotalSuccesses());
+        assertEquals(2, profile.getTotalAttempts());
+        assertEquals(0.0, profile.getSuccessRates().get(0));
         entry1.setAttempts(10);
         entry1.setFailures(5);
         entry2.setAttempts(10);
         entry2.setFailures(2);
-        profile.setDatabase(database2);
         assertEquals(20, profile.getTotalAttempts());
         assertEquals(13, profile.getTotalSuccesses());
+        profile.addSuccessRateOfSession();
+        assertEquals((13 / 20)*100.0, profile.getSuccessRates().get(1));
     }
 
-    @Test
-    void testGetTotalAttempts() {
 
-
-    }
 }
