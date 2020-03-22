@@ -69,6 +69,7 @@ public class SingleEntryTest {
         entry3.adjustDistribution("description");
         assertEquals(1, entry3.getFailures());
         assertEquals(5, entry3.getAttempts());
+        assertEquals(4, entry3.getSuccesses());
         assertEquals(20, entry3.getFailureRate());
     }
 

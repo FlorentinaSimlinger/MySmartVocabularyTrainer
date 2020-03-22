@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 //Represents a profile having owner name, overall success rate, database of entries, distribution of entries
 public class Profile {
     protected String name;        //profile owner name
@@ -31,7 +33,27 @@ public class Profile {
         return successRate;
     }
 
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
 
+    public int getTotalSuccesses() {
+        int successes = 0;
+        ArrayList<SingleEntry> allEntries = database.getEntries();
+        for (SingleEntry entry : allEntries) {
+            successes += entry.getSuccesses();
+        }
+        return successes;
+    }
+
+    public int getTotalAttempts() {
+        int attempts = 0;
+        ArrayList<SingleEntry> allEntries = database.getEntries();
+        for (SingleEntry entry : allEntries) {
+            attempts += entry.getAttempts();
+        }
+        return attempts;
+    }
 }
 
 

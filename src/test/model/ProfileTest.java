@@ -46,4 +46,21 @@ public class ProfileTest {
         assertEquals(0, profile.getDatabase().getSizeEntries());
         assertTrue(profile.getDatabase().isEmptyEntries());
     }
+
+    @Test
+    void testGetTotalSuccesses() {
+        entry1.setAttempts(10);
+        entry1.setFailures(5);
+        entry2.setAttempts(10);
+        entry2.setFailures(2);
+        profile.setDatabase(database2);
+        assertEquals(20, profile.getTotalAttempts());
+        assertEquals(13, profile.getTotalSuccesses());
+    }
+
+    @Test
+    void testGetTotalAttempts() {
+
+
+    }
 }

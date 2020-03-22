@@ -8,8 +8,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +22,7 @@ import javafx.stage.Stage;
 import model.Profile;
 import model.SingleEntry;
 import persistence.Reader;
+import persistence.Writer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import java.util.Arrays;
 public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
     private Profile profile;
     private ArrayList<Profile> profiles;
+    private SingleEntry selected;
     private Reader reader;
     private String name;
     private Button loginToMainButton;
@@ -43,7 +49,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label mainLabel;
     private Label aboutMenuLabel;
     private Label profileMenuLabel;
-    private Label searchFoundLabel;
+    private Label searchFeedbackLabel;
     private Label searchLabel;
     private Label searchNotFoundLabel;
     private Label aboutLabel;
@@ -55,8 +61,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label mainMenuLabel;
     private Label testLabel;
     private Label testQuestionLabel;
-    private Label testCorrectLabel;
-    private Label testIncorrectLabel;
+    private Label testFeedbackLabel;
     private Stage window;
     private TextField loginInput;
     private TextField databaseDescriptionInput;
@@ -68,6 +73,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private TextField mainMeaningInput;
     private TextField mainCommentInput;
     private TextField mainExampleInput;
+    private TextField testInput;
     private TableView<SingleEntry> table;
     private BorderPane rootLayout;
     private BorderPane databaseLayout;
@@ -87,7 +93,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private MenuItem searchMenuItem;
     private MenuItem testMenuItem;
     private MenuItem quitMenuItem;
-
 
 
     public static void main(String[] args) {
@@ -122,7 +127,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         loginToMainButton = new Button("Continue");
         GridPane.setConstraints(loginToMainButton, 1, 2);
 
-        loginToMainButton.setOnMouseClicked(e -> findOrCreateProfile());
+        loginToMainButton.setOnAction(e -> profile = findOrCreateProfile());
 
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
         loginScene = new Scene(loginLayout, 850, 500);
@@ -202,15 +207,23 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         //TEST
         testLabel = new Label("TEST");
-        testQuestionLabel = new Label("What's the synonym for ");
-        testCorrectLabel = new Label("Correct!");
-        testIncorrectLabel = new Label("Incorrect, the correct word or sentence is ");
+
+        testQuestionLabel = new Label("");
+        testFeedbackLabel = new Label("");
+        testInput = new TextField();
+        //showTestQuestion();
+        testInput.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                showTestFeedback();
+            }
+        });
+
         testToMainButton = new Button("Return to main");
         testToMainButton.setOnAction(this);
 
         testLayout = new VBox(20);
-        testLayout.getChildren().addAll(testLabel, testQuestionLabel, testCorrectLabel,
-                testIncorrectLabel, testToMainButton);
+        testLayout.getChildren().addAll(testLabel, testQuestionLabel,
+                testFeedbackLabel, testToMainButton);
 
         //DATABASE
         //description column
@@ -282,13 +295,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //SEARCH
         searchLayout = new VBox();
         searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
-        searchFoundLabel = new Label("We found the following entries for you.");
-        searchNotFoundLabel = new Label("Oops, we could not find such entry.");
-        searchButton = new Button("SEARCH");
         searchInput = new TextField();
         searchInput.setPromptText("word or phrase");
+        search(searchInput.getText());
+        searchFeedbackLabel = new Label("");
+        searchButton = new Button("SEARCH");
         searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
-                searchFoundLabel, searchNotFoundLabel);
+                searchFeedbackLabel);
 
         searchButton.setOnAction(this);
 
@@ -307,33 +320,77 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //PROFILE
         profileLayout = new VBox();
         profileLabel = new Label("MY PROFILE");
-        profileSuccessRateLabel = new Label("Successrate");
         profileEntriesLabel = new Label("Entries");
         profileAchievementsLabel = new Label("Achievements");
         profileExportDataLabel = new Label("Export my data");
         profileDeleteProfileButton = new Button("DELETE MY PROFILE");
 
-        profileLayout.getChildren().addAll(profileLabel, profileSuccessRateLabel, profileEntriesLabel,
+
+        //SOURCE: https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
+        //Sign chart
+        //defining the axes
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Attempts");
+        yAxis.setLabel("Success");
+        //creating the chart
+        final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+
+        lineChart.setTitle("My Success Rate");
+        //defining a series
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Success Rate");
+        //populating the series with data
+        series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
+
+
+        lineChart.getData().add(series);
+
+        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
                 profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
         profileLayout.setAlignment(Pos.CENTER);
         profileMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(profileLayout));
-
 
         //DISPLAY WINDOW
         window.setScene(loginScene);
         window.show();
     }
 
+    private void search(String search) {
+        String searchFeedbackText;
+        SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(search);
+        if (entry == null) {
+            searchFeedbackText = "Oops, we could not find such entry.";
+        } else {
+            String introText = "The entry you're looking for has the following properties: ";
+            String descriptionText = "Description: " + entry.getDescription();
+            String meaningText = "Meaning: " + entry.getMeaning();
+            String commentText = "Comment: " + entry.getComment();
+            String exampleText = "Example: " + entry.getExample();
+            String successRate;
+            if (entry.getAttempts() == 1) {
+                successRate = "You have no tests recorded for this entry.";
+            } else {
+                successRate = "Your success rate for this entry is "
+                        + entry.getSuccessRate() + "%.";
+            }
+            searchFeedbackText = introText + "\n" + descriptionText + "\n" + meaningText + "\n"
+                    + commentText + "\n" + exampleText + "\n" + successRate;
+        }
+        searchFeedbackLabel.setText(searchFeedbackText);
+    }
+
+
     private void loadProfiles() {
         try {
             reader = new Reader();
             profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
         } catch (IOException e) {
-            System.out.println("Unfortunately something went wrong.");
+            System.out.println("Something went wrong with loading the profiles.");
         }
     }
 
-    private void findOrCreateProfile() {
+    private Profile findOrCreateProfile() {
         name = loginInput.getText().trim(); //Note: trim excludes any space at end
         profile = new Profile();
         if (reader.findProfile(name) == null) {
@@ -346,6 +403,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
             profile = reader.findProfile(name);
         }
         window.setScene(rootScene);
+        return profile;
     }
 
     private void loadExampleDatabase() {
@@ -360,29 +418,38 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         profile.getDatabase().addEntry(entry3);
     }
 
+    private void showTestQuestion() {
+        double random = profile.getDatabase().getRandomFromSumOfFailureRates();
+        selected = profile.getDatabase().getEntryBasedOnRandom(random);
+        String questionPart = selected.getMeaning();
+        String questionBody = "What's another word for ";
+        String question = questionBody + questionPart + "?";
+        testQuestionLabel.setText(question);
+    }
+
+    private void showTestFeedback() {
+        String feedback;
+        if (selected.getDescription().equals(testInput.getText())) {
+            feedback = "Correct!";
+        } else {
+            feedback = "Unfortunately that is wrong. The right answer is "
+                    + selected.getDescription() + ".";
+        }
+        selected.adjustDistribution(testInput.getText());
+        testFeedbackLabel.setText(feedback);
+    }
+
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == loginToMainButton) {
-//            try {
-//                isString(loginInput, loginInput.getText());
-//            } catch (Exception e) {
-//                System.out.println("Do not enter an integer.");
-//            }
-//            boolean result = SignUpAlert.displaySignUpAlert(name);
-//            window.setScene(rootScene);
-//            System.out.println("implement result: " + result);
+            //
         } else if (event.getSource() == mainToTestButton) {
             rootLayout.setCenter(testLayout);
         } else if (event.getSource() == mainToQuitButton) {
             closeProgram();
         } else if (event.getSource() == testToMainButton) {
             rootLayout.setCenter(mainLayout);
-//        } else if (event.getSource() == databaseAddButton) {
-//            System.out.println("implement add to database");
-//            //databaseAddButtonClicked();
-//        } else if (event.getSource() == databaseDeleteButton) {
-//            System.out.println("implement delete from database");
-//            //databaseDeleteButtonClicked();
+
         } else if (event.getSource() == databaseMenuItem) {
             rootLayout.setCenter(databaseLayout);
         } else if (event.getSource() == searchMenuItem) {
@@ -396,15 +463,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         }
     }
 
-    private boolean isString(TextField input, String message) throws Exception {
-        try {
-            int name = Integer.parseInt(input.getText());
-            throw new Exception("You entered an integer.");
-        } catch (NumberFormatException e) {
-            System.out.println("This is expected since you inputted a string");
-            return true;
-        }
-    }
 
     //Add button clicked
     public void databaseAddButtonClicked() {
@@ -442,8 +500,11 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 
     private void closeProgram() {
-        //add save here
-        System.out.println("implement save here");
+        try {
+            Writer.write(profiles);
+        } catch (IOException e) {
+            System.out.println("Unfortunately an error occurred.");
+        }
         window.close();
     }
 

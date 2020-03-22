@@ -116,6 +116,10 @@ public class SingleEntry {
         return attempts;
     }
 
+    public int getSuccesses() {
+        return attempts - failures;
+    }
+
     public double getFailureRate() {
         return ((double)failures / attempts) * 100;
     }
