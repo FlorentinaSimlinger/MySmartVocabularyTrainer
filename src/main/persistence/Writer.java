@@ -17,7 +17,7 @@ public class Writer {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.setPrettyPrinting().create();
         String json = gson.toJson(list);
-        System.out.println(json);
+        //System.out.println(json);
 
         FileWriter file = new FileWriter("data/profiles.json");
         file.write(json);

@@ -363,7 +363,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //populating the series with data
         ArrayList<Double> successRates = profile.getSuccessRates();
         for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
-            series.getData().add(new XYChart.Data(profile.getSuccessRates().get(i), k));
+            series.getData().add(new XYChart.Data(k, profile.getSuccessRates().get(i)));
         }
         lineChart.getData().add(series);
     }
@@ -419,6 +419,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         } else {
             profile = reader.findProfile(name);
         }
+        table.setItems(getDatabaseTable());
         window.setScene(rootScene);
         return profile;
     }
@@ -470,6 +471,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
 
     //EFFECTS: adds user input to table and to database
+    //REQUIRES: at least description and meaning are entered
     //MODIFIES: this
     public void databaseAddButtonClicked() {
         SingleEntry singleEntry = new SingleEntry();
@@ -502,13 +504,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //MODIFIES: this
     public ObservableList<SingleEntry> getDatabaseTable() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
-        for (SingleEntry entry : profile.getDatabase().getEntries()) {
-            databaseTable.add(entry);
-        }
+        if (profile != null) {
+            for (SingleEntry entry : profile.getDatabase().getEntries()) {
+                databaseTable.add(entry);
+            }
 //        databaseTable.add(new SingleEntry("toboggan", "sled",
 //                "random comment", "random example sentence"));
 //        databaseTable.add(new SingleEntry("spinning wheels", "being exhausted",
 //                "another random comment", "another random example sentence"));
+        }
         return databaseTable;
     }
 
@@ -525,6 +529,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     }
 
     //EFFECTS: adds entry to database table and database
+    //REQUIRES: at least description and meaning are entered
     //MODIFIES: this
     private void mainAddButtonClicked() {
         SingleEntry singleEntry;

@@ -1,56 +1,14 @@
 [
   {
-    "name": "John Doe",
-    "successRates": [
-      0.0
-    ],
-    "successes": 0,
-    "attempts": 0,
-    "database": {
-      "entries": [
-        {
-          "match": {
-            "meaning: ": "sled",
-            "description: ": "toboggan",
-            "comment: ": "verb is \u0027to toboggan\u0027",
-            "example: ": "riding down a hill with a sled"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "\u0027right?\u0027",
-            "description: ": "eh?",
-            "comment: ": "does not have to be used as question",
-            "example: ": "it\u0027s cold today, eh?"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "everywhere",
-            "description: ": "ubiquitous",
-            "comment: ": "yü-ˈbi-kwə-təs",
-            "example: ": ""
-          },
-          "failures": 1,
-          "attempts": 1
-        }
-      ]
-    }
-  },
-  {
     "name": "Flo",
     "successRates": [
       0.0,
       0.0,
-      78.94736842105263,
-      78.94736842105263
+      66.66666666666667,
+      66.66666666666667
     ],
-    "successes": 30,
-    "attempts": 38,
+    "successes": 6,
+    "attempts": 9,
     "database": {
       "entries": [
         {
@@ -60,8 +18,8 @@
             "comment: ": "verb is \u0027to toboggan\u0027",
             "example: ": "riding down a hill with a sled"
           },
-          "failures": 4,
-          "attempts": 14
+          "failures": 1,
+          "attempts": 2
         },
         {
           "match": {
@@ -71,7 +29,7 @@
             "example: ": "it\u0027s cold today, eh?"
           },
           "failures": 1,
-          "attempts": 6
+          "attempts": 3
         },
         {
           "match": {
@@ -81,129 +39,36 @@
             "example: ": ""
           },
           "failures": 1,
-          "attempts": 7
-        },
+          "attempts": 4
+        }
+      ]
+    }
+  },
+  {
+    "name": "John Doe",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 2,
+    "database": {
+      "entries": [
         {
           "match": {
-            "meaning: ": "complicated, detailed",
-            "description: ": "intricate",
+            "meaning: ": "being exhausted",
+            "description: ": "spinning wheels",
             "comment: ": "",
-            "example: ": "an intricate pattern"
-          },
-          "failures": 1,
-          "attempts": 6
-        },
-        {
-          "match": {
-            "meaning: ": "rendomnewmeaning",
-            "description: ": "randomnewword",
-            "comment: ": "dfd",
-            "example: ": "dfd"
-          },
-          "failures": 1,
-          "attempts": 5
-        }
-      ]
-    }
-  },
-  {
-    "name": "Bhavesh",
-    "successRates": [
-      0.0
-    ],
-    "successes": 0,
-    "attempts": 0,
-    "database": {
-      "entries": [
-        {
-          "match": {
-            "meaning: ": "randommeaning",
-            "description: ": "ranondomword",
-            "comment: ": "dfd",
-            "example: ": "dfd"
-          },
-          "failures": 1,
-          "attempts": 1
-        }
-      ]
-    }
-  },
-  {
-    "name": "sfdsf",
-    "successRates": [
-      0.0
-    ],
-    "successes": 0,
-    "attempts": 0,
-    "database": {
-      "entries": [
-        {
-          "match": {
-            "meaning: ": "sled",
-            "description: ": "toboggan",
-            "comment: ": "verb is \u0027to toboggan\u0027",
-            "example: ": "riding down a hill with a sled"
+            "example: ": "I\u0027m at the point where I\u0027m spinning wheels"
           },
           "failures": 1,
           "attempts": 1
         },
         {
           "match": {
-            "meaning: ": "\u0027right?\u0027",
-            "description: ": "eh?",
-            "comment: ": "does not have to be used as question",
-            "example: ": "it\u0027s cold today, eh?"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "everywhere",
-            "description: ": "ubiquitous",
-            "comment: ": "yü-ˈbi-kwə-təs",
-            "example: ": ""
-          },
-          "failures": 1,
-          "attempts": 1
-        }
-      ]
-    }
-  },
-  {
-    "name": "sdfsd",
-    "successRates": [
-      0.0
-    ],
-    "successes": 0,
-    "attempts": 0,
-    "database": {
-      "entries": [
-        {
-          "match": {
-            "meaning: ": "sled",
-            "description: ": "toboggan",
-            "comment: ": "verb is \u0027to toboggan\u0027",
-            "example: ": "riding down a hill with a sled"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "\u0027right?\u0027",
-            "description: ": "eh?",
-            "comment: ": "does not have to be used as question",
-            "example: ": "it\u0027s cold today, eh?"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "everywhere",
-            "description: ": "ubiquitous",
-            "comment: ": "yü-ˈbi-kwə-təs",
+            "meaning: ": "avoid something",
+            "description: ": "circumvent",
+            "comment: ": "",
             "example: ": ""
           },
           "failures": 1,
