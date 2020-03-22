@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //Represents a profile having owner name, overall success rate, database of entries, distribution of entries
 public class Profile {
     protected String name;        //profile owner name
-    protected ArrayList<Double> successRates;    //rate of guessing words and expressions correctly
+    protected ArrayList<Double> successRates;    //rates of guessing words and expressions correctly
     protected int successes;
     protected int attempts;
     Database database;            //database of entries

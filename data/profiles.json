@@ -45,10 +45,12 @@
     "name": "Flo",
     "successRates": [
       0.0,
-      0.0
+      0.0,
+      78.94736842105263,
+      78.94736842105263
     ],
-    "successes": 18,
-    "attempts": 29,
+    "successes": 30,
+    "attempts": 38,
     "database": {
       "entries": [
         {
@@ -58,8 +60,8 @@
             "comment: ": "verb is \u0027to toboggan\u0027",
             "example: ": "riding down a hill with a sled"
           },
-          "failures": 7,
-          "attempts": 11
+          "failures": 4,
+          "attempts": 14
         },
         {
           "match": {
@@ -69,7 +71,7 @@
             "example: ": "it\u0027s cold today, eh?"
           },
           "failures": 1,
-          "attempts": 4
+          "attempts": 6
         },
         {
           "match": {
@@ -79,7 +81,7 @@
             "example: ": ""
           },
           "failures": 1,
-          "attempts": 4
+          "attempts": 7
         },
         {
           "match": {
@@ -89,7 +91,7 @@
             "example: ": "an intricate pattern"
           },
           "failures": 1,
-          "attempts": 5
+          "attempts": 6
         },
         {
           "match": {

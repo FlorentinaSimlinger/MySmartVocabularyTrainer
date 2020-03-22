@@ -334,8 +334,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Attempts");
-        yAxis.setLabel("Success");
+        xAxis.setLabel("Number of sessions");
+        yAxis.setLabel("Success rate in % per session");
         //creating the chart
         lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 
@@ -361,10 +361,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         series = new XYChart.Series();
         series.setName("Success Rate");
         //populating the series with data
-        series.getData().add(new XYChart.Data(profile.getTotalAttempts(), profile.getTotalSuccesses()));
-        //series.getData().add(new XYChart.Data(0, 0));
-        //series.getData().add(new XYChart.Data(30, 40));
-
+        ArrayList<Double> successRates = profile.getSuccessRates();
+        for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
+            series.getData().add(new XYChart.Data(profile.getSuccessRates().get(i), k));
+        }
         lineChart.getData().add(series);
     }
 
@@ -502,10 +502,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //MODIFIES: this
     public ObservableList<SingleEntry> getDatabaseTable() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
-        databaseTable.add(new SingleEntry("toboggan", "sled",
-                "random comment", "random example sentence"));
-        databaseTable.add(new SingleEntry("spinning wheels", "being exhausted",
-                "another random comment", "another random example sentence"));
+        for (SingleEntry entry : profile.getDatabase().getEntries()) {
+            databaseTable.add(entry);
+        }
+//        databaseTable.add(new SingleEntry("toboggan", "sled",
+//                "random comment", "random example sentence"));
+//        databaseTable.add(new SingleEntry("spinning wheels", "being exhausted",
+//                "another random comment", "another random example sentence"));
         return databaseTable;
     }
 
