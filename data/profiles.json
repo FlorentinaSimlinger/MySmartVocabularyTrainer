@@ -5,10 +5,13 @@
       0.0,
       0.0,
       66.66666666666667,
-      66.66666666666667
+      66.66666666666667,
+      66.66666666666667,
+      81.25,
+      81.25
     ],
-    "successes": 6,
-    "attempts": 9,
+    "successes": 13,
+    "attempts": 16,
     "database": {
       "entries": [
         {
@@ -19,7 +22,7 @@
             "example: ": "riding down a hill with a sled"
           },
           "failures": 1,
-          "attempts": 2
+          "attempts": 6
         },
         {
           "match": {
@@ -29,7 +32,7 @@
             "example: ": "it\u0027s cold today, eh?"
           },
           "failures": 1,
-          "attempts": 3
+          "attempts": 5
         },
         {
           "match": {
@@ -39,7 +42,7 @@
             "example: ": ""
           },
           "failures": 1,
-          "attempts": 4
+          "attempts": 5
         }
       ]
     }

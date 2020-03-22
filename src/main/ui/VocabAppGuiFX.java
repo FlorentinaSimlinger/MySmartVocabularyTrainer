@@ -54,7 +54,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private Label profileMenuLabel;
     private Label searchFeedbackLabel;
     private Label searchLabel;
-    private Label searchNotFoundLabel;
     private Label aboutLabel;
     private Label profileLabel;
     private Label profileSuccessRateLabel;
@@ -109,36 +108,210 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     @Override
     public void start(Stage primaryStage) throws Exception {
         loadProfiles();
+        initializeAndLogin(primaryStage);
+        initializeRootLayout();
+        initializeMainLayout();
+        initializeTestLayout();
+        initializeDatabaseLayout();
+        initializeSearchLayout();
+        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
+        initializeAboutLayout();
+        initializeProfileLayout();
+        //DISPLAY WINDOW
+        window.setScene(loginScene);
+        window.show();
+    }
 
-        //SET WINDOW
-        window = primaryStage;
-        primaryStage.setTitle("MySmartVocabularyTrainer");
-        window.setOnCloseRequest(e -> closeProgram());
+    private void initializeProfileLayout() {
+        //PROFILE
+        profileLayout = new VBox();
+        profileLabel = new Label("MY PROFILE");
+        profileEntriesLabel = new Label("Entries");
+        profileAchievementsLabel = new Label("Achievements");
+        profileExportDataLabel = new Label("Export my data");
+        profileDeleteProfileButton = new Button("DELETE MY PROFILE");
+        //defining the axes
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Number of sessions");
+        yAxis.setLabel("Success rate in % per session");
+        //creating the chart
+        lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 
-        //LOGIN
-        GridPane loginLayout = new GridPane();
-        loginLayout.setPadding(new Insets(10, 10, 10, 10));
-        loginLayout.setVgap(8);
-        loginLayout.setHgap(10);
+        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
+                profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
+        profileLayout.setAlignment(Pos.CENTER);
+        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
+            rootLayout.setCenter(profileLayout);
+            createSignChart();
+        });
+    }
 
-        //login label
-        loginLabel = new Label("Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue.");
-        GridPane.setConstraints(loginLabel, 0, 0);
+    private void initializeAboutLayout() {
+        //ABOUT
+        aboutLayout = new VBox();
+        aboutLabel = new Label("This is my 210 project");
 
-        //login text field
-        loginInput = new TextField();
-        loginInput.setPromptText("name");
-        GridPane.setConstraints(loginInput, 0, 1);
+        aboutLayout.getChildren().add(aboutLabel);
+        aboutLayout.setAlignment(Pos.CENTER);
 
-        //login button
-        loginToMainButton = new Button("Continue");
-        GridPane.setConstraints(loginToMainButton, 1, 2);
+        aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
+    }
 
-        loginToMainButton.setOnAction(e -> profile = findOrCreateProfile());
+    private void initializeSearchLayout() {
+        //SEARCH
+        searchLayout = new VBox();
+        searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
+        searchInput = new TextField();
+        searchInput.setPromptText("word or phrase");
+        searchFeedbackLabel = new Label("");
+        searchButton = new Button("SEARCH");
+        searchButton.setOnMouseClicked(e -> search(searchInput.getText()));
+        searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
+                searchFeedbackLabel);
+    }
 
-        loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
-        loginScene = new Scene(loginLayout, 850, 500);
+    private void initializeDatabaseLayout() {
+        //DATABASE
+        //description column
+        TableColumn<SingleEntry, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setMinWidth(200);
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("description"));
 
+        //meaning column
+        TableColumn<SingleEntry, String> meaningColumn = new TableColumn<>("Meaning");
+        meaningColumn.setMinWidth(200);
+        meaningColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("meaning"));
+
+        //comment column
+        TableColumn<SingleEntry, String> commentColumn = new TableColumn<>("Comment");
+        commentColumn.setMinWidth(200);
+        commentColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("comment"));
+
+        //sentence column
+        TableColumn<SingleEntry, String> sentenceColumn = new TableColumn<>("Example Sentence");
+        sentenceColumn.setMinWidth(200);
+        sentenceColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("example"));
+
+        //successRate column
+        TableColumn<SingleEntry, Double> successRateColumn = new TableColumn<>("Success Rate");
+        successRateColumn.setMinWidth(100);
+        successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, Double>("successRate"));
+
+        listenToUserInputInDatabase();
+        addAddAndDeleteButtonsToDatabase();
+
+        table = new TableView<>();
+        table.setItems(getDatabaseTable());
+        table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
+
+        databaseLayout = new BorderPane();
+        databaseLayout.setCenter(table);
+        databaseLayout.setBottom(databaseHBox);
+    }
+
+    private void addAddAndDeleteButtonsToDatabase() {
+        //add and delete button
+        databaseAddButton = new Button("Add");
+        databaseAddButton.setOnMouseClicked(e -> databaseAddButtonClicked());
+        databaseDeleteButton = new Button("Delete");
+        databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
+
+        //HBox with add and delete option
+        databaseHBox = new HBox();
+        databaseHBox.setPadding(new Insets(10, 10, 10, 10));
+        databaseHBox.setSpacing(10);
+        databaseHBox.getChildren().addAll(databaseDescriptionInput, databaseMeaningInput, databaseCommentInput,
+                databaseExampleInput, databaseAddButton, databaseDeleteButton);
+    }
+
+    private void listenToUserInputInDatabase() {
+        //description input
+        databaseDescriptionInput = new TextField();
+        databaseDescriptionInput.setPromptText("description");
+        databaseDescriptionInput.setMinWidth(100);
+
+        //meaning input
+        databaseMeaningInput = new TextField();
+        databaseMeaningInput.setPromptText("meaning");
+        databaseMeaningInput.setMinWidth(100);
+
+        //comment input
+        databaseCommentInput = new TextField();
+        databaseCommentInput.setPromptText("comment");
+        databaseCommentInput.setMinWidth(100);
+
+        //example sentence input
+        databaseExampleInput = new TextField();
+        databaseExampleInput.setPromptText("example sentence");
+        databaseExampleInput.setMinWidth(100);
+    }
+
+    private void initializeTestLayout() {
+        //TEST
+        testLabel = new Label("TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
+                + "'Return to main' to return to main page.");
+        Button testStartButton = new Button("Start!");
+        testStartButton.setOnAction(e -> showTestQuestion());
+        testQuestionLabel = new Label("");
+        testFeedbackLabel = new Label("");
+        testInput = new TextField();
+        testInput.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                showTestFeedback();
+                testInput.clear();
+            }
+        });
+
+        testToMainButton = new Button("Return to main");
+        testToMainButton.setOnAction(e -> rootLayout.setCenter(mainLayout));
+
+        testLayout = new VBox(20);
+        testLayout.getChildren().addAll(testLabel, testStartButton, testQuestionLabel, testInput,
+                testFeedbackLabel, testToMainButton);
+    }
+
+    private void initializeMainLayout() {
+        //MAIN
+        mainLayout = new VBox();
+        mainLabel = new Label("Welcome! To get started, enter a word or phrase you'd like to learn,"
+                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.");
+        mainLabel.setMaxWidth(500);
+        mainDescriptionInput = new TextField();
+        mainDescriptionInput.setPromptText("description");
+        mainDescriptionInput.setMaxWidth(500);
+        mainMeaningInput = new TextField();
+        mainMeaningInput.setPromptText("meaning");
+        mainMeaningInput.setMaxWidth(500);
+        mainCommentInput = new TextField();
+        mainCommentInput.setPromptText("comment");
+        mainCommentInput.setMaxWidth(500);
+        mainExampleInput = new TextField();
+        mainExampleInput.setPromptText("example sentence");
+        mainExampleInput.setMaxWidth(500);
+
+        mainAddButton = new Button("Add");
+        mainAddButton.setOnMouseClicked(e -> mainAddButtonClicked());
+
+        setMainLayout();
+    }
+
+    private void setMainLayout() {
+        mainToTestButton = new Button("Test myself");
+        mainToTestButton.setOnAction(e -> rootLayout.setCenter(testLayout));
+        mainToQuitButton = new Button("Quit");
+        mainToQuitButton.setOnAction(e -> closeProgram());
+        mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
+                mainExampleInput, mainAddButton, mainToTestButton, mainToQuitButton);
+        mainLayout.setAlignment(Pos.CENTER);
+        mainLayout.setSpacing(20);
+
+        rootLayout.setCenter(mainLayout);
+
+        rootScene = new Scene(rootLayout, 920, 600);
+    }
+
+    private void initializeRootLayout() {
         //ROOT
         rootLayout = new BorderPane();
         rootLayout.setPadding(new Insets(10, 10, 10, 10));
@@ -169,6 +342,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         aboutMenu = new Menu("", aboutMenuLabel);
         profileMenu = new Menu("", profileMenuLabel);
 
+        setMenuBar();
+    }
+
+    private void setMenuBar() {
         menuBar = new MenuBar();
         menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
 
@@ -177,179 +354,37 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         menuBarHBox.setAlignment(Pos.CENTER_RIGHT);
 
         rootLayout.setTop(menuBarHBox);
+    }
 
-        //MAIN
-        mainLayout = new VBox();
-        mainLabel = new Label("Welcome " + name + ". To get started, enter a word or phrase you'd like to learn,"
-                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.");
-        mainLabel.setMaxWidth(500);
-        mainDescriptionInput = new TextField();
-        mainDescriptionInput.setPromptText("description");
-        mainDescriptionInput.setMaxWidth(500);
-        mainMeaningInput = new TextField();
-        mainMeaningInput.setPromptText("meaning");
-        mainMeaningInput.setMaxWidth(500);
-        mainCommentInput = new TextField();
-        mainCommentInput.setPromptText("comment");
-        mainCommentInput.setMaxWidth(500);
-        mainExampleInput = new TextField();
-        mainExampleInput.setPromptText("example sentence");
-        mainExampleInput.setMaxWidth(500);
+    private void initializeAndLogin(Stage primaryStage) {
+        //SET WINDOW
+        window = primaryStage;
+        primaryStage.setTitle("MySmartVocabularyTrainer");
+        window.setOnCloseRequest(e -> closeProgram());
 
-        mainAddButton = new Button("Add");
-        mainAddButton.setOnMouseClicked(e -> mainAddButtonClicked());
+        //LOGIN
+        GridPane loginLayout = new GridPane();
+        loginLayout.setPadding(new Insets(10, 10, 10, 10));
+        loginLayout.setVgap(8);
+        loginLayout.setHgap(10);
 
-        mainToTestButton = new Button("Test myself");
-        mainToTestButton.setOnAction(e -> rootLayout.setCenter(testLayout));
-        mainToQuitButton = new Button("Quit");
-        mainToQuitButton.setOnAction(e -> closeProgram());
-        mainLayout.getChildren().addAll(mainLabel, mainDescriptionInput, mainMeaningInput, mainCommentInput,
-                mainExampleInput, mainAddButton, mainToTestButton, mainToQuitButton);
-        mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.setSpacing(20);
+        //login label
+        loginLabel = new Label("Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue.");
+        GridPane.setConstraints(loginLabel, 0, 0);
 
-        rootLayout.setCenter(mainLayout);
+        //login text field
+        loginInput = new TextField();
+        loginInput.setPromptText("name");
+        GridPane.setConstraints(loginInput, 0, 1);
 
-        rootScene = new Scene(rootLayout, 920, 600);
+        //login button
+        loginToMainButton = new Button("Continue");
+        GridPane.setConstraints(loginToMainButton, 1, 2);
 
-        //TEST
-        testLabel = new Label("TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
-                + "'Return to main' to return to main page.");
-        Button testStartButton = new Button("Start!");
-        testStartButton.setOnAction(e -> showTestQuestion());
-        testQuestionLabel = new Label("");
-        testFeedbackLabel = new Label("");
-        testInput = new TextField();
-        testInput.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                showTestFeedback();
-                testInput.clear();
-            }
-        });
+        loginToMainButton.setOnAction(e -> profile = findOrCreateProfile());
 
-        testToMainButton = new Button("Return to main");
-        testToMainButton.setOnAction(e -> rootLayout.setCenter(mainLayout));
-
-        testLayout = new VBox(20);
-        testLayout.getChildren().addAll(testLabel, testStartButton, testQuestionLabel, testInput,
-                testFeedbackLabel, testToMainButton);
-
-        //DATABASE
-        //description column
-        TableColumn<SingleEntry, String> descriptionColumn = new TableColumn<>("Description");
-        descriptionColumn.setMinWidth(200);
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("description"));
-
-        //meaning column
-        TableColumn<SingleEntry, String> meaningColumn = new TableColumn<>("Meaning");
-        meaningColumn.setMinWidth(200);
-        meaningColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("meaning"));
-
-        //comment column
-        TableColumn<SingleEntry, String> commentColumn = new TableColumn<>("Comment");
-        commentColumn.setMinWidth(200);
-        commentColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("comment"));
-
-        //sentence column
-        TableColumn<SingleEntry, String> sentenceColumn = new TableColumn<>("Example Sentence");
-        sentenceColumn.setMinWidth(200);
-        sentenceColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>("example"));
-
-        //successRate column
-        TableColumn<SingleEntry, Double> successRateColumn = new TableColumn<>("Success Rate");
-        successRateColumn.setMinWidth(100);
-        successRateColumn.setCellValueFactory(new PropertyValueFactory<SingleEntry, Double>("successRate"));
-
-        //description input
-        databaseDescriptionInput = new TextField();
-        databaseDescriptionInput.setPromptText("description");
-        databaseDescriptionInput.setMinWidth(100);
-
-        //meaning input
-        databaseMeaningInput = new TextField();
-        databaseMeaningInput.setPromptText("meaning");
-        databaseMeaningInput.setMinWidth(100);
-
-        //comment input
-        databaseCommentInput = new TextField();
-        databaseCommentInput.setPromptText("comment");
-        databaseCommentInput.setMinWidth(100);
-
-        //example sentence input
-        databaseExampleInput = new TextField();
-        databaseExampleInput.setPromptText("example sentence");
-        databaseExampleInput.setMinWidth(100);
-
-        //add and delete button
-        databaseAddButton = new Button("Add");
-        databaseAddButton.setOnMouseClicked(e -> databaseAddButtonClicked());
-        databaseDeleteButton = new Button("Delete");
-        databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
-
-        //HBox with add and delete option
-        databaseHBox = new HBox();
-        databaseHBox.setPadding(new Insets(10, 10, 10, 10));
-        databaseHBox.setSpacing(10);
-        databaseHBox.getChildren().addAll(databaseDescriptionInput, databaseMeaningInput, databaseCommentInput,
-                databaseExampleInput, databaseAddButton, databaseDeleteButton);
-
-        table = new TableView<>();
-        table.setItems(getDatabaseTable());
-        table.getColumns().addAll(descriptionColumn, meaningColumn, commentColumn, sentenceColumn, successRateColumn);
-
-        databaseLayout = new BorderPane();
-        databaseLayout.setCenter(table);
-        databaseLayout.setBottom(databaseHBox);
-
-        //SEARCH
-        searchLayout = new VBox();
-        searchLabel = new Label("SEARCH \nTo search your database, enter any word or phrase.");
-        searchInput = new TextField();
-        searchInput.setPromptText("word or phrase");
-        searchFeedbackLabel = new Label("");
-        searchButton = new Button("SEARCH");
-        searchButton.setOnMouseClicked(e -> search(searchInput.getText()));
-        searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
-                searchFeedbackLabel);
-
-        //MAIN
-        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
-
-        //ABOUT
-        aboutLayout = new VBox();
-        aboutLabel = new Label("This is my 210 project");
-
-        aboutLayout.getChildren().add(aboutLabel);
-        aboutLayout.setAlignment(Pos.CENTER);
-
-        aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
-
-        //PROFILE
-        profileLayout = new VBox();
-        profileLabel = new Label("MY PROFILE");
-        profileEntriesLabel = new Label("Entries");
-        profileAchievementsLabel = new Label("Achievements");
-        profileExportDataLabel = new Label("Export my data");
-        profileDeleteProfileButton = new Button("DELETE MY PROFILE");
-        //defining the axes
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of sessions");
-        yAxis.setLabel("Success rate in % per session");
-        //creating the chart
-        lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-
-        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
-                profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
-        profileLayout.setAlignment(Pos.CENTER);
-        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
-            rootLayout.setCenter(profileLayout);
-            createSignChart();
-        });
-
-        //DISPLAY WINDOW
-        window.setScene(loginScene);
-        window.show();
+        loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
+        loginScene = new Scene(loginLayout, 850, 500);
     }
 
     //EFFECTS: updates the sign chart
@@ -548,7 +583,5 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
 
 //Notes: the stage is the entire window, the scene is the content in the window
-//TODO: why is it  GridPane.setConstraints(loginLabel, 0, 0); instead of  loginLayout.setConstraints(loginLabel, 0, 0);?
-//TODO: make sure user has to enter something for description and meaning, but does not have to enter for comment and
-// example sentence both in main and in database
-//TODO: provide user with example input
+//Notes: why is it  GridPane.setConstraints(loginLabel, 0, 0); instead of loginLayout.setConstraints(loginLabel, 0, 0);?
+
