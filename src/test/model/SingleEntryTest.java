@@ -94,4 +94,17 @@ public class SingleEntryTest {
     void testGetSuccessRate() {
         assertEquals(75, entry3.getSuccessRate());
     }
+
+    @Test
+    void testSetEntryFields() {
+        SingleEntry entry4 = new SingleEntry();
+        entry4.setDescription("random description");
+        entry4.setMeaning("random meaning");
+        entry4.setComment("random comment");
+        entry4.setExample("random example");
+        assertEquals("random description", entry4.getDescription());
+        assertEquals("random meaning", entry4.getMeaning());
+        assertEquals("random comment", entry4.getComment());
+        assertEquals("random example", entry4.getExample());
+    }
 }

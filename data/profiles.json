@@ -2,98 +2,18 @@
   {
     "name": "Flo",
     "successRates": [
-      0.0,
-      0.0,
-      66.66666666666667,
-      66.66666666666667,
-      66.66666666666667,
-      81.25,
-      81.25,
-      72.22222222222223
+      0.0
     ],
-    "successes": 13,
-    "attempts": 18,
+    "successes": 0,
+    "attempts": 0,
     "database": {
       "entries": [
         {
           "match": {
             "meaning: ": "sled",
             "description: ": "toboggan",
-            "comment: ": "verb is \u0027to toboggan\u0027",
-            "example: ": "riding down a hill with a sled"
-          },
-          "failures": 1,
-          "attempts": 6
-        },
-        {
-          "match": {
-            "meaning: ": "\u0027right?\u0027",
-            "description: ": "eh?",
-            "comment: ": "does not have to be used as question",
-            "example: ": "it\u0027s cold today, eh?"
-          },
-          "failures": 1,
-          "attempts": 5
-        },
-        {
-          "match": {
-            "meaning: ": "everywhere",
-            "description: ": "ubiquitous",
-            "comment: ": "yü-ˈbi-kwə-təs",
-            "example: ": ""
-          },
-          "failures": 1,
-          "attempts": 5
-        },
-        {
-          "match": {
-            "meaning: ": "an inoffensive expression substituted for an offensive one",
-            "description: ": "euphemism",
-            "comment: ": "",
-            "example: ": ""
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "nearly perfect",
-            "description: ": "on fleek",
-            "comment: ": "",
-            "example: ": "My outfit is on fleek today!"
-          },
-          "failures": 1,
-          "attempts": 1
-        }
-      ]
-    }
-  },
-  {
-    "name": "John Doe",
-    "successRates": [
-      0.0,
-      0.0
-    ],
-    "successes": 0,
-    "attempts": 2,
-    "database": {
-      "entries": [
-        {
-          "match": {
-            "meaning: ": "being exhausted",
-            "description: ": "spinning wheels",
-            "comment: ": "",
-            "example: ": "I\u0027m at the point where I\u0027m spinning wheels"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
-        {
-          "match": {
-            "meaning: ": "avoid something",
-            "description: ": "circumvent",
-            "comment: ": "",
-            "example: ": ""
+            "comment: ": "canadian for sled",
+            "example: ": "riding down the hill with a toboggan"
           },
           "failures": 1,
           "attempts": 1
