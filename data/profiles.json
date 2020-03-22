@@ -89,8 +89,8 @@
             "comment: ": "dfd",
             "example: ": "dfd"
           },
-          "failures": 1,
-          "attempts": 1
+          "failures": 3,
+          "attempts": 3
         }
       ]
     }

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Represents a vocabulary trainer application
 public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
     private Profile profile;
     private ArrayList<Profile> profiles;
@@ -96,11 +97,15 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private MenuItem testMenuItem;
     private MenuItem quitMenuItem;
 
-
+    //EFFECTS: launches the app
     public static void main(String[] args) {
         launch(args);
     }
 
+    //EFFECTS: starts the app
+    //MODIFIES: this
+    //SOURCE: large parts based on https://www.youtube.com/watch?v=FLkOX4Eez6o&list=PLkY8n-MZcmgRwjYDebUGDcf1PCxT3JA5z
+    // and following videos
     @Override
     public void start(Stage primaryStage) throws Exception {
         loadProfiles();
@@ -208,12 +213,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         rootScene = new Scene(rootLayout, 920, 600);
 
         //TEST
-        testLabel = new Label("TEST");
-
+        testLabel = new Label("TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
+                + "'Return to main' to return to main page.");
+        Button testStartButton = new Button("Start!");
+        testStartButton.setOnAction(e -> showTestQuestion());
         testQuestionLabel = new Label("");
         testFeedbackLabel = new Label("");
         testInput = new TextField();
-        //showTestQuestion();
         testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 showTestFeedback();
@@ -224,7 +230,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         testToMainButton.setOnAction(e -> rootLayout.setCenter(mainLayout));
 
         testLayout = new VBox(20);
-        testLayout.getChildren().addAll(testLabel, testQuestionLabel,
+        testLayout.getChildren().addAll(testLabel, testStartButton, testQuestionLabel, testInput,
                 testFeedbackLabel, testToMainButton);
 
         //DATABASE
@@ -324,11 +330,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         profileAchievementsLabel = new Label("Achievements");
         profileExportDataLabel = new Label("Export my data");
         profileDeleteProfileButton = new Button("DELETE MY PROFILE");
-
-        //Sign Chart
-        //updateSignChart();
-        //SOURCE: https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
-        //Sign chart
         //defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -337,6 +338,23 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         //creating the chart
         lineChart = new LineChart<Number,Number>(xAxis,yAxis);
 
+        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
+                profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
+        profileLayout.setAlignment(Pos.CENTER);
+        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
+            rootLayout.setCenter(profileLayout);
+            createSignChart();
+        });
+
+        //DISPLAY WINDOW
+        window.setScene(loginScene);
+        window.show();
+    }
+
+    //EFFECTS: updates the sign chart
+    //MODIFIES: this
+    //SOURCE: partly based on https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
+    private void createSignChart() {
         lineChart.setTitle("My Success Rate");
         //defining a series
         series = new XYChart.Series();
@@ -346,19 +364,11 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         series.getData().add(new XYChart.Data(0, 0));
         series.getData().add(new XYChart.Data(30, 40));
 
-
         lineChart.getData().add(series);
-
-        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
-                profileAchievementsLabel, profileExportDataLabel, profileDeleteProfileButton);
-        profileLayout.setAlignment(Pos.CENTER);
-        profileMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(profileLayout));
-
-        //DISPLAY WINDOW
-        window.setScene(loginScene);
-        window.show();
     }
 
+    //EFFECTS: searches for entry and sets label accordingly
+    //MODIFIES: this
     private void search(String search) {
         String searchFeedbackText;
         SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(search);
@@ -383,7 +393,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         searchFeedbackLabel.setText(searchFeedbackText);
     }
 
-
+    //EFFECTS: reads the profiles
+    //MODIFIES: this
     private void loadProfiles() {
         try {
             reader = new Reader();
@@ -393,6 +404,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         }
     }
 
+    //EFFECTS: sets the profile to the profile of user or creates new if not found
+    //MODIFIES: this
     private Profile findOrCreateProfile() {
         name = loginInput.getText().trim(); //Note: trim excludes any space at end
         profile = new Profile();
@@ -409,6 +422,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         return profile;
     }
 
+    //EFFECTS: loads example data base
+    //MODIFIES: this
     private void loadExampleDatabase() {
         SingleEntry entry1 = new SingleEntry("toboggan", "sled",
                 "verb is 'to toboggan'", "riding down a hill with a sled");
@@ -421,6 +436,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         profile.getDatabase().addEntry(entry3);
     }
 
+    //EFFECTS: sets question label to randomly chosen question
+    //MODIFIES: this
     private void showTestQuestion() {
         double random = profile.getDatabase().getRandomFromSumOfFailureRates();
         selected = profile.getDatabase().getEntryBasedOnRandom(random);
@@ -430,6 +447,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         testQuestionLabel.setText(question);
     }
 
+    //EFFECTS: sets feedback label according to user input
+    //MODIFIES: this
     private void showTestFeedback() {
         String feedback;
         if (selected.getDescription().equals(testInput.getText())) {
@@ -442,12 +461,14 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         testFeedbackLabel.setText(feedback);
     }
 
+    //EFFECTS: handles events
     @Override
     public void handle(ActionEvent event) {
     }
 
 
-    //Add button clicked
+    //EFFECTS: adds user input to table and to database
+    //MODIFIES: this
     public void databaseAddButtonClicked() {
         SingleEntry singleEntry = new SingleEntry();
         singleEntry.setDescription(databaseDescriptionInput.getText());
@@ -462,17 +483,21 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         databaseExampleInput.clear();
     }
 
-    //Delete button clicked
+    //EFFECTS: deletes selected entry from table and from database
+    //MODIFIES: this
     public void databaseDeleteButtonClicked() {
         ObservableList<SingleEntry> selectedSingleEntries;
         ObservableList<SingleEntry> allSingleEntries;
         selectedSingleEntries = table.getSelectionModel().getSelectedItems();
         allSingleEntries = table.getItems();
-
         selectedSingleEntries.forEach(allSingleEntries::remove);
+        for (SingleEntry entry : selectedSingleEntries) {
+            profile.getDatabase().removeEntry(entry.getDescription());
+        }
     }
 
-    //Get the entries
+    //EFFECTS: creates table with database
+    //MODIFIES: this
     public ObservableList<SingleEntry> getDatabaseTable() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
         databaseTable.add(new SingleEntry("toboggan", "sled",
@@ -482,6 +507,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         return databaseTable;
     }
 
+    //EFFECTS: closes program and writes everything into Json File
+    //MODIFIES: this
     private void closeProgram() {
         try {
             Writer.write(profiles);
@@ -491,6 +518,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         window.close();
     }
 
+    //EFFECTS: adds entry to database table and database
+    //MODIFIES: this
     private void mainAddButtonClicked() {
         SingleEntry singleEntry;
         singleEntry = new SingleEntry(mainDescriptionInput.getText(), mainMeaningInput.getText(),
