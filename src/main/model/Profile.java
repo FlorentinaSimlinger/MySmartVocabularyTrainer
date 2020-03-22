@@ -47,7 +47,7 @@ public class Profile {
     public void addSuccessRateOfSession() {
         successes = getTotalSuccesses();
         attempts = getTotalAttempts();
-        Double successRateDouble = (successes / attempts) * 100.0;
+        Double successRateDouble = 100.0 * successes / attempts;
         successRates.add(successRateDouble);
     }
 

@@ -509,9 +509,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         return databaseTable;
     }
 
-    //EFFECTS: closes program and writes everything into Json File
+    //EFFECTS: adds current session to records, closes program and writes everything into Json File
     //MODIFIES: this
     private void closeProgram() {
+        profile.addSuccessRateOfSession();
         try {
             Writer.write(profiles);
         } catch (IOException e) {

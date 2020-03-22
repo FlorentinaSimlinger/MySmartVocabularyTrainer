@@ -44,10 +44,11 @@
   {
     "name": "Flo",
     "successRates": [
+      0.0,
       0.0
     ],
-    "successes": 0,
-    "attempts": 0,
+    "successes": 18,
+    "attempts": 29,
     "database": {
       "entries": [
         {
@@ -58,7 +59,7 @@
             "example: ": "riding down a hill with a sled"
           },
           "failures": 7,
-          "attempts": 9
+          "attempts": 11
         },
         {
           "match": {
@@ -78,7 +79,7 @@
             "example: ": ""
           },
           "failures": 1,
-          "attempts": 3
+          "attempts": 4
         },
         {
           "match": {
@@ -88,7 +89,7 @@
             "example: ": "an intricate pattern"
           },
           "failures": 1,
-          "attempts": 4
+          "attempts": 5
         },
         {
           "match": {

@@ -60,7 +60,7 @@ public class ProfileTest {
         assertEquals(20, profile.getTotalAttempts());
         assertEquals(13, profile.getTotalSuccesses());
         profile.addSuccessRateOfSession();
-        assertEquals((13 / 20)*100.0, profile.getSuccessRates().get(1));
+        assertEquals(100.0 * 13 / 20, profile.getSuccessRates().get(1));
     }
 
 
