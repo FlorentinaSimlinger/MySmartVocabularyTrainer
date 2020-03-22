@@ -223,6 +223,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 showTestFeedback();
+                testInput.clear();
             }
         });
 
@@ -454,11 +455,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         if (selected.getDescription().equals(testInput.getText())) {
             feedback = "Correct!";
         } else {
-            feedback = "Unfortunately that is wrong. The right answer is "
+            feedback = "Unfortunately that is wrong. The right answer to " + selected.getMeaning() + " is "
                     + selected.getDescription() + ".";
         }
         selected.adjustDistribution(testInput.getText());
         testFeedbackLabel.setText(feedback);
+        showTestQuestion();
     }
 
     //EFFECTS: handles events

@@ -49,8 +49,8 @@
             "comment: ": "verb is \u0027to toboggan\u0027",
             "example: ": "riding down a hill with a sled"
           },
-          "failures": 6,
-          "attempts": 6
+          "failures": 7,
+          "attempts": 7
         },
         {
           "match": {
@@ -60,7 +60,7 @@
             "example: ": "it\u0027s cold today, eh?"
           },
           "failures": 1,
-          "attempts": 2
+          "attempts": 3
         },
         {
           "match": {
@@ -70,7 +70,7 @@
             "example: ": ""
           },
           "failures": 1,
-          "attempts": 2
+          "attempts": 3
         },
         {
           "match": {
@@ -80,7 +80,7 @@
             "example: ": "an intricate pattern"
           },
           "failures": 1,
-          "attempts": 2
+          "attempts": 4
         },
         {
           "match": {
@@ -89,8 +89,8 @@
             "comment: ": "dfd",
             "example: ": "dfd"
           },
-          "failures": 3,
-          "attempts": 3
+          "failures": 1,
+          "attempts": 5
         }
       ]
     }
