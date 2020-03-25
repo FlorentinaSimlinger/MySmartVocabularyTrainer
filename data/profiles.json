@@ -2,10 +2,11 @@
   {
     "name": "Flo",
     "successRates": [
+      0.0,
       0.0
     ],
     "successes": 0,
-    "attempts": 0,
+    "attempts": 2,
     "database": {
       "entries": [
         {
@@ -17,6 +18,80 @@
           },
           "failures": 1,
           "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "lsdfsdl",
+            "description: ": "thkjdfshfkjsdh",
+            "comment: ": "ljfdldsjflksdjl",
+            "example: ": "lskjfsljfsldkjf"
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Michelle",
+    "successRates": [
+      0.0,
+      36.36363636363637,
+      36.36363636363637
+    ],
+    "successes": 4,
+    "attempts": 11,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "something",
+            "description: ": "bliablablub",
+            "comment: ": "lkdsflsdjlj",
+            "example: ": "sdfjdskljfdlskj"
+          },
+          "failures": 2,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "with different meaning",
+            "description: ": "some other word",
+            "comment: ": "slfjdsljl",
+            "example: ": "lsfjdlsdkjflkdsjf"
+          },
+          "failures": 1,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "sdflkjss",
+            "description: ": "skfhjksdhf",
+            "comment: ": "sdlkfslkj",
+            "example: ": "lsjfddlskj"
+          },
+          "failures": 2,
+          "attempts": 2
         }
       ]
     }

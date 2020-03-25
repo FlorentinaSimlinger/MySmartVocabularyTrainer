@@ -53,6 +53,11 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
  you quit the application, thus the result only appears after you login again)
 12) You can also search specific entries in your database
 
+##Phase 4: Task 2
+- In SingleEntry I make appropriate use of the Map interface because a SingleEntry consists of a HashMap. I use the
+built in put and get methods to set key and value pairs and retrieve values based on keys.
+
+
 ##Ideas for extended version
 - option to change existing entry if new entry with duplicate description is added
 - scrape websites for example sentences and synonyms
