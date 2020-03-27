@@ -125,6 +125,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //EFFECTS: creates the profile Layout and sets it to center of root Layout
     //MODIFIES: this
     private void initializeProfileLayout() {
+        //Layout profileLayout = new Layout("MY PROFILE", "...");
         profileLayout = new VBox();
         profileLabel = new Label("MY PROFILE");
         profileEntriesLabel = new Label("Entries");
@@ -169,7 +170,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         searchInput.setPromptText("word or phrase");
         searchFeedbackLabel = new Label("");
         searchButton = new Button("SEARCH");
-        searchButton.setOnMouseClicked(e -> search(searchInput.getText()));
+        //searchButton = getSearchButton(); --> ODER addEventListener
+        profileLayout.onSearch(e -> search(searchInput.getText()));
+        profileLayout.searchButton.setOnMouseClicked(e -> search(searchInput.getText())); //tight coupling weil ich den Button accessen muss
         searchLayout.getChildren().addAll(searchLabel, searchButton, searchInput,
                 searchFeedbackLabel);
     }
@@ -233,6 +236,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
     //EFFECTS: creates fields for user input
     private void listenToUserInputInDatabase() {
+        //unteres entweder in helper method oder in class auslagern oder in databaseLayout verschieben um duplicate code zu vermeiden
+
         //description input
         databaseDescriptionInput = new TextField();
         databaseDescriptionInput.setPromptText("description");
