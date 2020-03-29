@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.*;
 
 //Represents a vocabulary trainer application
-public class VocabApp {
+public class VocabAppConsole {
     private Scanner input;
     Profile profile;
     List<Profile> profiles = new ArrayList<>();
 
     //EFFECTS: runs the vocabulary app
-    public VocabApp() {
+    public VocabAppConsole() {
         runApp();
     }
 
