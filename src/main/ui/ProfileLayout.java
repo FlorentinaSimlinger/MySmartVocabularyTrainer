@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class ProfileLayout extends Layout {
     LineChart<Number, Number> lineChart;
 
-    public ProfileLayout(String labelString, String buttonString1, String buttonString2) {
-        super(labelString, buttonString1, buttonString2);
+    public ProfileLayout(String labelString, String buttonString1) {
+        super(labelString, buttonString1, "");
         VBox profileLayout = new VBox();
         Label profileEntriesLabel = addLabel("Entries");
         Label profileAchievementsLabel = addLabel("Achievements");
@@ -23,9 +23,7 @@ public class ProfileLayout extends Layout {
         profileLayout.getChildren().addAll(label, lineChart, profileEntriesLabel,
                 profileAchievementsLabel, profileExportDataLabel, button1);
         profileLayout.setAlignment(Pos.CENTER);
-        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
-            rootLayout.setCenter(profileLayout);
-        });
+
     }
 
     //EFFECTS: adds a line chart
@@ -48,4 +46,3 @@ public class ProfileLayout extends Layout {
     }
 }
 
-//TODO: call profileLayout with "MY PROFILE" for label  "DELETE MY PROFILE" for buttonString1 and "" for buttonString2

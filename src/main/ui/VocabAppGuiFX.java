@@ -103,12 +103,23 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         LoginLayout loginLayout = new LoginLayout("Welcome to..", "Continue", "",
                 reader, profiles);
         loginLayout.login(primaryStage);
+        RootLayout rootLayout = new RootLayout();
+        String mainLabel = "Welcome! To get started, enter a word or phrase you'd like to learn,"
+                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.";
+        MainLayout mainLayout = new MainLayout(mainLabel, "Add", "Test myself!");
+        String testLabel = "TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
+                + "'Return to main' to return to main page.";
+        TestLayout testLayout = new TestLayout(testLabel, "Start!", "Return to main");
+        DatabaseLayout databaseLayout = new DatabaseLayout("DATABASE");
+        SearchLayout searchLayout = new SearchLayout("SEARCH", "Search!");
+        AboutLayout aboutLayout = new AboutLayout("ABOUT");
+        ProfileLayout profileLayout = new ProfileLayout("MY PROFILE", "Delete profile");
 //        initializeRootLayout();
 //        initializeMainLayout();
 //        initializeTestLayout();
 //        initializeDatabaseLayout();
 //        initializeSearchLayout();
-        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
+//        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
 //        initializeAboutLayout();
 //        initializeProfileLayout();
 //

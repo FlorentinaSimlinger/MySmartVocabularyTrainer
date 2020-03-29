@@ -26,10 +26,9 @@ public class TestLayout extends Layout {
                 testInput.clear();
             }
         });
-        Button testToMainButton = addButton("Return to main");
-        testToMainButton.setOnAction(e -> rootLayout.setCenter(mainLayout));
+        button2.setOnAction(e -> rootLayout.setCenter(mainLayout));
         testLayout.getChildren().addAll(label, button1, questionLabel, testInput,
-                feedbackLabel, testToMainButton);
+                feedbackLabel, button2);
     }
 
     //EFFECTS: sets question label to randomly chosen question
@@ -59,6 +58,4 @@ public class TestLayout extends Layout {
     }
 }
 
-//TODO: call constructor with "TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
-//                + "'Return to main' to return to main page." as label and "Start!" as buttonString1
 

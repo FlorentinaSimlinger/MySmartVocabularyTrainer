@@ -53,7 +53,5 @@ public class MainLayout extends Layout {
 //TODO: figure out how to pass different layouts
 //TODO: figure out where to call rootLayout
 //TODO: figure out how to call closeProgram()
-//TODO: call MainLayout with text below as label:
-//        mainLabel = new Label("Welcome! To get started, enter a word or phrase you'd like to learn,"
-//                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.");
+
 

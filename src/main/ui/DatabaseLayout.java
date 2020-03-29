@@ -22,9 +22,10 @@ public class DatabaseLayout extends Layout {
     private ArrayList<TextField> textFields = new ArrayList<>();
 
     //EFFECTS: constructs database layout
-    public DatabaseLayout(String labelString, String buttonString1, String buttonString2) {
-        super(labelString, buttonString1, buttonString2);
+    public DatabaseLayout(String labelString) {
+        super(labelString, "", "");
         databaseLayout = new BorderPane();
+        databaseLayout.setTop(label);
         addHBox();
         addTable();
     }

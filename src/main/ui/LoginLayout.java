@@ -76,5 +76,4 @@ public class LoginLayout extends Layout {
     }
 }
 
-//TODO: call login Layout with "Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue."); as label
-// and button1 with "Continue"
+//TODO: getTableItems() is in DatabaseLayout, how could I best access it?

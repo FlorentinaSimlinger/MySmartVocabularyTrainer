@@ -9,8 +9,8 @@ public class SearchLayout extends Layout {
     TextField searchInput;
     Label label1;
 
-    public SearchLayout(String labelString, String buttonString1, String buttonString2) {
-        super(labelString, buttonString1, buttonString2);
+    public SearchLayout(String labelString, String buttonString1) {
+        super(labelString, buttonString1, "");
         VBox searchLayout = new VBox();
         label1 = addLabel("");
         searchInput = new TextField();
@@ -46,7 +46,6 @@ public class SearchLayout extends Layout {
     }
 }
 
-//TODO: implement
-    //onSearch(e -> search(searchInput.getText()));
-//TODO: call SearchLayout with "SEARCH" as buttonString1
+//TODO: implement onSearch(e -> search(searchInput.getText()));
+
 

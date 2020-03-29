@@ -14,8 +14,8 @@ public class RootLayout extends Layout {
     private Menu moreMenu;
 
     //EFFECTS: constructs the root layout
-    public RootLayout(String labelString, String buttonString1, String buttonString2) {
-        super(labelString, buttonString1, buttonString2);
+    public RootLayout() {
+        super("", "", "");
         rootLayout = new BorderPane();
         rootLayout.setPadding(new Insets(10, 10, 10, 10));
         addMoreMenu();
@@ -51,6 +51,12 @@ public class RootLayout extends Layout {
         Menu aboutMenu = new Menu("", aboutMenuLabel);
         Menu profileMenu = new Menu("", profileMenuLabel);
 
+        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
+        aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
+        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
+            rootLayout.setCenter(profileLayout);
+        });
+
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
 
@@ -62,4 +68,4 @@ public class RootLayout extends Layout {
     }
 }
 
-//TODO: how to change layouts? Wie weiss Root Layout von den anderen Layouts?
+//TODO: change layouts
