@@ -1,13 +1,17 @@
 package ui;
 
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.SingleEntry;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +29,19 @@ public class MainLayout extends Layout {
         mainLayout.setAlignment(Pos.CENTER);
         mainLayout.setSpacing(20);
         button1.setOnMouseClicked(e -> addButtonClicked());
-        button2.setOnAction(e -> rootLayout.setCenter(testLayout));
+        //button2.setOnAction(e -> rootLayout.setCenter(testLayout));
         button.setOnAction(e -> closeProgram());
         addUserInputFields();
         rootLayout.setCenter(mainLayout);
         rootScene = new Scene(rootLayout, 920, 600);
+        button2.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+                VocabAppGuiFX.changeToTestLayout();
+            }
+        });
+        button2.setOnAction(VocabAppGuiFX);
+        button2.addEventHandler(MouseEvent.MOUSE_PRESSED, new ButtonHandler());
     }
 
 
@@ -48,6 +60,41 @@ public class MainLayout extends Layout {
             textFields.add(textField);
         }
     }
+
+    @Override
+    public void addEventListener(String eventName) {
+
+    }
+
+    @Override
+    public void addEventHandler(EventType<MouseEvent> mousePressed, EventHandler<MouseEvent> mouseEventEventHandler) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+
+
+    public int giveFeedbackWhatToDo(String eventName) {
+        if (eventName.equals("addButtonClicked")) {
+            addButtonClicked();
+            return 0;
+        } else if (eventName.equals("testButtonClicked")) {
+            return 1;
+        } else if (eventName.equals("quitButtonClicked")) {
+            return 2;
+        }
+        return 0;
+    }
+
+
+
+    //sees that an event comes in, checks what is applicable and sends back info what to do
+    //this class knows about the buttons, the main class knows about the layouts. Therefore,
+    // main class adds eventListeners
 }
 
 //TODO: figure out how to pass different layouts

@@ -1,14 +1,18 @@
 package ui;
 
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Profile;
 import model.SingleEntry;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public abstract class Layout {
@@ -32,6 +36,9 @@ public abstract class Layout {
         button2 = new Button(buttonString2);
     }
 
+    public void addEventListener(String eventName, ActionListener listener){
+
+    }
 
     public Button addButton(String buttonString) {
         return new Button(buttonString);
@@ -44,6 +51,7 @@ public abstract class Layout {
     //public void onSearch(...) {
         //event on mouse click
     //}
+
 
     //EFFECTS: adds user input to table and to database
     //REQUIRES: at least description and meaning are entered
@@ -61,4 +69,6 @@ public abstract class Layout {
         }
     }
 
+    public abstract void addEventHandler(EventType<MouseEvent> mousePressed,
+                                         EventHandler<MouseEvent> mouseEventEventHandler);
 }
