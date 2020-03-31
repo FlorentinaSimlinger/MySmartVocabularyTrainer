@@ -31,12 +31,12 @@ public class DatabaseLayout extends Layout {
     //EFFECTS: adds HBox to layout
     //MODIFIES: this
     public void addHBox() {
-        databaseHBox = new HBox();
-        databaseHBox.setPadding(new Insets(10, 10, 10, 10));
-        databaseHBox.setSpacing(10);
+        this.databaseHBox = new HBox();
+        this.databaseHBox.setPadding(new Insets(10, 10, 10, 10));
+        this.databaseHBox.setSpacing(10);
         addUserInputFields();
         getAddAndDeleteButtons();
-        databaseLayout.setBottom(databaseHBox);
+        this.databaseLayout.setBottom(databaseHBox);
     }
 
     //EFFECTS: adds table to layout
@@ -45,7 +45,7 @@ public class DatabaseLayout extends Layout {
         table = new TableView<>();
         getTableColumns();
         table.setItems(getTableItems());
-        databaseLayout.setCenter(table);
+        this.databaseLayout.setCenter(table);
     }
 
     //EFFECTS: creates tables columns and adds them to the table
@@ -85,7 +85,7 @@ public class DatabaseLayout extends Layout {
         databaseAddButton.setOnMouseClicked(e -> addButtonClicked());
         Button databaseDeleteButton = new Button("Delete");
         databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
-        databaseHBox.getChildren().addAll(databaseAddButton, databaseDeleteButton);
+        this.databaseHBox.getChildren().addAll(databaseAddButton, databaseDeleteButton);
     }
 
     //EFFECTS: creates fields for user input
@@ -99,8 +99,8 @@ public class DatabaseLayout extends Layout {
             TextField textField = new TextField();
             textField.setPromptText(fieldName);
             textField.setMinWidth(100);
-            databaseHBox.getChildren().add(textField);
-            textFields.add(textField);
+            this.databaseHBox.getChildren().add(textField);
+            this.textFields.add(textField);
         }
     }
 
@@ -116,6 +116,9 @@ public class DatabaseLayout extends Layout {
             profile.getDatabase().removeEntry(entry.getDescription());
         }
     }
+
+    public BorderPane getDatabaseLayout() {
+        return databaseLayout; }
 }
 
 //TODO: check how I can pass in a profile

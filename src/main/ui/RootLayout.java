@@ -2,7 +2,6 @@ package ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -72,12 +71,12 @@ import javafx.scene.layout.HBox;
 
 public class RootLayout extends Layout {
 
-    private BorderPane rootPane;
+    private BorderPane rootLayout;
 
     public RootLayout() {
         //ROOT
-        this.rootPane = new BorderPane();
-        this.rootPane.setPadding(new Insets(10, 10, 10, 10));
+        this.rootLayout = new BorderPane();
+        this.rootLayout.setPadding(new Insets(10, 10, 10, 10));
 
         //Menus
         Menu moreMenu = new Menu("MORE");
@@ -116,11 +115,15 @@ public class RootLayout extends Layout {
         menuBarHBox.getChildren().add(menuBar);
         menuBarHBox.setAlignment(Pos.CENTER_RIGHT);
 
-        this.rootPane.setTop(menuBarHBox);
+        this.rootLayout.setTop(menuBarHBox);
     }
 
-    public void setChildPane(Node node) {
-        this.rootPane.setCenter(node);
+    public BorderPane getRootLayout() {
+        return this.rootLayout;
+    }
+
+    public void setChildPane(Layout layout) {
+        this.rootLayout.setCenter(layout);
     }
 
 }

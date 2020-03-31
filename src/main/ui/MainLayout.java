@@ -1,11 +1,11 @@
 package ui;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class MainLayout extends Layout {
 
         //label
         String labelText = "Welcome! To get started, enter a word or phrase you'd like to learn,"
-                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like."
+                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.";
         Label mainLabel = new Label(labelText);
         mainLabel.setMaxWidth(500);
         this.mainLayout.getChildren().add(mainLabel);
@@ -39,12 +39,7 @@ public class MainLayout extends Layout {
         quitButton.setOnAction(e -> handleEvent(e, "quit"));
         addUserInputFields();
 
-        //TODO: what to do with this?
-        rootLayout.setCenter(mainLayout);
-        rootScene = new Scene(rootLayout, 920, 600);
-
     }
-
 
     //EFFECTS: creates fields for user input
     public void addUserInputFields() {
@@ -60,6 +55,10 @@ public class MainLayout extends Layout {
             mainLayout.getChildren().add(textField);
             textFields.add(textField);
         }
+    }
+
+    public VBox getMainLayout() {
+        return this.mainLayout;
     }
 
 }

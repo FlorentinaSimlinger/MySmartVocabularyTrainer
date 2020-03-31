@@ -3,13 +3,12 @@ package ui;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Profile;
 import persistence.Reader;
 import persistence.Writer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,40 +45,52 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         this.window.setOnCloseRequest(e -> closeProgram());
         this.window.setTitle("MySmartVocabularyTrainer");
 
+        //instantiating layouts and adding event listeners
         this.loginLayout = new LoginLayout();
-        this.loginLayout.addEventListener("login", e -> this.profile = findOrCreateProfile());
-
+        
         this.rootLayout = new RootLayout();
         addEventListenersToLayout(this.rootLayout);
-
         this.mainLayout = new MainLayout();
         addEventListenersToLayout(this.mainLayout);
-
         this.searchLayout = new SearchLayout();
         addEventListenersToLayout(this.searchLayout);
-
         this.testLayout = new TestLayout();
         addEventListenersToLayout(this.testLayout);
-
         this.databaseLayout = new DatabaseLayout();
         addEventListenersToLayout(this.databaseLayout);
-
         this.aboutLayout = new AboutLayout();
         addEventListenersToLayout(this.aboutLayout);
 
-        window.setScene(loginLayout.getLoginScene());
+        this.loginLayout.addEventListener("login",
+                e -> {
+                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
+                    this.rootLayout.setChildPane(this.mainLayout);
+                    Scene rootScene = new Scene(this.rootLayout.getRootLayout(), 920, 600);
+                    this.window.setScene(rootScene);
+                    databaseLayout.table.setItems(databaseLayout.getTableItems());
+                });
 
+        //TODO: this was previously in LoginLayout.findOrCreateProfile(), is there a better way?
+//        databaseLayout.table.setItems(databaseLayout.getTableItems());
 
-        //TODO: figure out what to do with this
-        loginLayout.login(primaryStage);
+        //setting scenes for window
+        //TODO: this might be a problem because overwritten by setScene(loginLayout...)
+        //TODO: this was previously in LoginLayout.findOrCreateProfile(). is there a better way?
+//        this.rootLayout.setChildPane(this.mainLayout);
+//        Scene rootScene = new Scene(this.rootLayout.getRootLayout(), 920, 600);
+//        this.window.setScene(rootScene);
+
+        this.window.setScene(this.loginLayout.getLoginScene());
+
+        this.window.show();
     }
 
     public void addEventListenersToLayout(Layout layout) {
-        layout.addEventListener("database", e -> this.rootLayout.setChildPane(databaseLayout));
-        layout.addEventListener("search", e -> this.rootLayout.setChildPane(searchLayout));
-        layout.addEventListener("test", e -> this.rootLayout.setChildPane(testLayout));
+        layout.addEventListener("database", e -> this.rootLayout.setChildPane(this.databaseLayout));
+        layout.addEventListener("search", e -> this.rootLayout.setChildPane(this.searchLayout));
+        layout.addEventListener("test", e -> this.rootLayout.setChildPane(this.testLayout));
         layout.addEventListener("quit", e -> closeProgram());
-        layout.addEventListener("main", e -> this.rootLayout.setChildPane(mainLayout));
+        layout.addEventListener("main", e -> this.rootLayout.setChildPane(this.mainLayout));
     }
 
 
@@ -87,8 +98,8 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //MODIFIES: this
     private void loadProfiles() {
         try {
-            reader = new Reader();
-            profiles = new ArrayList<>(Arrays.asList(reader.getProfiles()));
+            this.reader = new Reader();
+            this.profiles = new ArrayList<>(Arrays.asList(this.reader.getProfiles()));
         } catch (IOException e) {
             System.out.println("Something went wrong with loading the profiles.");
         }
@@ -97,16 +108,20 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //EFFECTS: adds current session to records, closes program and writes everything into Json File
     //MODIFIES: this
     private void closeProgram() {
-        profile.addSuccessRateOfSession();
+        this.profile.addSuccessRateOfSession();
         try {
-            Writer.write(profiles);
+            Writer.write(this.profiles);
         } catch (IOException e) {
             System.out.println("Something went wrong with closing the program.");
         }
-        window.close();
+        this.window.close();
     }
 
 
+    @Override
+    public void handle(ActionEvent event) {
+
+    }
 }
 
 

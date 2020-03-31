@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import model.Profile;
+import model.SingleEntry;
 import persistence.Reader;
 
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class LoginLayout extends Layout {
 
     //EFFECTS: sets the profile to the profile of user or creates new if not found
     //MODIFIES: this
-    private Profile findOrCreateProfile(Reader reader, ArrayList<Profile> profiles) {
+    public Profile findOrCreateProfile(Reader reader, ArrayList<Profile> profiles) {
         String name = loginInput.getText().trim(); //trim excludes any space at end
         profile = new Profile();
         if (reader.findProfile(name) == null) {
@@ -126,8 +127,22 @@ public class LoginLayout extends Layout {
         } else {
             profile = reader.findProfile(name);
         }
-        table.setItems(getTableItems());
-        window.setScene(rootScene);
+        //table.setItems(databaseLayout.getTableItems());
+        //window.setScene(rootScene);
         return profile;
+    }
+
+    //EFFECTS: loads example data base
+    //MODIFIES: this
+    private void loadExampleDatabase() {
+        SingleEntry entry1 = new SingleEntry("toboggan", "sled",
+                "verb is 'to toboggan'", "riding down a hill with a sled");
+        SingleEntry entry2 = new SingleEntry("eh?", "'right?'",
+                "does not have to be used as question", "it's cold today, eh?");
+        SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
+                "yü-ˈbi-kwə-təs", "");
+        profile.getDatabase().addEntry(entry1);
+        profile.getDatabase().addEntry(entry2);
+        profile.getDatabase().addEntry(entry3);
     }
 }
