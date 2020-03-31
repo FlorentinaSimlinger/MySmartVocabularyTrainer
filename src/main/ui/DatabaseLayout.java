@@ -3,9 +3,7 @@ package ui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -22,10 +20,10 @@ public class DatabaseLayout extends Layout {
     private ArrayList<TextField> textFields = new ArrayList<>();
 
     //EFFECTS: constructs database layout
-    public DatabaseLayout(String labelString) {
-        super(labelString, "", "");
-        databaseLayout = new BorderPane();
-        databaseLayout.setTop(label);
+    public DatabaseLayout() {
+        this.databaseLayout = new BorderPane();
+        Label databaseLabel = new Label("DATABASE");
+        this.databaseLayout.setTop(databaseLabel);
         addHBox();
         addTable();
     }
@@ -83,10 +81,11 @@ public class DatabaseLayout extends Layout {
     //EFFECTS: adds Add and Delete Buttons to Database Layout, changes Database Layout and actual database
     //MODIFIES: this
     private void getAddAndDeleteButtons() {
-        //add and delete button
-        button1.setOnMouseClicked(e -> addButtonClicked());
-        button2.setOnMouseClicked(e -> databaseDeleteButtonClicked());
-        databaseHBox.getChildren().addAll(button1, button2);
+        Button databaseAddButton = new Button("Add");
+        databaseAddButton.setOnMouseClicked(e -> addButtonClicked());
+        Button databaseDeleteButton = new Button("Delete");
+        databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
+        databaseHBox.getChildren().addAll(databaseAddButton, databaseDeleteButton);
     }
 
     //EFFECTS: creates fields for user input
@@ -119,4 +118,4 @@ public class DatabaseLayout extends Layout {
     }
 }
 
-//TODO: need to pass in a profile
+//TODO: check how I can pass in a profile

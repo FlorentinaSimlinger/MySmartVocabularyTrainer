@@ -13,12 +13,20 @@ public class TestLayout extends Layout {
     private Label feedbackLabel;
     private TextField testInput;
 
-    public TestLayout(String labelString, String buttonString1, String buttonString2) {
-        super(labelString, buttonString1, buttonString2);
+    public TestLayout() {
         VBox testLayout = new VBox(20);
-        button1.setOnAction(e -> showTestQuestion());
-        questionLabel = addLabel("");
-        feedbackLabel = addLabel("");
+
+        String labelText = "TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
+                + "'Return to main' to return to main page.";
+        Label testLabel = new Label(labelText);
+        Button testStartButton = new Button("Start!");
+        testStartButton.setOnAction(e -> showTestQuestion());
+        Button testToMainButton = new Button("Return to main");
+        testToMainButton.setOnAction(e -> handleEvent(e, "test"));
+        Button testQuitButton = new Button("Quit");
+        testQuitButton.setOnAction(e -> handleEvent(e, "quit"));
+        questionLabel = new Label("");
+        feedbackLabel = new Label("");
         testInput = new TextField();
         testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
@@ -26,9 +34,9 @@ public class TestLayout extends Layout {
                 testInput.clear();
             }
         });
-        button2.setOnAction(e -> rootLayout.setCenter(mainLayout));
-        testLayout.getChildren().addAll(label, button1, questionLabel, testInput,
-                feedbackLabel, button2);
+
+        testLayout.getChildren().addAll(testLabel, testStartButton, questionLabel, testInput,
+                feedbackLabel, testQuitButton);
     }
 
     //EFFECTS: sets question label to randomly chosen question

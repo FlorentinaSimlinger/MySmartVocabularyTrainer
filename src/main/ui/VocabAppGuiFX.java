@@ -19,6 +19,10 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private RootLayout rootLayout;
     private MainLayout mainLayout;
     private TestLayout testLayout;
+    private DatabaseLayout databaseLayout;
+    private SearchLayout searchLayout;
+    private AboutLayout aboutLayout;
+    private LoginLayout loginLayout;
     private Profile profile;
     private ArrayList<Profile> profiles;
     private Reader reader;
@@ -38,49 +42,46 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     @Override
     public void start(Stage primaryStage) throws Exception {
         loadProfiles();
-        LoginLayout loginLayout = new LoginLayout("Welcome to..", "Continue", "",
-                reader, profiles);
+        this.window = primaryStage;
+        this.window.setOnCloseRequest(e -> closeProgram());
+        this.window.setTitle("MySmartVocabularyTrainer");
+
+        this.loginLayout = new LoginLayout();
+        this.loginLayout.addEventListener("login", e -> this.profile = findOrCreateProfile());
+
+        this.rootLayout = new RootLayout();
+        addEventListenersToLayout(this.rootLayout);
+
+        this.mainLayout = new MainLayout();
+        addEventListenersToLayout(this.mainLayout);
+
+        this.searchLayout = new SearchLayout();
+        addEventListenersToLayout(this.searchLayout);
+
+        this.testLayout = new TestLayout();
+        addEventListenersToLayout(this.testLayout);
+
+        this.databaseLayout = new DatabaseLayout();
+        addEventListenersToLayout(this.databaseLayout);
+
+        this.aboutLayout = new AboutLayout();
+        addEventListenersToLayout(this.aboutLayout);
+
+        window.setScene(loginLayout.getLoginScene());
+
+
+        //TODO: figure out what to do with this
         loginLayout.login(primaryStage);
-        rootLayout = new RootLayout();
-        String mainLabel = "Welcome! To get started, enter a word or phrase you'd like to learn,"
-                + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.";
-        mainLayout = new MainLayout(mainLabel, "Add", "Test myself!");
-        String testLabel = "TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
-                + "'Return to main' to return to main page.";
-        testLayout = new TestLayout(testLabel, "Start!", "Return to main");
-        DatabaseLayout databaseLayout = new DatabaseLayout("DATABASE");
-        SearchLayout searchLayout = new SearchLayout("SEARCH", "Search!");
-        AboutLayout aboutLayout = new AboutLayout("ABOUT");
-        ProfileLayout profileLayout = new ProfileLayout("MY PROFILE", "Delete profile");
-
-
-
-        mainLayout.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> rootLayout.setCenter(testLayout));
-
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        if (event.getSource().equals("testButton")) {
-            rootLayout.setCenter(testLayout);
-        } else if (event.getSource().equals("quit")) {
-            closeProgram();
-        }
+    public void addEventListenersToLayout(Layout layout) {
+        layout.addEventListener("database", e -> this.rootLayout.setChildPane(databaseLayout));
+        layout.addEventListener("search", e -> this.rootLayout.setChildPane(searchLayout));
+        layout.addEventListener("test", e -> this.rootLayout.setChildPane(testLayout));
+        layout.addEventListener("quit", e -> closeProgram());
+        layout.addEventListener("main", e -> this.rootLayout.setChildPane(mainLayout));
     }
 
-
-    public class ButtonHandler implements EventHandler<ActionEvent> {
-        public ButtonHandler() {
-        }
-
-        @Override
-        public void handle(ActionEvent event) {
-            if (event.getSource() == "testButton") {
-                rootLayout.setCenter(mainLayout);
-            }
-
-        }
-    }
 
     //EFFECTS: reads the profiles
     //MODIFIES: this
@@ -100,15 +101,13 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         try {
             Writer.write(profiles);
         } catch (IOException e) {
-            System.out.println("Unfortunately an error occurred.");
+            System.out.println("Something went wrong with closing the program.");
         }
         window.close();
     }
 
 
 }
-
-
 
 
 //Notes: the stage is the entire window, the scene is the content in the window

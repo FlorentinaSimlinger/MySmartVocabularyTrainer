@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -12,18 +13,19 @@ import java.util.ArrayList;
 public class ProfileLayout extends Layout {
     LineChart<Number, Number> lineChart;
 
-    public ProfileLayout(String labelString, String buttonString1) {
-        super(labelString, buttonString1, "");
+    public ProfileLayout() {
         VBox profileLayout = new VBox();
-        Label profileEntriesLabel = addLabel("Entries");
-        Label profileAchievementsLabel = addLabel("Achievements");
-        Label profileExportDataLabel = addLabel("Export my data");
-        addLineChart();
-
-        profileLayout.getChildren().addAll(label, lineChart, profileEntriesLabel,
-                profileAchievementsLabel, profileExportDataLabel, button1);
         profileLayout.setAlignment(Pos.CENTER);
 
+        Label profileLabel = new Label("PROFILE");
+        Label profileEntriesLabel = new Label("Entries");
+        Label profileAchievementsLabel = new Label("Achievements");
+        Label profileExportDataLabel = new Label("Export my data");
+        Button profileDeleteButton = new Button("Delete profile");
+        addLineChart();
+
+        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
+                profileAchievementsLabel, profileExportDataLabel, profileDeleteButton);
     }
 
     //EFFECTS: adds a line chart

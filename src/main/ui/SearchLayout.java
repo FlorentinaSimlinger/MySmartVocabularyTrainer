@@ -1,22 +1,26 @@
 package ui;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.SingleEntry;
 
 public class SearchLayout extends Layout {
+    VBox searchLayout;
     TextField searchInput;
-    Label label1;
+    Label feedbackLabel;
 
-    public SearchLayout(String labelString, String buttonString1) {
-        super(labelString, buttonString1, "");
-        VBox searchLayout = new VBox();
-        label1 = addLabel("");
-        searchInput = new TextField();
-        searchInput.setPromptText("word or phrase");
-        button1.setOnAction(e -> search(searchInput.getText()));
-        searchLayout.getChildren().addAll(label, searchInput, button1, label1);
+
+    public SearchLayout() {
+        this.searchLayout = new VBox();
+        Label searchLabel = new Label("SEARCH");
+        this.searchInput = new TextField();
+        this.searchInput.setPromptText("word or phrase");
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(e -> search(searchInput.getText()));
+        this.feedbackLabel = new Label("");
+        searchLayout.getChildren().addAll(searchLabel, searchInput, searchButton, feedbackLabel);
     }
 
     //EFFECTS: searches for entry and sets label accordingly
@@ -42,10 +46,9 @@ public class SearchLayout extends Layout {
             searchFeedbackText = introText + "\n" + descriptionText + "\n" + meaningText + "\n"
                     + commentText + "\n" + exampleText + "\n" + successRate;
         }
-        label1.setText(searchFeedbackText);
+        feedbackLabel.setText(searchFeedbackText);
     }
 }
 
-//TODO: implement onSearch(e -> search(searchInput.getText()));
 
 
