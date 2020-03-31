@@ -15,5 +15,10 @@ public class AboutLayout extends Layout {
         Label aboutTextLabel = new Label("This is my 210 project!");
         aboutLayout.getChildren().addAll(aboutLabel, aboutTextLabel);
     }
+
+    @Override
+    protected VBox getNode() {
+        return this.aboutLayout;
+    }
 }
 

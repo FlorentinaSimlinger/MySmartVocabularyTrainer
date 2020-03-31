@@ -118,12 +118,12 @@ public class RootLayout extends Layout {
         this.rootLayout.setTop(menuBarHBox);
     }
 
-    public BorderPane getRootLayout() {
+    public void setChildPane(Layout layout) {
+        rootLayout.setCenter(layout.getNode());
+    }
+
+    @Override
+    protected BorderPane getNode() {
         return this.rootLayout;
     }
-
-    public void setChildPane(Layout layout) {
-        this.rootLayout.setCenter(layout);
-    }
-
 }

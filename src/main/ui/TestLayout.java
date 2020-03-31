@@ -12,9 +12,10 @@ public class TestLayout extends Layout {
     private Label questionLabel;
     private Label feedbackLabel;
     private TextField testInput;
+    private VBox testLayout;
 
     public TestLayout() {
-        VBox testLayout = new VBox(20);
+        this.testLayout = new VBox(20);
 
         String labelText = "TEST\n To start testing, press 'Start!'. Hit Enter to get next question. Press"
                 + "'Return to main' to return to main page.";
@@ -22,47 +23,52 @@ public class TestLayout extends Layout {
         Button testStartButton = new Button("Start!");
         testStartButton.setOnAction(e -> showTestQuestion());
         Button testToMainButton = new Button("Return to main");
-        testToMainButton.setOnAction(e -> handleEvent(e, "test"));
+        testToMainButton.setOnAction(e -> handleEvent(e, "main"));
         Button testQuitButton = new Button("Quit");
         testQuitButton.setOnAction(e -> handleEvent(e, "quit"));
-        questionLabel = new Label("");
-        feedbackLabel = new Label("");
-        testInput = new TextField();
-        testInput.setOnKeyPressed(e -> {
+        this.questionLabel = new Label("");
+        this.feedbackLabel = new Label("");
+        this.testInput = new TextField();
+        this.testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 showTestFeedback();
-                testInput.clear();
+                this.testInput.clear();
             }
         });
 
-        testLayout.getChildren().addAll(testLabel, testStartButton, questionLabel, testInput,
-                feedbackLabel, testQuitButton);
+        this.testLayout.getChildren().addAll(testLabel, testStartButton, this.questionLabel, this.testInput,
+                this.feedbackLabel, testToMainButton, testQuitButton);
     }
 
     //EFFECTS: sets question label to randomly chosen question
     //MODIFIES: this
     private void showTestQuestion() {
-        double random = profile.getDatabase().getRandomFromSumOfFailureRates();
-        selected = profile.getDatabase().getEntryBasedOnRandom(random);
-        String questionPart = selected.getMeaning();
+        double random = layoutProfile.getDatabase().getRandomFromSumOfFailureRates();
+        this.selected = layoutProfile.getDatabase().getEntryBasedOnRandom(random);
+        String questionPart = this.selected.getMeaning();
         String questionBody = "What's another word for ";
         String question = questionBody + questionPart + "?";
-        questionLabel.setText(question);
+        this.questionLabel.setText(question);
     }
 
     //EFFECTS: sets feedback label according to user input
     //MODIFIES: this
     private void showTestFeedback() {
         String feedback;
-        if (selected.getDescription().equals(testInput.getText())) {
+        if (this.selected.getDescription().equals(this.testInput.getText())) {
             feedback = "Correct!";
         } else {
-            feedback = "Unfortunately that is wrong. The right answer to " + selected.getMeaning() + " is "
-                    + selected.getDescription() + ".";
+            feedback = "Unfortunately that is wrong. The right answer to " + this.selected.getMeaning() + " is "
+                    + this.selected.getDescription() + ".";
         }
-        selected.adjustDistribution(testInput.getText());
-        feedbackLabel.setText(feedback);
+        this.selected.adjustDistribution(this.testInput.getText());
+        this.feedbackLabel.setText(feedback);
         showTestQuestion();
+    }
+
+    @Override
+    protected VBox getNode() {
+        return this.testLayout;
     }
 }
 

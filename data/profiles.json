@@ -7,22 +7,17 @@
       0.0,
       0.0,
       0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
       0.0
     ],
     "successes": 0,
-    "attempts": 2,
+    "attempts": 1,
     "database": {
       "entries": [
-        {
-          "match": {
-            "meaning: ": "sled",
-            "description: ": "toboggan",
-            "comment: ": "canadian for sled",
-            "example: ": "riding down the hill with a toboggan"
-          },
-          "failures": 1,
-          "attempts": 1
-        },
         {
           "match": {
             "meaning: ": "lsdfsdl",

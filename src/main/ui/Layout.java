@@ -1,10 +1,5 @@
 package ui;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -19,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class Layout extends Node {
+public abstract class Layout {
 
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
-    protected Profile profile;
+    protected Profile layoutProfile;
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
 
@@ -32,6 +27,10 @@ public abstract class Layout extends Node {
                 handler.handle(e);
             }
         }
+    }
+
+    public void setLayoutProfile(Profile appProfile) {
+        layoutProfile = appProfile;
     }
 
     public void addEventListener(String eventName, EventHandler listener) {
@@ -51,31 +50,11 @@ public abstract class Layout extends Node {
         singleEntry.setComment(textFields.get(2).getText());
         singleEntry.setExample(textFields.get(3).getText());
         this.table.getItems().add(singleEntry);
-        this.profile.getDatabase().addEntry(singleEntry);
+        this.layoutProfile.getDatabase().addEntry(singleEntry);
         for (TextField textField : textFields) {
             textField.clear();
         }
     }
 
-    @Override
-    protected NGNode impl_createPeer() {
-        return null;
-    }
-
-    @Override
-    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        return null;
-    }
-
-    @Override
-    protected boolean impl_computeContains(double localX, double localY) {
-        return false;
-    }
-
-    @Override
-    public Object impl_processMXNode(MXNodeAlgorithm alg, MXNodeAlgorithmContext ctx) {
-        return null;
-    }
+    protected abstract Node getNode();
 }
-
-//TODO: get profile so that main, database, test and search have access to it

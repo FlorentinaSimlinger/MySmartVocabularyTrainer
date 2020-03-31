@@ -1,11 +1,11 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Profile;
+import model.SingleEntry;
 import persistence.Reader;
 import persistence.Writer;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 //Represents a vocabulary trainer application
-public class VocabAppGuiFX extends Application implements EventHandler<ActionEvent> {
+public class VocabAppGuiFX extends Application {
     private RootLayout rootLayout;
     private MainLayout mainLayout;
     private TestLayout testLayout;
@@ -22,8 +22,9 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     private SearchLayout searchLayout;
     private AboutLayout aboutLayout;
     private LoginLayout loginLayout;
-    private Profile profile;
+    private Profile appProfile;
     private ArrayList<Profile> profiles;
+    private ObservableList<SingleEntry> databaseTable;
     private Reader reader;
     private Stage window;
 
@@ -47,7 +48,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         //instantiating layouts and adding event listeners
         this.loginLayout = new LoginLayout();
-        
+
         this.rootLayout = new RootLayout();
         addEventListenersToLayout(this.rootLayout);
         this.mainLayout = new MainLayout();
@@ -63,11 +64,12 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
 
         this.loginLayout.addEventListener("login",
                 e -> {
-                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
-                    this.rootLayout.setChildPane(this.mainLayout);
-                    Scene rootScene = new Scene(this.rootLayout.getRootLayout(), 920, 600);
-                    this.window.setScene(rootScene);
+                    this.appProfile = loginLayout.findOrCreateProfile(reader, profiles);
+                    databaseLayout.setLayoutProfile(this.appProfile);
                     databaseLayout.table.setItems(databaseLayout.getTableItems());
+                    this.rootLayout.setChildPane(this.mainLayout);
+                    Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
+                    this.window.setScene(rootScene);
                 });
 
         //TODO: this was previously in LoginLayout.findOrCreateProfile(), is there a better way?
@@ -108,7 +110,7 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
     //EFFECTS: adds current session to records, closes program and writes everything into Json File
     //MODIFIES: this
     private void closeProgram() {
-        this.profile.addSuccessRateOfSession();
+        this.appProfile.addSuccessRateOfSession();
         try {
             Writer.write(this.profiles);
         } catch (IOException e) {
@@ -117,11 +119,6 @@ public class VocabAppGuiFX extends Application implements EventHandler<ActionEve
         this.window.close();
     }
 
-
-    @Override
-    public void handle(ActionEvent event) {
-
-    }
 }
 
 

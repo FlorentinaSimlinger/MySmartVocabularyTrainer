@@ -27,7 +27,7 @@ public class SearchLayout extends Layout {
     //MODIFIES: this
     private void search(String search) {
         String searchFeedbackText;
-        SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(search);
+        SingleEntry entry = layoutProfile.getDatabase().getEntryBasedOnValue(search);
         if (entry == null) {
             searchFeedbackText = "Oops, we could not find such entry.";
         } else {
@@ -47,6 +47,11 @@ public class SearchLayout extends Layout {
                     + commentText + "\n" + exampleText + "\n" + successRate;
         }
         feedbackLabel.setText(searchFeedbackText);
+    }
+
+    @Override
+    protected VBox getNode() {
+        return this.searchLayout;
     }
 }
 

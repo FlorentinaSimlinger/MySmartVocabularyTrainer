@@ -70,8 +70,8 @@ public class DatabaseLayout extends Layout {
     //MODIFIES: this
     public ObservableList<SingleEntry> getTableItems() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
-        if (profile != null) {
-            for (SingleEntry entry : profile.getDatabase().getEntries()) {
+        if (layoutProfile != null) {
+            for (SingleEntry entry : layoutProfile.getDatabase().getEntries()) {
                 databaseTable.add(entry);
             }
         }
@@ -113,12 +113,11 @@ public class DatabaseLayout extends Layout {
         allSingleEntries = table.getItems();
         selectedSingleEntries.forEach(allSingleEntries::remove);
         for (SingleEntry entry : selectedSingleEntries) {
-            profile.getDatabase().removeEntry(entry.getDescription());
+            layoutProfile.getDatabase().removeEntry(entry.getDescription());
         }
     }
 
-    public BorderPane getDatabaseLayout() {
-        return databaseLayout; }
+    public BorderPane getNode() {
+        return this.databaseLayout; }
 }
 
-//TODO: check how I can pass in a profile

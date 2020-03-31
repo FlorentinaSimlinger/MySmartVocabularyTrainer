@@ -57,7 +57,7 @@ public class MainLayout extends Layout {
         }
     }
 
-    public VBox getMainLayout() {
+    public VBox getNode() {
         return this.mainLayout;
     }
 

@@ -83,13 +83,14 @@ import java.util.ArrayList;
 public class LoginLayout extends Layout {
     private TextField loginInput;
     private Scene loginScene;
+    private GridPane loginLayout;
+
 
     public LoginLayout() {
-        //LOGIN
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setVgap(8);
-        gridPane.setHgap(10);
+        this.loginLayout = new GridPane();
+        this.loginLayout.setPadding(new Insets(10, 10, 10, 10));
+        this.loginLayout.setVgap(8);
+        this.loginLayout.setHgap(10);
 
         //login label
         Label loginLabel = new Label("Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue.");
@@ -105,8 +106,8 @@ public class LoginLayout extends Layout {
         loginToMainButton.setOnAction(e -> handleEvent(e, "login"));
         GridPane.setConstraints(loginToMainButton, 1, 2);
 
-        gridPane.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
-        this.loginScene = new Scene(gridPane, 850, 500);
+        loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
+        this.loginScene = new Scene(loginLayout, 850, 500);
     }
 
     public Scene getLoginScene() {
@@ -117,19 +118,19 @@ public class LoginLayout extends Layout {
     //MODIFIES: this
     public Profile findOrCreateProfile(Reader reader, ArrayList<Profile> profiles) {
         String name = loginInput.getText().trim(); //trim excludes any space at end
-        profile = new Profile();
+        layoutProfile = new Profile();
         if (reader.findProfile(name) == null) {
-            profile.setName(name);
-            profiles.add(profile);
+            layoutProfile.setName(name);
+            profiles.add(layoutProfile);
             if (SignUpAlert.displaySignUpAlert(name)) {
                 loadExampleDatabase();
             }
         } else {
-            profile = reader.findProfile(name);
+            layoutProfile = reader.findProfile(name);
         }
         //table.setItems(databaseLayout.getTableItems());
         //window.setScene(rootScene);
-        return profile;
+        return layoutProfile;
     }
 
     //EFFECTS: loads example data base
@@ -141,8 +142,13 @@ public class LoginLayout extends Layout {
                 "does not have to be used as question", "it's cold today, eh?");
         SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
                 "yü-ˈbi-kwə-təs", "");
-        profile.getDatabase().addEntry(entry1);
-        profile.getDatabase().addEntry(entry2);
-        profile.getDatabase().addEntry(entry3);
+        layoutProfile.getDatabase().addEntry(entry1);
+        layoutProfile.getDatabase().addEntry(entry2);
+        layoutProfile.getDatabase().addEntry(entry3);
+    }
+
+    @Override
+    protected GridPane getNode() {
+        return this.loginLayout;
     }
 }
