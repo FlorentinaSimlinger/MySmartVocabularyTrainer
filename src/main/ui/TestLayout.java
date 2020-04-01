@@ -14,6 +14,10 @@ public class TestLayout extends Layout {
     private Label feedbackLabel;
     private TextField testInput;
     private VBox testLayout;
+    public static final String EVENT_MAIN = "main";
+    public static final String EVENT_QUIT = "quit";
+    public static final String EVENT_SHOWTESTQUESTION = "show test question";
+    public static final String EVENT_SHOWTESTFEEDBACK = "show test feedback";
 
     //EFFECTS: constructs a test layout
     public TestLayout() {
@@ -23,17 +27,17 @@ public class TestLayout extends Layout {
                 + "'Return to main' to return to main page.";
         Label testLabel = new Label(labelText);
         Button testStartButton = new Button("Start!");
-        testStartButton.setOnAction(e -> showTestQuestion());
+        testStartButton.setOnAction(e -> handleEvent(e, EVENT_SHOWTESTQUESTION));
         Button testToMainButton = new Button("Return to main");
-        testToMainButton.setOnAction(e -> handleEvent(e, "main"));
+        testToMainButton.setOnAction(e -> handleEvent(e, EVENT_MAIN));
         Button testQuitButton = new Button("Quit");
-        testQuitButton.setOnAction(e -> handleEvent(e, "quit"));
+        testQuitButton.setOnAction(e -> handleEvent(e, EVENT_QUIT));
         this.questionLabel = new Label("");
         this.feedbackLabel = new Label("");
         this.testInput = new TextField();
         this.testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                showTestFeedback();
+                handleEvent(e, EVENT_SHOWTESTFEEDBACK);
                 this.testInput.clear();
             }
         });
@@ -44,10 +48,7 @@ public class TestLayout extends Layout {
 
     //EFFECTS: sets question label to randomly chosen question
     //MODIFIES: this
-    private void showTestQuestion() {
-        double random = profile.getDatabase().getRandomFromSumOfFailureRates();
-        this.selected = profile.getDatabase().getEntryBasedOnRandom(random);
-        String questionPart = this.selected.getMeaning();
+    public void showTestQuestion(String questionPart) {
         String questionBody = "What's another word for ";
         String question = questionBody + questionPart + "?";
         this.questionLabel.setText(question);
@@ -55,22 +56,26 @@ public class TestLayout extends Layout {
 
     //EFFECTS: sets feedback label according to user input
     //MODIFIES: this
-    private void showTestFeedback() {
+    public void showTestFeedback(boolean correct, String selectedMeaning, String selectedDescription) {
         String feedback;
-        if (this.selected.getDescription().equals(this.testInput.getText())) {
+        if (correct) {
             feedback = "Correct!";
         } else {
-            feedback = "Unfortunately that is wrong. The right answer to " + this.selected.getMeaning() + " is "
-                    + this.selected.getDescription() + ".";
+            feedback = "Unfortunately that is wrong. The right answer to " + selectedMeaning + " is "
+                    + selectedDescription + ".";
         }
         this.selected.adjustDistribution(this.testInput.getText());
         this.feedbackLabel.setText(feedback);
-        showTestQuestion();
+        showTestQuestion(); //fire EVENT_SHOWTESTQUESTION again so that a new question appears automatically
     }
 
     @Override
     protected VBox getNode() {
         return this.testLayout;
+    }
+
+    public TextField getTestInput() {
+        return this.testInput;
     }
 }
 

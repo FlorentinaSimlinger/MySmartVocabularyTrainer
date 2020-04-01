@@ -15,7 +15,11 @@ import java.util.*;
 public class DatabaseLayout extends Layout {
     private BorderPane databaseLayout;
     private HBox databaseHBox;
-    //private ArrayList<TextField> textFields = new ArrayList<>();
+    private ArrayList<TextField> textFields = new ArrayList<>();
+    private TableView<SingleEntry> table;
+    private ObservableList<SingleEntry> tableItems;
+    public static String EVENT_DELETE = "delete";
+    public static String EVENT_ADD = "add";
 
     //EFFECTS: constructs database layout
     public DatabaseLayout() {
@@ -23,6 +27,7 @@ public class DatabaseLayout extends Layout {
         Label databaseLabel = new Label("DATABASE");
         this.databaseLayout.setTop(databaseLabel);
         addHBox();
+        this.tableItems = FXCollections.observableArrayList();
         addTable();
     }
 
@@ -40,10 +45,10 @@ public class DatabaseLayout extends Layout {
     //EFFECTS: adds table to layout
     //MODIFIES: this
     public void addTable() {
-        table = new TableView<>();
+        this.table = new TableView<>();
         getTableColumns();
-        table.setItems(getTableItems());
-        this.databaseLayout.setCenter(table);
+        this.table.setItems(getTableItems());
+        this.databaseLayout.setCenter(this.table);
     }
 
     //EFFECTS: creates tables columns and adds them to the table
@@ -61,29 +66,31 @@ public class DatabaseLayout extends Layout {
             column.setMaxWidth(200);
             column.setMinWidth(200);
             column.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>(value));
-            table.getColumns().add(column);
+            this.table.getColumns().add(column);
         }
     }
 
     //EFFECTS: creates table with database
     //MODIFIES: this
     public ObservableList<SingleEntry> getTableItems() {
-        ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
-        if (profile != null) {
-            for (SingleEntry entry : profile.getDatabase().getEntries()) {
-                databaseTable.add(entry);
-            }
-        }
-        return databaseTable;
+        //ObservableList<SingleEntry> tableItems = FXCollections.observableArrayList();
+//
+//        if (profile != null) {
+//            for (SingleEntry entry : profile.getDatabase().getEntries()) {
+//                this.databaseLayout.getTableItems().add(entry);
+//            }
+//        }
+        return this.tableItems;
     }
+
 
     //EFFECTS: adds Add and Delete Buttons to Database Layout, changes Database Layout and actual database
     //MODIFIES: this
     private void getAddAndDeleteButtons() {
         Button databaseAddButton = new Button("Add");
-        databaseAddButton.setOnMouseClicked(e -> addButtonClicked());
         Button databaseDeleteButton = new Button("Delete");
-        databaseDeleteButton.setOnMouseClicked(e -> databaseDeleteButtonClicked());
+        databaseAddButton.setOnMouseClicked(e -> handleEvent(e, EVENT_ADD));
+        databaseDeleteButton.setOnMouseClicked(e -> handleEvent(e, EVENT_DELETE));
         this.databaseHBox.getChildren().addAll(databaseAddButton, databaseDeleteButton);
     }
 
@@ -99,26 +106,43 @@ public class DatabaseLayout extends Layout {
             textField.setPromptText(fieldName);
             textField.setMinWidth(100);
             this.databaseHBox.getChildren().add(textField);
-            if (textFields.size() < 4) {
-                textFields.add(textField);
+            if (this.textFields.size() < 4) {
+                this.textFields.add(textField);
             }
         }
     }
 
-    //EFFECTS: deletes selected entry from table and from database
-    //MODIFIES: this
-    public void databaseDeleteButtonClicked() {
-        ObservableList<SingleEntry> selectedSingleEntries;
-        ObservableList<SingleEntry> allSingleEntries;
-        selectedSingleEntries = table.getSelectionModel().getSelectedItems();
-        allSingleEntries = table.getItems();
-        selectedSingleEntries.forEach(allSingleEntries::remove);
-        for (SingleEntry entry : selectedSingleEntries) {
-            profile.getDatabase().removeEntry(entry.getDescription());
+
+    public BorderPane getNode() {
+        return this.databaseLayout;
+    }
+
+    public ArrayList<TextField> getTextFields() {
+        return this.textFields;
+    }
+
+    public TableView<SingleEntry> getTable() {
+        return this.table;
+    }
+
+    public void clearTextFields() {
+        for (TextField textField : textFields) {
+            textField.clear();
         }
     }
 
-    public BorderPane getNode() {
-        return this.databaseLayout; }
+    public ObservableList<SingleEntry> getSelectedSingleEntries() {
+        return this.table.getSelectionModel().getSelectedItems();
+    }
+
+    public ObservableList<SingleEntry> getAllSingleEntries() {
+        return this.table.getItems();
+    }
+
+    public void removeSelectedEntries(ObservableList<SingleEntry> selectedSingleEntries,
+                                      ObservableList<SingleEntry> allSingleEntries) {
+        selectedSingleEntries.forEach(allSingleEntries::remove);
+    }
+
 }
 

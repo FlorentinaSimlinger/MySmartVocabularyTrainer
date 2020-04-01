@@ -20,6 +20,13 @@ public class RootLayout extends Layout {
     private Menu mainMenu;
     private Menu aboutMenu;
     private Menu profileMenu;
+    public static final String EVENT_MAIN = "main";
+    public static final String EVENT_ABOUT = "about";
+    public static final String EVENT_PROFILE = "profile";
+    public static final String EVENT_TEST = "test";
+    public static final String EVENT_SEARCH = "search";
+    public static final String EVENT_QUIT = "quit";
+    public static final String EVENT_DATABASE = "database";
 
     //constructs a root layout
     public RootLayout() {
@@ -74,13 +81,13 @@ public class RootLayout extends Layout {
     //EFFECTS: adds triggers to the different menu items
     //MODIFIES: this
     private void addEventTriggers() {
-        this.databaseMenuItem.setOnAction(e -> handleEvent(e, "database"));
-        this.searchMenuItem.setOnAction(e -> handleEvent(e, "search"));
-        this.testMenuItem.setOnAction(e -> handleEvent(e, "test"));
-        this.quitMenuItem.setOnAction(e -> handleEvent(e, "quit"));
-        this.mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, "main"));
-        this.aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, "about"));
-        this.profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, "profile"));
+        this.databaseMenuItem.setOnAction(e -> handleEvent(e, EVENT_DATABASE));
+        this.searchMenuItem.setOnAction(e -> handleEvent(e, EVENT_SEARCH));
+        this.testMenuItem.setOnAction(e -> handleEvent(e, EVENT_TEST));
+        this.quitMenuItem.setOnAction(e -> handleEvent(e, EVENT_QUIT));
+        this.mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_MAIN));
+        this.aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_ABOUT));
+        this.profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_PROFILE));
     }
 
     //EFFECTS: sets the center of the root layout

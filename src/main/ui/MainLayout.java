@@ -12,6 +12,10 @@ import java.util.List;
 //represents the main layout
 public class MainLayout extends Layout {
     VBox mainLayout;
+    public static final String EVENT_TEST = "test";
+    public static final String EVENT_QUIT = "quit";
+    public static final String EVENT_ADD = "add";
+    private ArrayList<TextField> textFields = new ArrayList<>();
 
     //constructs a main layout
     public MainLayout() {
@@ -36,9 +40,9 @@ public class MainLayout extends Layout {
 
         this.mainLayout.getChildren().addAll(addButton, testButton, quitButton);
 
-        addButton.setOnMouseClicked(e -> addButtonClicked());
-        testButton.setOnAction(e -> handleEvent(e, "test"));
-        quitButton.setOnAction(e -> handleEvent(e, "quit"));
+        addButton.setOnMouseClicked(e -> handleEvent(e, EVENT_ADD));
+        testButton.setOnAction(e -> handleEvent(e, EVENT_TEST));
+        quitButton.setOnAction(e -> handleEvent(e, EVENT_QUIT));
 
     }
 
@@ -63,6 +67,16 @@ public class MainLayout extends Layout {
 
     public VBox getNode() {
         return this.mainLayout;
+    }
+
+    public ArrayList<TextField> getTextFields() {
+        return this.textFields;
+    }
+
+    public void clearTextFields() {
+        for (TextField textField : textFields) {
+            textField.clear();
+        }
     }
 
 }
