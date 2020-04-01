@@ -75,13 +75,15 @@ public class VocabAppGui extends Application {
                     Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
                     this.window.setScene(rootScene);
                 });
-        
+
 
         this.window.setScene(this.loginLayout.getLoginScene());
 
         this.window.show();
     }
 
+    //EFFECTS: adds event listeners to each layout
+    //MODIFIES: this
     public void addEventListenersToLayout(Layout layout) {
         layout.addEventListener("database", e -> this.rootLayout.setChildPane(this.databaseLayout));
         layout.addEventListener("search", e -> this.rootLayout.setChildPane(this.searchLayout));

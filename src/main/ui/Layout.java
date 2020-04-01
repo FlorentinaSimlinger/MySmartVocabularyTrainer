@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+//represents an abstract layout class
 public abstract class Layout {
     public static Profile profile;
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
@@ -21,10 +21,12 @@ public abstract class Layout {
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
 
+    //EFFECTS: sets the static field profile
     public static void setProfile(Profile profile) {
         Layout.profile = profile;
     }
 
+    //EFFECTS: goes through all EventHandlers and handles events
     protected void handleEvent(Event e, String eventName) {
         if (this.listeners.get(eventName) != null) {
             for (EventHandler handler : this.listeners.get(eventName)) {
@@ -33,7 +35,8 @@ public abstract class Layout {
         }
     }
 
-
+    //EFFECTS: adds an event listener to list of event listeners
+    //MODIFIES: this
     public void addEventListener(String eventName, EventHandler listener) {
         if (this.listeners.get(eventName) == null) {
             this.listeners.put(eventName, new ArrayList<>());
@@ -61,3 +64,4 @@ public abstract class Layout {
 }
 
 //TODO: do you do this. notation even if there is no constructor and therefore no object?
+//TODO: does the handleEvent method modify anything?

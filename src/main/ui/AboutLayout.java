@@ -4,9 +4,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+//represents the layout for the about menu
 public class AboutLayout extends Layout {
     VBox aboutLayout;
 
+    //EFFECTS: constructs an about layout
     public AboutLayout() {
         this.aboutLayout = new VBox();
         aboutLayout.setAlignment(Pos.CENTER);

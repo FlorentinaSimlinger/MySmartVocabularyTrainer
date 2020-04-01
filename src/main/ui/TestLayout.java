@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import model.SingleEntry;
 
+//represents a test layout where user can test himself/herself
 public class TestLayout extends Layout {
     private SingleEntry selected;
     private Label questionLabel;
@@ -14,6 +15,7 @@ public class TestLayout extends Layout {
     private TextField testInput;
     private VBox testLayout;
 
+    //EFFECTS: constructs a test layout
     public TestLayout() {
         this.testLayout = new VBox(20);
 

@@ -6,12 +6,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.SingleEntry;
 
+//represents a search layout where entries can be searched
 public class SearchLayout extends Layout {
     VBox searchLayout;
     TextField searchInput;
     Label feedbackLabel;
 
-
+    //EFFECTS: constructs a search layout
     public SearchLayout() {
         this.searchLayout = new VBox();
         Label searchLabel = new Label("SEARCH");

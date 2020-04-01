@@ -54,8 +54,17 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
 12) You can also search specific entries in your database
 
 ##Phase 4: Task 2
-- In SingleEntry I make appropriate use of the Map interface because a SingleEntry consists of a HashMap. I use the
+Dear Bhavesh, I hope you're well. This is how I implemented Task 2:
+- I make appropriate use of the Map interface in SingleEntry. A SingleEntry consists of a HashMap, I use the
 built in put and get methods to set key and value pairs and retrieve values based on keys.
+
+##Phase 4: Task 3
+And this is how I implemented Task 3:
+- I fixed poor cohesion in the VocabAppGui. It previously contained the entire logic for the layouts. Now the layouts
+are in separate classes.
+- I also decreased coupling by limiting the access to other classes through fields and instead call methods. An example
+of that are the event listeners in VocabGui so that it does not know how events are triggered
+(ie it does not know about the buttons and labels in the layout classes).
 
 
 ##Ideas for extended version

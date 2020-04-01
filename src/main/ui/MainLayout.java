@@ -9,9 +9,11 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+//represents the main layout
 public class MainLayout extends Layout {
     VBox mainLayout;
 
+    //constructs a main layout
     public MainLayout() {
         this.mainLayout = new VBox();
         this.mainLayout.setAlignment(Pos.CENTER);
@@ -41,6 +43,7 @@ public class MainLayout extends Layout {
     }
 
     //EFFECTS: creates fields for user input
+    //MODIFIES: this
     public void addUserInputFields() {
         List<String> fieldNames = new ArrayList<>();
         fieldNames.add("description");

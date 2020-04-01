@@ -6,111 +6,28 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
-////represents the root layout
-//public class RootLayout extends Layout {
-//    private BorderPane rootLayout;
-//    private Menu moreMenu;
-//
-//    //EFFECTS: constructs the root layout
-//    public RootLayout() {
-//        super("", "", "");
-//        rootLayout = new BorderPane();
-//        rootLayout.setPadding(new Insets(10, 10, 10, 10));
-//        addMoreMenu();
-//        addMenuBar();
-//    }
-//
-//    //EFFECTS: adds the More menu
-//    //MODIFIES: this
-//    private void addMoreMenu() {
-//        moreMenu = new Menu("MORE");
-//        MenuItem databaseMenuItem = new MenuItem("DATABASE");
-//        MenuItem searchMenuItem = new MenuItem("SEARCH");
-//        MenuItem testMenuItem = new MenuItem("TEST");
-//        MenuItem quitMenuItem = new MenuItem("QUIT");
-//        moreMenu.getItems().addAll(databaseMenuItem, searchMenuItem, testMenuItem);
-//        moreMenu.getItems().add(new SeparatorMenuItem());
-//        moreMenu.getItems().add(quitMenuItem);
-//        databaseMenuItem.setOnAction(e -> rootLayout.setCenter(new DatabaseLayout("DATABASE", "Add", "Delete")));
-//        searchMenuItem.setOnAction(e -> rootLayout.setCenter(searchLayout));
-//        testMenuItem.setOnAction(e -> rootLayout.setCenter(testLayout));
-//        quitMenuItem.setOnAction(e -> closeProgram());
-//    }
-//
-//    //EFFECTS: sets Menu bar
-//    //MODIFIES: this
-//    private void addMenuBar() {
-//        //Menus without MenuItems don't fire, therefore workaround,
-//        //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
-//        Label mainMenuLabel = new Label("MAIN");
-//        Label aboutMenuLabel = new Label("ABOUT");
-//        Label profileMenuLabel = new Label("PROFILE");
-//        Menu mainMenu = new Menu("", mainMenuLabel);
-//        Menu aboutMenu = new Menu("", aboutMenuLabel);
-//        Menu profileMenu = new Menu("", profileMenuLabel);
-//
-//        mainMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(mainLayout));
-//        aboutMenuLabel.setOnMouseClicked(mouseEvent -> rootLayout.setCenter(aboutLayout));
-//        profileMenuLabel.setOnMouseClicked(mouseEvent -> {
-//            rootLayout.setCenter(profileLayout);
-//        });
-//
-//        MenuBar menuBar = new MenuBar();
-//        menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
-//
-//        HBox menuBarHBox = new HBox();
-//        menuBarHBox.getChildren().add(menuBar);
-//        menuBarHBox.setAlignment(Pos.CENTER_RIGHT);
-//
-//        rootLayout.setTop(menuBarHBox);
-//    }
-//}
-
-//TODO: change layouts
-
-
+//represents the root layout, all other layouts are displayed at center of this layout
 public class RootLayout extends Layout {
-
     private BorderPane rootLayout;
+    private MenuItem databaseMenuItem;
+    private MenuItem searchMenuItem;
+    private MenuItem testMenuItem;
+    private MenuItem quitMenuItem;
+    private Label mainMenuLabel;
+    private Label aboutMenuLabel;
+    private Label profileMenuLabel;
+    private Menu moreMenu;
+    private Menu mainMenu;
+    private Menu aboutMenu;
+    private Menu profileMenu;
 
+    //constructs a root layout
     public RootLayout() {
-        //ROOT
         this.rootLayout = new BorderPane();
         this.rootLayout.setPadding(new Insets(10, 10, 10, 10));
 
-        //Menus
-        Menu moreMenu = new Menu("MORE");
-
-        MenuItem databaseMenuItem = new MenuItem("DATABASE");
-        MenuItem searchMenuItem = new MenuItem("SEARCH");
-        MenuItem testMenuItem = new MenuItem("TEST");
-        MenuItem quitMenuItem = new MenuItem("QUIT");
-
-        databaseMenuItem.setOnAction(e -> handleEvent(e, "database"));
-        searchMenuItem.setOnAction(e -> handleEvent(e, "search"));
-        testMenuItem.setOnAction(e -> handleEvent(e, "test"));
-        quitMenuItem.setOnAction(e -> handleEvent(e, "quit"));
-
-        moreMenu.getItems().add(databaseMenuItem);
-        moreMenu.getItems().add(searchMenuItem);
-        moreMenu.getItems().add(testMenuItem);
-        moreMenu.getItems().add(new SeparatorMenuItem());
-        moreMenu.getItems().add(quitMenuItem);
-
-        //Menus without MenuItems don't fire, therefore workaround,
-        //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
-        Label mainMenuLabel = new Label("MAIN");
-        mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, "main"));
-
-        Label aboutMenuLabel = new Label("ABOUT");
-        aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, "about"));
-
-        Label profileMenuLabel = new Label("PROFILE");
-        profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, "profile"));
-
-        Menu mainMenu = new Menu("", mainMenuLabel);
-        Menu aboutMenu = new Menu("", aboutMenuLabel);
-        Menu profileMenu = new Menu("", profileMenuLabel);
+        createMoreMenu();
+        createOtherMenus();
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(mainMenu, aboutMenu, profileMenu, moreMenu);
@@ -119,9 +36,55 @@ public class RootLayout extends Layout {
         menuBarHBox.getChildren().add(menuBar);
         menuBarHBox.setAlignment(Pos.CENTER_RIGHT);
 
+        addEventTriggers();
+
         this.rootLayout.setTop(menuBarHBox);
     }
 
+    //EFFECTS: creates main, about, and profile menu
+    //MODIFIES: this
+    //NOTE: Menus without MenuItems don't fire, therefore workaround,
+    //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
+    private void createOtherMenus() {
+        this.mainMenuLabel = new Label("MAIN");
+        this.aboutMenuLabel = new Label("ABOUT");
+        this.profileMenuLabel = new Label("PROFILE");
+
+        this.mainMenu = new Menu("", mainMenuLabel);
+        this.aboutMenu = new Menu("", aboutMenuLabel);
+        this.profileMenu = new Menu("", profileMenuLabel);
+    }
+
+    //EFFECTS: creates the more menu, holding the search, test and quit menus
+    //MODIFIES: this
+    private void createMoreMenu() {
+        this.moreMenu = new Menu("MORE");
+        this.databaseMenuItem = new MenuItem("DATABASE");
+        this.searchMenuItem = new MenuItem("SEARCH");
+        this.testMenuItem = new MenuItem("TEST");
+        this.quitMenuItem = new MenuItem("QUIT");
+
+        this.moreMenu.getItems().add(databaseMenuItem);
+        this.moreMenu.getItems().add(searchMenuItem);
+        this.moreMenu.getItems().add(testMenuItem);
+        this.moreMenu.getItems().add(new SeparatorMenuItem());
+        this.moreMenu.getItems().add(quitMenuItem);
+    }
+
+    //EFFECTS: adds triggers to the different menu items
+    //MODIFIES: this
+    private void addEventTriggers() {
+        this.databaseMenuItem.setOnAction(e -> handleEvent(e, "database"));
+        this.searchMenuItem.setOnAction(e -> handleEvent(e, "search"));
+        this.testMenuItem.setOnAction(e -> handleEvent(e, "test"));
+        this.quitMenuItem.setOnAction(e -> handleEvent(e, "quit"));
+        this.mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, "main"));
+        this.aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, "about"));
+        this.profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, "profile"));
+    }
+
+    //EFFECTS: sets the center of the root layout
+    //MODIFIES: this
     public void setChildPane(Layout layout) {
         rootLayout.setCenter(layout.getNode());
     }

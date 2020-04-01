@@ -7,14 +7,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-
 import java.util.ArrayList;
 
-
+//represents a layout to display profile data
 public class ProfileLayout extends Layout {
     private LineChart<Number, Number> lineChart;
     private VBox profileLayout;
 
+    //EFFECTS: constructs a profile layout
     public ProfileLayout() {
         this.profileLayout = new VBox();
         this.profileLayout.setAlignment(Pos.CENTER);
