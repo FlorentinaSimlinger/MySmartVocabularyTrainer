@@ -15,16 +15,16 @@ import java.util.Map;
 
 //represents an abstract layout class
 public abstract class Layout {
-    public static Profile profile;
+//    public static Profile profile;
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
     //protected Profile profile;
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
 
-    //EFFECTS: sets the static field profile
-    public static void setProfile(Profile profile) {
-        Layout.profile = profile;
-    }
+//    //EFFECTS: sets the static field profile
+//    public static void setProfile(Profile profile) {
+//        Layout.profile = profile;
+//    }
 
     //EFFECTS: goes through all EventHandlers and handles events
     protected void handleEvent(Event e, String eventName) {
@@ -54,7 +54,7 @@ public abstract class Layout {
         singleEntry.setComment(textFields.get(2).getText());
         singleEntry.setExample(textFields.get(3).getText());
         this.table.getItems().add(singleEntry);
-        profile.getDatabase().addEntry(singleEntry);
+        LayoutManager.getProfile().getDatabase().addEntry(singleEntry);
         for (TextField textField : textFields) {
             textField.clear();
         }

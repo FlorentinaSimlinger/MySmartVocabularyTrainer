@@ -15,19 +15,20 @@ import java.util.Arrays;
 
 //Represents a vocabulary trainer application
 public class VocabAppGui extends Application {
-    private RootLayout rootLayout;
-    private MainLayout mainLayout;
-    private TestLayout testLayout;
-    private DatabaseLayout databaseLayout;
-    private SearchLayout searchLayout;
-    private AboutLayout aboutLayout;
-    private LoginLayout loginLayout;
-    private ProfileLayout profileLayout;
+//    private RootLayout rootLayout;
+//    private MainLayout mainLayout;
+//    private TestLayout testLayout;
+//    private DatabaseLayout databaseLayout;
+//    private SearchLayout searchLayout;
+//    private AboutLayout aboutLayout;
+//    private LoginLayout loginLayout;
+//    private ProfileLayout profileLayout;
     private Profile profile;
     private ArrayList<Profile> profiles;
     private ObservableList<SingleEntry> databaseTable;
     private Reader reader;
     private Stage window;
+    private LayoutManager layoutManager;
 
 
     //EFFECTS: launches the app
@@ -47,37 +48,58 @@ public class VocabAppGui extends Application {
         this.window.setOnCloseRequest(e -> closeProgram());
         this.window.setTitle("MySmartVocabularyTrainer");
 
+        layoutManager = LayoutManager.INSTANCE;
+
         //instantiating layouts and adding event listeners
-        this.loginLayout = new LoginLayout();
+//        this.loginLayout = new LoginLayout();
+//
+////        this.rootLayout = new RootLayout();
+//        addEventListenersToLayout(this.rootLayout);
+////        this.mainLayout = new MainLayout();
+//        addEventListenersToLayout(this.mainLayout);
+////        this.searchLayout = new SearchLayout();
+//        addEventListenersToLayout(this.searchLayout);
+////        this.testLayout = new TestLayout();
+//        addEventListenersToLayout(this.testLayout);
+////        this.databaseLayout = new DatabaseLayout();
+//        addEventListenersToLayout(this.databaseLayout);
+////        this.aboutLayout = new AboutLayout();
+//        addEventListenersToLayout(this.aboutLayout);
+////        this.profileLayout = new ProfileLayout();
+//        addEventListenersToLayout(this.profileLayout);
 
-        this.rootLayout = new RootLayout();
-        addEventListenersToLayout(this.rootLayout);
-        this.mainLayout = new MainLayout();
-        addEventListenersToLayout(this.mainLayout);
-        this.searchLayout = new SearchLayout();
-        addEventListenersToLayout(this.searchLayout);
-        this.testLayout = new TestLayout();
-        addEventListenersToLayout(this.testLayout);
-        this.databaseLayout = new DatabaseLayout();
-        addEventListenersToLayout(this.databaseLayout);
-        this.aboutLayout = new AboutLayout();
-        addEventListenersToLayout(this.aboutLayout);
-        this.profileLayout = new ProfileLayout();
-        addEventListenersToLayout(this.profileLayout);
 
-        this.loginLayout.addEventListener("login",
+        addEventListenersToLayout(layoutManager.getRootLayout());
+        addEventListenersToLayout(layoutManager.getMainLayout());
+        addEventListenersToLayout(layoutManager.getSearchLayout());
+        addEventListenersToLayout(layoutManager.getTestLayout());
+        addEventListenersToLayout(layoutManager.getDatabaseLayout());
+        addEventListenersToLayout(layoutManager.getAboutLayout());
+        addEventListenersToLayout(layoutManager.getProfileLayout());
+
+//        this.loginLayout.addEventListener("login",
+//                e -> {
+//                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
+//                    Layout.setProfile(this.profile);
+//                    databaseLayout.addTable();
+//                    profileLayout.addLineChart();
+//                    this.rootLayout.setChildPane(this.mainLayout);
+//                    Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
+//                    this.window.setScene(rootScene);
+//                });
+
+        layoutManager.getLoginLayout().addEventListener("login",
                 e -> {
-                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
-                    Layout.setProfile(this.profile);
-                    databaseLayout.addTable();
-                    profileLayout.addLineChart();
-                    this.rootLayout.setChildPane(this.mainLayout);
-                    Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
+                    layoutManager.setProfile(layoutManager.getLoginLayout().findOrCreateProfile(reader, profiles));
+                    //databaseLayout.addTable();
+                    //profileLayout.addLineChart();
+                    layoutManager.getRootLayout().setChildPane(layoutManager.getMainLayout());
+                    Scene rootScene = new Scene(layoutManager.getRootLayout().getNode(), 920, 600);
                     this.window.setScene(rootScene);
                 });
 
 
-        this.window.setScene(this.loginLayout.getLoginScene());
+        this.window.setScene(layoutManager.getLoginLayout().getLoginScene());
 
         this.window.show();
     }
@@ -85,13 +107,19 @@ public class VocabAppGui extends Application {
     //EFFECTS: adds event listeners to each layout
     //MODIFIES: this
     public void addEventListenersToLayout(Layout layout) {
-        layout.addEventListener("database", e -> this.rootLayout.setChildPane(this.databaseLayout));
-        layout.addEventListener("search", e -> this.rootLayout.setChildPane(this.searchLayout));
-        layout.addEventListener("test", e -> this.rootLayout.setChildPane(this.testLayout));
+        layout.addEventListener("database", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getDatabaseLayout()));
+        layout.addEventListener("search", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getSearchLayout()));
+        layout.addEventListener("test", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getTestLayout()));
         layout.addEventListener("quit", e -> closeProgram());
-        layout.addEventListener("main", e -> this.rootLayout.setChildPane(this.mainLayout));
-        layout.addEventListener("about", e -> this.rootLayout.setChildPane(this.aboutLayout));
-        layout.addEventListener("profile", e -> this.rootLayout.setChildPane(this.profileLayout));
+        layout.addEventListener("main", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getMainLayout()));
+        layout.addEventListener("about", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getAboutLayout()));
+        layout.addEventListener("profile", e ->
+                layoutManager.getRootLayout().setChildPane(layoutManager.getProfileLayout()));
     }
 
 
