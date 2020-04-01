@@ -27,7 +27,7 @@ public class SearchLayout extends Layout {
     //MODIFIES: this
     private void search(String search) {
         String searchFeedbackText;
-        SingleEntry entry = layoutProfile.getDatabase().getEntryBasedOnValue(search);
+        SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(search);
         if (entry == null) {
             searchFeedbackText = "Oops, we could not find such entry.";
         } else {

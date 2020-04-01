@@ -53,7 +53,9 @@ public class MainLayout extends Layout {
             textField.setPromptText(fieldName);
             textField.setMaxWidth(500);
             mainLayout.getChildren().add(textField);
-            textFields.add(textField);
+            if (textFields.size() < 4) {
+                textFields.add(textField);
+            }
         }
     }
 

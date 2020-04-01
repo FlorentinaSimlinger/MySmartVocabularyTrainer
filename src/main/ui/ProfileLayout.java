@@ -10,12 +10,14 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
+
 public class ProfileLayout extends Layout {
-    LineChart<Number, Number> lineChart;
+    private LineChart<Number, Number> lineChart;
+    private VBox profileLayout;
 
     public ProfileLayout() {
-        VBox profileLayout = new VBox();
-        profileLayout.setAlignment(Pos.CENTER);
+        this.profileLayout = new VBox();
+        this.profileLayout.setAlignment(Pos.CENTER);
 
         Label profileLabel = new Label("PROFILE");
         Label profileEntriesLabel = new Label("Entries");
@@ -24,7 +26,7 @@ public class ProfileLayout extends Layout {
         Button profileDeleteButton = new Button("Delete profile");
         addLineChart();
 
-        profileLayout.getChildren().addAll(profileLabel, lineChart, profileEntriesLabel,
+        this.profileLayout.getChildren().addAll(profileLabel, this.lineChart, profileEntriesLabel,
                 profileAchievementsLabel, profileExportDataLabel, profileDeleteButton);
     }
 
@@ -36,15 +38,20 @@ public class ProfileLayout extends Layout {
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of sessions");
         yAxis.setLabel("Success rate in % per session");
-        lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-        lineChart.setTitle("My Success Rate");
+        this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+        this.lineChart.setTitle("My Success Rate");
         XYChart.Series series = new XYChart.Series();
         series.setName("Success Rate");
         ArrayList<Double> successRates = profile.getSuccessRates();
         for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
             series.getData().add(new XYChart.Data(k, profile.getSuccessRates().get(i)));
         }
-        lineChart.getData().add(series);
+        this.lineChart.getData().add(series);
+    }
+
+    @Override
+    protected VBox getNode() {
+        return this.profileLayout;
     }
 }
 

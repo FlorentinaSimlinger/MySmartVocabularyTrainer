@@ -15,9 +15,9 @@ import java.util.Map;
 
 
 public abstract class Layout {
-
+    public static Profile profile;
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
-    protected Profile layoutProfile;
+    //protected Profile profile;
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
 
@@ -29,8 +29,8 @@ public abstract class Layout {
         }
     }
 
-    public void setLayoutProfile(Profile appProfile) {
-        layoutProfile = appProfile;
+    public void setProfile(Profile appProfile) {
+        profile = appProfile;
     }
 
     public void addEventListener(String eventName, EventHandler listener) {
@@ -50,7 +50,7 @@ public abstract class Layout {
         singleEntry.setComment(textFields.get(2).getText());
         singleEntry.setExample(textFields.get(3).getText());
         this.table.getItems().add(singleEntry);
-        this.layoutProfile.getDatabase().addEntry(singleEntry);
+        profile.getDatabase().addEntry(singleEntry);
         for (TextField textField : textFields) {
             textField.clear();
         }

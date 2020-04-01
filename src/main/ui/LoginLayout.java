@@ -118,19 +118,19 @@ public class LoginLayout extends Layout {
     //MODIFIES: this
     public Profile findOrCreateProfile(Reader reader, ArrayList<Profile> profiles) {
         String name = loginInput.getText().trim(); //trim excludes any space at end
-        layoutProfile = new Profile();
+        profile = new Profile();
         if (reader.findProfile(name) == null) {
-            layoutProfile.setName(name);
-            profiles.add(layoutProfile);
+            profile.setName(name);
+            profiles.add(profile);
             if (SignUpAlert.displaySignUpAlert(name)) {
                 loadExampleDatabase();
             }
         } else {
-            layoutProfile = reader.findProfile(name);
+            profile = reader.findProfile(name);
         }
         //table.setItems(databaseLayout.getTableItems());
         //window.setScene(rootScene);
-        return layoutProfile;
+        return profile;
     }
 
     //EFFECTS: loads example data base
@@ -142,9 +142,9 @@ public class LoginLayout extends Layout {
                 "does not have to be used as question", "it's cold today, eh?");
         SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
                 "yü-ˈbi-kwə-təs", "");
-        layoutProfile.getDatabase().addEntry(entry1);
-        layoutProfile.getDatabase().addEntry(entry2);
-        layoutProfile.getDatabase().addEntry(entry3);
+        profile.getDatabase().addEntry(entry1);
+        profile.getDatabase().addEntry(entry2);
+        profile.getDatabase().addEntry(entry3);
     }
 
     @Override

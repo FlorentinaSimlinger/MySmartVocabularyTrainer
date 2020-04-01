@@ -17,7 +17,7 @@ import java.util.List;
 public class DatabaseLayout extends Layout {
     private BorderPane databaseLayout;
     private HBox databaseHBox;
-    private ArrayList<TextField> textFields = new ArrayList<>();
+    //private ArrayList<TextField> textFields = new ArrayList<>();
 
     //EFFECTS: constructs database layout
     public DatabaseLayout() {
@@ -70,8 +70,8 @@ public class DatabaseLayout extends Layout {
     //MODIFIES: this
     public ObservableList<SingleEntry> getTableItems() {
         ObservableList<SingleEntry> databaseTable = FXCollections.observableArrayList();
-        if (layoutProfile != null) {
-            for (SingleEntry entry : layoutProfile.getDatabase().getEntries()) {
+        if (profile != null) {
+            for (SingleEntry entry : profile.getDatabase().getEntries()) {
                 databaseTable.add(entry);
             }
         }
@@ -100,7 +100,9 @@ public class DatabaseLayout extends Layout {
             textField.setPromptText(fieldName);
             textField.setMinWidth(100);
             this.databaseHBox.getChildren().add(textField);
-            this.textFields.add(textField);
+            if (textFields.size() < 4) {
+                textFields.add(textField);
+            }
         }
     }
 
@@ -113,7 +115,7 @@ public class DatabaseLayout extends Layout {
         allSingleEntries = table.getItems();
         selectedSingleEntries.forEach(allSingleEntries::remove);
         for (SingleEntry entry : selectedSingleEntries) {
-            layoutProfile.getDatabase().removeEntry(entry.getDescription());
+            profile.getDatabase().removeEntry(entry.getDescription());
         }
     }
 

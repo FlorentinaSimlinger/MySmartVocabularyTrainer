@@ -43,8 +43,8 @@ public class TestLayout extends Layout {
     //EFFECTS: sets question label to randomly chosen question
     //MODIFIES: this
     private void showTestQuestion() {
-        double random = layoutProfile.getDatabase().getRandomFromSumOfFailureRates();
-        this.selected = layoutProfile.getDatabase().getEntryBasedOnRandom(random);
+        double random = profile.getDatabase().getRandomFromSumOfFailureRates();
+        this.selected = profile.getDatabase().getEntryBasedOnRandom(random);
         String questionPart = this.selected.getMeaning();
         String questionBody = "What's another word for ";
         String question = questionBody + questionPart + "?";

@@ -29,6 +29,9 @@ public class VocabAppGuiFX extends Application {
     private Stage window;
 
 
+    //public VocabAppGuiFX() { launch(args); }
+
+
     //EFFECTS: launches the app
     //SOURCE: if not otherwise indicated, code of the entire app is partly based on
     // https://www.youtube.com/watch?v=FLkOX4Eez6o&list=PLkY8n-MZcmgRwjYDebUGDcf1PCxT3JA5z and the following videos in
@@ -65,7 +68,8 @@ public class VocabAppGuiFX extends Application {
         this.loginLayout.addEventListener("login",
                 e -> {
                     this.appProfile = loginLayout.findOrCreateProfile(reader, profiles);
-                    databaseLayout.setLayoutProfile(this.appProfile);
+                    Layout.profile = appProfile;
+                    //databaseLayout.setLayoutProfile(this.appProfile);
                     databaseLayout.table.setItems(databaseLayout.getTableItems());
                     this.rootLayout.setChildPane(this.mainLayout);
                     Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
