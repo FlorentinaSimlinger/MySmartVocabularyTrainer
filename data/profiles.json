@@ -1,9 +1,16 @@
 [
   {
     "name": "Flo",
-    "successRates": [],
-    "successes": 0,
-    "attempts": 7,
+    "successRates": [
+      0.0,
+      18.42105263157895,
+      18.42105263157895,
+      18.42105263157895,
+      48.93617021276596,
+      48.0
+    ],
+    "successes": 24,
+    "attempts": 50,
     "database": {
       "entries": [
         {
@@ -13,8 +20,8 @@
             "comment: ": "sdfsdfs",
             "example: ": "sdfsdfsd"
           },
-          "failures": 5,
-          "attempts": 5
+          "failures": 17,
+          "attempts": 25
         },
         {
           "match": {
@@ -23,8 +30,8 @@
             "comment: ": "sdf",
             "example: ": "sdf"
           },
-          "failures": 1,
-          "attempts": 1
+          "failures": 2,
+          "attempts": 8
         },
         {
           "match": {
@@ -32,6 +39,36 @@
             "description: ": "sdffds",
             "comment: ": "sdffds",
             "example: ": "sdffds"
+          },
+          "failures": 4,
+          "attempts": 8
+        },
+        {
+          "match": {
+            "meaning: ": "meaning",
+            "description: ": "description",
+            "comment: ": "skdhf",
+            "example: ": "ksdhf"
+          },
+          "failures": 1,
+          "attempts": 7
+        },
+        {
+          "match": {
+            "meaning: ": "sdf",
+            "description: ": "sdfsdfsdfasdfd",
+            "comment: ": "sdffd",
+            "example: ": "fdfdfd"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "werwer",
+            "description: ": "werwer",
+            "comment: ": "wer",
+            "example: ": "wer"
           },
           "failures": 1,
           "attempts": 1

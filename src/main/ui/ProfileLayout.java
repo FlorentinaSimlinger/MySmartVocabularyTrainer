@@ -33,7 +33,7 @@ public class ProfileLayout extends Layout {
     //EFFECTS: adds a line chart
     //MODIFIES: this
     //SOURCE: partly based on https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
-    private void addLineChart() {
+    public void addLineChart() {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of sessions");

@@ -23,14 +23,11 @@ public class VocabAppGui extends Application {
     private AboutLayout aboutLayout;
     private LoginLayout loginLayout;
     private ProfileLayout profileLayout;
-    private Profile appProfile;
+    private Profile profile;
     private ArrayList<Profile> profiles;
     private ObservableList<SingleEntry> databaseTable;
     private Reader reader;
     private Stage window;
-
-
-    //public VocabAppGui() { launch(args); }
 
 
     //EFFECTS: launches the app
@@ -53,7 +50,6 @@ public class VocabAppGui extends Application {
         //instantiating layouts and adding event listeners
         this.loginLayout = new LoginLayout();
 
-
         this.rootLayout = new RootLayout();
         addEventListenersToLayout(this.rootLayout);
         this.mainLayout = new MainLayout();
@@ -71,23 +67,15 @@ public class VocabAppGui extends Application {
 
         this.loginLayout.addEventListener("login",
                 e -> {
-                    this.appProfile = loginLayout.findOrCreateProfile(reader, profiles);
-                    databaseLayout.setProfile(this.appProfile);
+                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
+                    Layout.setProfile(this.profile);
                     databaseLayout.addTable();
+                    profileLayout.addLineChart();
                     this.rootLayout.setChildPane(this.mainLayout);
                     Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
                     this.window.setScene(rootScene);
                 });
-
-        //TODO: this was previously in LoginLayout.findOrCreateProfile(), is there a better way?
-//        databaseLayout.table.setItems(databaseLayout.getTableItems());
-
-        //setting scenes for window
-        //TODO: this might be a problem because overwritten by setScene(loginLayout...)
-        //TODO: this was previously in LoginLayout.findOrCreateProfile(). is there a better way?
-//        this.rootLayout.setChildPane(this.mainLayout);
-//        Scene rootScene = new Scene(this.rootLayout.getRootLayout(), 920, 600);
-//        this.window.setScene(rootScene);
+        
 
         this.window.setScene(this.loginLayout.getLoginScene());
 
@@ -119,7 +107,7 @@ public class VocabAppGui extends Application {
     //EFFECTS: adds current session to records, closes program and writes everything into Json File
     //MODIFIES: this
     private void closeProgram() {
-        this.appProfile.addSuccessRateOfSession();
+        this.profile.addSuccessRateOfSession();
         try {
             Writer.write(this.profiles);
         } catch (IOException e) {

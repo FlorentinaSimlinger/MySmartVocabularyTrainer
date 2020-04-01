@@ -15,14 +15,14 @@ import java.util.Map;
 
 
 public abstract class Layout {
-    //public static Profile profile;
+    public static Profile profile;
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
-    protected Profile profile;
+    //protected Profile profile;
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
 
-    public Layout() {
-        this.profile = new Profile();
+    public static void setProfile(Profile profile) {
+        Layout.profile = profile;
     }
 
     protected void handleEvent(Event e, String eventName) {
@@ -33,9 +33,6 @@ public abstract class Layout {
         }
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
 
     public void addEventListener(String eventName, EventHandler listener) {
         if (this.listeners.get(eventName) == null) {
@@ -62,3 +59,5 @@ public abstract class Layout {
 
     protected abstract Node getNode();
 }
+
+//TODO: do you do this. notation even if there is no constructor and therefore no object?
