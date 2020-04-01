@@ -100,10 +100,14 @@ public class RootLayout extends Layout {
         //Menus without MenuItems don't fire, therefore workaround,
         //SOURCE: https://stackoverflow.com/questions/48017645/event-handler-in-javafx-for-menu
         Label mainMenuLabel = new Label("MAIN");
-        mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, "main-menu"));
+        mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, "main"));
 
         Label aboutMenuLabel = new Label("ABOUT");
+        aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, "about"));
+
         Label profileMenuLabel = new Label("PROFILE");
+        profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, "profile"));
+
         Menu mainMenu = new Menu("", mainMenuLabel);
         Menu aboutMenu = new Menu("", aboutMenuLabel);
         Menu profileMenu = new Menu("", profileMenuLabel);

@@ -9,9 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import model.SingleEntry;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 //represents a database layout
 public class DatabaseLayout extends Layout {
@@ -51,7 +49,7 @@ public class DatabaseLayout extends Layout {
     //EFFECTS: creates tables columns and adds them to the table
     //MODIFIES: this
     public void getTableColumns() {
-        HashMap<String, String> map = new HashMap<>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("Description", "description");
         map.put("Meaning", "meaning");
         map.put("Comment", "comment");
@@ -60,6 +58,7 @@ public class DatabaseLayout extends Layout {
         for (String key : map.keySet()) {
             String value = map.get(key);
             TableColumn<SingleEntry, String> column = new TableColumn<>(key);
+            column.setMaxWidth(200);
             column.setMinWidth(200);
             column.setCellValueFactory(new PropertyValueFactory<SingleEntry, String>(value));
             table.getColumns().add(column);

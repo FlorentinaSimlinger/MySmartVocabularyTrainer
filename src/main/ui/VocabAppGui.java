@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 //Represents a vocabulary trainer application
-public class VocabAppGuiFX extends Application {
+public class VocabAppGui extends Application {
     private RootLayout rootLayout;
     private MainLayout mainLayout;
     private TestLayout testLayout;
@@ -22,6 +22,7 @@ public class VocabAppGuiFX extends Application {
     private SearchLayout searchLayout;
     private AboutLayout aboutLayout;
     private LoginLayout loginLayout;
+    private ProfileLayout profileLayout;
     private Profile appProfile;
     private ArrayList<Profile> profiles;
     private ObservableList<SingleEntry> databaseTable;
@@ -29,7 +30,7 @@ public class VocabAppGuiFX extends Application {
     private Stage window;
 
 
-    //public VocabAppGuiFX() { launch(args); }
+    //public VocabAppGui() { launch(args); }
 
 
     //EFFECTS: launches the app
@@ -52,6 +53,7 @@ public class VocabAppGuiFX extends Application {
         //instantiating layouts and adding event listeners
         this.loginLayout = new LoginLayout();
 
+
         this.rootLayout = new RootLayout();
         addEventListenersToLayout(this.rootLayout);
         this.mainLayout = new MainLayout();
@@ -64,13 +66,14 @@ public class VocabAppGuiFX extends Application {
         addEventListenersToLayout(this.databaseLayout);
         this.aboutLayout = new AboutLayout();
         addEventListenersToLayout(this.aboutLayout);
+        this.profileLayout = new ProfileLayout();
+        addEventListenersToLayout(this.profileLayout);
 
         this.loginLayout.addEventListener("login",
                 e -> {
                     this.appProfile = loginLayout.findOrCreateProfile(reader, profiles);
-                    Layout.profile = appProfile;
-                    //databaseLayout.setLayoutProfile(this.appProfile);
-                    databaseLayout.table.setItems(databaseLayout.getTableItems());
+                    databaseLayout.setProfile(this.appProfile);
+                    databaseLayout.addTable();
                     this.rootLayout.setChildPane(this.mainLayout);
                     Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
                     this.window.setScene(rootScene);
@@ -97,6 +100,8 @@ public class VocabAppGuiFX extends Application {
         layout.addEventListener("test", e -> this.rootLayout.setChildPane(this.testLayout));
         layout.addEventListener("quit", e -> closeProgram());
         layout.addEventListener("main", e -> this.rootLayout.setChildPane(this.mainLayout));
+        layout.addEventListener("about", e -> this.rootLayout.setChildPane(this.aboutLayout));
+        layout.addEventListener("profile", e -> this.rootLayout.setChildPane(this.profileLayout));
     }
 
 

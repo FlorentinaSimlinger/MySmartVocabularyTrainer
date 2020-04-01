@@ -42,11 +42,13 @@ public class ProfileLayout extends Layout {
         this.lineChart.setTitle("My Success Rate");
         XYChart.Series series = new XYChart.Series();
         series.setName("Success Rate");
-        ArrayList<Double> successRates = profile.getSuccessRates();
-        for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
-            series.getData().add(new XYChart.Data(k, profile.getSuccessRates().get(i)));
+        if (profile != null) {
+            ArrayList<Double> successRates = profile.getSuccessRates();
+            for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
+                series.getData().add(new XYChart.Data(k, profile.getSuccessRates().get(i)));
+            }
+            this.lineChart.getData().add(series);
         }
-        this.lineChart.getData().add(series);
     }
 
     @Override

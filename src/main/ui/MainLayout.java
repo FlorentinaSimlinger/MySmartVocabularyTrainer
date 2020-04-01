@@ -25,7 +25,7 @@ public class MainLayout extends Layout {
         this.mainLayout.getChildren().add(mainLabel);
 
         //user input
-        addUserInputFields();
+        this.addUserInputFields();
 
         //buttons
         Button addButton = new Button("Add");
@@ -37,7 +37,6 @@ public class MainLayout extends Layout {
         addButton.setOnMouseClicked(e -> addButtonClicked());
         testButton.setOnAction(e -> handleEvent(e, "test"));
         quitButton.setOnAction(e -> handleEvent(e, "quit"));
-        addUserInputFields();
 
     }
 

@@ -15,11 +15,15 @@ import java.util.Map;
 
 
 public abstract class Layout {
-    public static Profile profile;
+    //public static Profile profile;
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
-    //protected Profile profile;
+    protected Profile profile;
     protected TableView<SingleEntry> table;
     protected ArrayList<TextField> textFields = new ArrayList<>();
+
+    public Layout() {
+        this.profile = new Profile();
+    }
 
     protected void handleEvent(Event e, String eventName) {
         if (this.listeners.get(eventName) != null) {
@@ -29,8 +33,8 @@ public abstract class Layout {
         }
     }
 
-    public void setProfile(Profile appProfile) {
-        profile = appProfile;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public void addEventListener(String eventName, EventHandler listener) {

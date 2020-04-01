@@ -1,23 +1,9 @@
 [
   {
     "name": "Flo",
-    "successRates": [
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
+    "successRates": [],
     "successes": 0,
-    "attempts": 5,
+    "attempts": 7,
     "database": {
       "entries": [
         {
@@ -29,6 +15,26 @@
           },
           "failures": 5,
           "attempts": 5
+        },
+        {
+          "match": {
+            "meaning: ": "sdf",
+            "description: ": "sdf",
+            "comment: ": "sdf",
+            "example: ": "sdf"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "sdffds",
+            "description: ": "sdffds",
+            "comment: ": "sdffds",
+            "example: ": "sdffds"
+          },
+          "failures": 1,
+          "attempts": 1
         }
       ]
     }
@@ -37,6 +43,7 @@
     "name": "Michelle",
     "successRates": [
       0.0,
+      36.36363636363637,
       36.36363636363637,
       36.36363636363637
     ],
