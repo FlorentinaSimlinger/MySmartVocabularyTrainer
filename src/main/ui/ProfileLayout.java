@@ -43,12 +43,14 @@ public class ProfileLayout extends Layout {
         yAxis.setLabel("Success rate in % per session");
         this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         this.lineChart.setTitle("My Success Rate");
-        this.series = new XYChart.Series();
-        series.setName("Success Rate");
+//        this.series.getData().add(new XYChart.Data(numberOfSessions, successOfSession));
+//        this.lineChart.getData().add(this.series);
         dispatchEvent(new Event(MouseEvent.MOUSE_PRESSED), EVENT_SUCCESSRATES);
     }
 
     public void updateLineChart(int numberOfSessions, Double successOfSession) {
+        this.series = new XYChart.Series();
+        series.setName("Success Rate");
         this.series.getData().add(new XYChart.Data(numberOfSessions, successOfSession));
         this.lineChart.getData().add(this.series);
     }

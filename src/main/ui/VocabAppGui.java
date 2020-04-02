@@ -74,8 +74,10 @@ public class VocabAppGui extends Application {
     private void addEventListenersToRootLayout() {
         this.rootLayout.addEventListener(RootLayout.EVENT_ABOUT, e -> this.rootLayout.setChildPane(this.aboutLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
-        this.rootLayout.addEventListener(RootLayout.EVENT_PROFILE, e ->
-                this.rootLayout.setChildPane(this.profileLayout));
+        this.rootLayout.addEventListener(RootLayout.EVENT_PROFILE, e -> {
+            this.rootLayout.setChildPane(this.profileLayout);
+            this.updateProfileLineChart();
+        });
         this.rootLayout.addEventListener(RootLayout.EVENT_TEST, e -> this.rootLayout.setChildPane(this.testLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_SEARCH, e -> this.rootLayout.setChildPane(this.searchLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_DATABASE, e -> {
@@ -145,7 +147,7 @@ public class VocabAppGui extends Application {
     }
 
     public void addEventListenersToSearchLayout() {
-        this.testLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
+        this.searchLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
             boolean found = false;
             SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(this.searchLayout.getSearchInput());
             String description = "";
@@ -171,14 +173,7 @@ public class VocabAppGui extends Application {
     }
 
     private void addEventListenersToProfileLayout() {
-        this.profileLayout.addEventListener(ProfileLayout.EVENT_SUCCESSRATES, e -> {
-            if (this.profile != null) {
-                ArrayList<Double> successRates = profile.getSuccessRates();
-                for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
-                    profileLayout.updateLineChart(k, profile.getSuccessRates().get(i));
-                }
-            }
-        });
+        this.profileLayout.addEventListener(ProfileLayout.EVENT_SUCCESSRATES, e -> this.updateProfileLineChart());
     }
 
     private void addAdditionalEventListeners() {
@@ -237,6 +232,15 @@ public class VocabAppGui extends Application {
         if (this.profile != null) {
             for (SingleEntry entry : this.profile.getDatabase().getEntries()) {
                 this.databaseLayout.getTableItems().add(entry);
+            }
+        }
+    }
+
+    public void updateProfileLineChart() {
+        if (this.profile != null) {
+            ArrayList<Double> successRates = this.profile.getSuccessRates();
+            for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
+                this.profileLayout.updateLineChart(k, this.profile.getSuccessRates().get(i));
             }
         }
     }

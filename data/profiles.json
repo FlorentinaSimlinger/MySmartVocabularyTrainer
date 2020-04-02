@@ -11,10 +11,16 @@
       48.0,
       47.05882352941177,
       27.586206896551722,
-      32.35294117647059
+      32.35294117647059,
+      31.428571428571427,
+      31.428571428571427,
+      31.428571428571427,
+      31.428571428571427,
+      31.428571428571427,
+      24.444444444444443
     ],
     "successes": 11,
-    "attempts": 34,
+    "attempts": 45,
     "database": {
       "entries": [
         {
@@ -24,8 +30,8 @@
             "comment: ": "sdfsdfs",
             "example: ": "sdfsdfsd"
           },
-          "failures": 18,
-          "attempts": 26
+          "failures": 19,
+          "attempts": 27
         },
         {
           "match": {
@@ -34,8 +40,8 @@
             "comment: ": "sdffd",
             "example: ": "fdfdfd"
           },
-          "failures": 2,
-          "attempts": 2
+          "failures": 4,
+          "attempts": 4
         },
         {
           "match": {
@@ -54,7 +60,27 @@
             "comment: ": "sdf",
             "example: ": "sdfds"
           },
-          "failures": 1,
+          "failures": 4,
+          "attempts": 5
+        },
+        {
+          "match": {
+            "meaning: ": "hkh",
+            "description: ": "gjgjh",
+            "comment: ": "kh",
+            "example: ": "kh"
+          },
+          "failures": 3,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "sdfdsfsdf",
+            "description: ": "sdfsdf",
+            "comment: ": "sdfsfds",
+            "example: ": "sfdsfds"
+          },
+          "failures": 2,
           "attempts": 2
         }
       ]

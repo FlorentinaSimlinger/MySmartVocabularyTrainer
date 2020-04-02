@@ -61,13 +61,14 @@ built in put and get methods to set key and value pairs and retrieve values base
 ##Phase 4: Task 3
 And this is how I implemented Task 3:
 - I fixed poor cohesion in the VocabAppGui. It previously contained the entire logic for the layouts. Now the layouts
-are in separate classes.
+are in separate classes and VocabAppGui has the sole responsibility of changing the data in the background.
 - I also decreased coupling by limiting the access to other classes through fields and instead call methods. An example
 of that are the event listeners in VocabGui so that it does not know how events are triggered
 (ie it does not know about the buttons and labels in the layout classes).
 
 
 ##Ideas for extended version
+- fix a few things
 - option to change existing entry if new entry with duplicate description is added
 - scrape websites for example sentences and synonyms
 - show awards for reaching 10 entries, 50 entries, 100 entries

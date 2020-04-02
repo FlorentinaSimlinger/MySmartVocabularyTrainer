@@ -48,6 +48,7 @@ public class SearchLayout extends Layout {
                     + commentText + "\n" + exampleText + "\n" + successRateText;
         }
         this.feedbackLabel.setText(searchFeedbackText);
+        this.searchInput.clear();
     }
 
     @Override
