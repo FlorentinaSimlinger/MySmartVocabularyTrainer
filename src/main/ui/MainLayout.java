@@ -40,9 +40,9 @@ public class MainLayout extends Layout {
 
         this.mainLayout.getChildren().addAll(addButton, testButton, quitButton);
 
-        addButton.setOnMouseClicked(e -> handleEvent(e, EVENT_ADD));
-        testButton.setOnAction(e -> handleEvent(e, EVENT_TEST));
-        quitButton.setOnAction(e -> handleEvent(e, EVENT_QUIT));
+        addButton.setOnMouseClicked(e -> dispatchEvent(e, EVENT_ADD));
+        testButton.setOnAction(e -> dispatchEvent(e, EVENT_TEST));
+        quitButton.setOnAction(e -> dispatchEvent(e, EVENT_QUIT));
 
     }
 

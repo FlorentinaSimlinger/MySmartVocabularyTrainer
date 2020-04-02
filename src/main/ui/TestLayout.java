@@ -1,9 +1,11 @@
 package ui;
 
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.SingleEntry;
 
@@ -27,17 +29,17 @@ public class TestLayout extends Layout {
                 + "'Return to main' to return to main page.";
         Label testLabel = new Label(labelText);
         Button testStartButton = new Button("Start!");
-        testStartButton.setOnAction(e -> handleEvent(e, EVENT_SHOWTESTQUESTION));
+        testStartButton.setOnAction(e -> dispatchEvent(e, EVENT_SHOWTESTQUESTION));
         Button testToMainButton = new Button("Return to main");
-        testToMainButton.setOnAction(e -> handleEvent(e, EVENT_MAIN));
+        testToMainButton.setOnAction(e -> dispatchEvent(e, EVENT_MAIN));
         Button testQuitButton = new Button("Quit");
-        testQuitButton.setOnAction(e -> handleEvent(e, EVENT_QUIT));
+        testQuitButton.setOnAction(e -> dispatchEvent(e, EVENT_QUIT));
         this.questionLabel = new Label("");
         this.feedbackLabel = new Label("");
         this.testInput = new TextField();
         this.testInput.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                handleEvent(e, EVENT_SHOWTESTFEEDBACK);
+                dispatchEvent(e, EVENT_SHOWTESTFEEDBACK);
                 this.testInput.clear();
             }
         });
@@ -64,9 +66,8 @@ public class TestLayout extends Layout {
             feedback = "Unfortunately that is wrong. The right answer to " + selectedMeaning + " is "
                     + selectedDescription + ".";
         }
-        this.selected.adjustDistribution(this.testInput.getText());
         this.feedbackLabel.setText(feedback);
-        showTestQuestion(); //fire EVENT_SHOWTESTQUESTION again so that a new question appears automatically
+        dispatchEvent(new Event(MouseEvent.MOUSE_PRESSED), EVENT_SHOWTESTQUESTION);
     }
 
     @Override

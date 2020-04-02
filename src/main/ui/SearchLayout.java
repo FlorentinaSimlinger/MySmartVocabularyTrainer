@@ -19,9 +19,9 @@ public class SearchLayout extends Layout {
         this.searchInput = new TextField();
         this.searchInput.setPromptText("word or phrase");
         Button searchButton = new Button("Search");
-        searchButton.setOnAction(e -> handleEvent(e, EVENT_SEARCHENTRY));
+        searchButton.setOnAction(e -> dispatchEvent(e, EVENT_SEARCHENTRY));
         this.feedbackLabel = new Label("");
-        searchLayout.getChildren().addAll(searchLabel, searchInput, searchButton, feedbackLabel);
+        this.searchLayout.getChildren().addAll(searchLabel, this.searchInput, searchButton, this.feedbackLabel);
     }
 
     //EFFECTS: searches for entry and sets label accordingly
@@ -47,7 +47,7 @@ public class SearchLayout extends Layout {
             searchFeedbackText = introText + "\n" + descriptionText + "\n" + meaningText + "\n"
                     + commentText + "\n" + exampleText + "\n" + successRateText;
         }
-        feedbackLabel.setText(searchFeedbackText);
+        this.feedbackLabel.setText(searchFeedbackText);
     }
 
     @Override

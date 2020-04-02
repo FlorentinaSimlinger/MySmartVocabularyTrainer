@@ -50,28 +50,42 @@ public class VocabAppGui extends Application {
         this.window.setTitle("MySmartVocabularyTrainer");
 
         this.loginLayout = new LoginLayout();
-
         this.rootLayout = new RootLayout();
         this.mainLayout = new MainLayout();
         this.searchLayout = new SearchLayout();
         this.testLayout = new TestLayout();
         this.databaseLayout = new DatabaseLayout();
-        setDatabaseTable();
         this.aboutLayout = new AboutLayout();
         this.profileLayout = new ProfileLayout();
 
-        //adding event listeners to root layout
+        addEventListenersToRootLayout();
+        addEventListenersToMainLayout();
+        addEventListenersToDatabaseLayout();
+        addEventListenersToTestLayout();
+        addEventListenersToSearchLayout();
+        addEventListenersToProfileLayout();
+        addAdditionalEventListeners();
+
+        this.window.setScene(this.loginLayout.getLoginScene());
+
+        this.window.show();
+    }
+
+    private void addEventListenersToRootLayout() {
         this.rootLayout.addEventListener(RootLayout.EVENT_ABOUT, e -> this.rootLayout.setChildPane(this.aboutLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_PROFILE, e ->
                 this.rootLayout.setChildPane(this.profileLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_TEST, e -> this.rootLayout.setChildPane(this.testLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_SEARCH, e -> this.rootLayout.setChildPane(this.searchLayout));
-        this.rootLayout.addEventListener(RootLayout.EVENT_DATABASE, e ->
-                this.rootLayout.setChildPane(this.databaseLayout));
+        this.rootLayout.addEventListener(RootLayout.EVENT_DATABASE, e -> {
+            this.rootLayout.setChildPane(this.databaseLayout);
+            setDatabaseTable();
+        });
         this.rootLayout.addEventListener(RootLayout.EVENT_QUIT, e -> closeProgram());
+    }
 
-        //adding event listeners to main layout
+    private void addEventListenersToMainLayout() {
         this.mainLayout.addEventListener(MainLayout.EVENT_TEST, e -> this.rootLayout.setChildPane(this.testLayout));
         this.mainLayout.addEventListener(MainLayout.EVENT_QUIT, e -> closeProgram());
         this.mainLayout.addEventListener(MainLayout.EVENT_ADD, e -> {
@@ -85,60 +99,9 @@ public class VocabAppGui extends Application {
             profile.getDatabase().addEntry(singleEntry);
             mainLayout.clearTextFields();
         });
+    }
 
-        //adding event listeners to search layout
-        this.testLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
-            boolean found;
-            SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(this.searchLayout.getSearchInput());
-            String description = "";
-            String meaning = "";
-            String comment = "";
-            String example = "";
-            int successRate = 0;
-            boolean entryAttempted;
-            if (entry == null) {
-                found = false;
-                entryAttempted = false;
-            } else {
-                found = true;
-                description = entry.getDescription();
-                meaning = entry.getMeaning();
-                comment = entry.getComment();
-                example = entry.getExample();
-                if (entry.getAttempts() == 1) {
-                    entryAttempted = false;
-                } else {
-                    entryAttempted = true;
-                    successRate = (int) entry.getSuccessRate();
-                }
-            }
-            this.searchLayout.setSearchFeedback(found, entryAttempted, description, meaning, comment, example,
-                    successRate);
-        });
-
-        //adding event listeners to test layout
-        this.testLayout.addEventListener(TestLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
-        this.testLayout.addEventListener(TestLayout.EVENT_QUIT, e -> closeProgram());
-        this.testLayout.addEventListener(TestLayout.EVENT_SHOWTESTQUESTION, e -> {
-            double random = profile.getDatabase().getRandomFromSumOfFailureRates();
-            this.selected = profile.getDatabase().getEntryBasedOnRandom(random);
-            String questionPart = this.selected.getMeaning();
-            this.testLayout.showTestQuestion(questionPart);
-        });
-        this.testLayout.addEventListener(TestLayout.EVENT_SHOWTESTFEEDBACK, e -> {
-            boolean correct;
-            if (this.selected.getDescription().equals(this.testLayout.getTestInput().getText())) {
-                correct = true;
-            } else {
-                correct = false;
-            }
-            String selectedMeaning = this.selected.getMeaning();
-            String selectedDescription = this.selected.getDescription();
-            this.selected.adjustDistribution(this.testLayout.getTestInput().getText());
-            testLayout.showTestFeedback(correct, selectedMeaning, selectedDescription);
-        });
-
-        //adding event listeners to database layout
+    private void addEventListenersToDatabaseLayout() {
         this.databaseLayout.addEventListener(DatabaseLayout.EVENT_ADD, e -> {
             SingleEntry singleEntry = new SingleEntry();
             ArrayList<TextField> textFields = databaseLayout.getTextFields();
@@ -160,30 +123,73 @@ public class VocabAppGui extends Application {
                 this.profile.getDatabase().removeEntry(entry.getDescription());
             }
         });
+    }
 
+    private void addEventListenersToTestLayout() {
+        this.testLayout.addEventListener(TestLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
+        this.testLayout.addEventListener(TestLayout.EVENT_QUIT, e -> closeProgram());
+        this.testLayout.addEventListener(TestLayout.EVENT_SHOWTESTQUESTION, e -> {
+            double random = profile.getDatabase().getRandomFromSumOfFailureRates();
+            this.selected = profile.getDatabase().getEntryBasedOnRandom(random);
+            String questionPart = this.selected.getMeaning();
+            this.testLayout.showTestQuestion(questionPart);
+        });
+        this.testLayout.addEventListener(TestLayout.EVENT_SHOWTESTFEEDBACK, e -> {
+            boolean correct;
+            correct = this.selected.getDescription().equals(this.testLayout.getTestInput().getText());
+            String selectedMeaning = this.selected.getMeaning();
+            String selectedDescription = this.selected.getDescription();
+            this.selected.adjustDistribution(this.testLayout.getTestInput().getText());
+            testLayout.showTestFeedback(correct, selectedMeaning, selectedDescription);
+        });
+    }
 
-        //adding event listeners to profile layout
+    public void addEventListenersToSearchLayout() {
+        this.testLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
+            boolean found = false;
+            SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(this.searchLayout.getSearchInput());
+            String description = "";
+            String meaning = "";
+            String comment = "";
+            String example = "";
+            int successRate = 0;
+            boolean entryAttempted = false;
+            if (entry != null) {
+                found = true;
+                description = entry.getDescription();
+                meaning = entry.getMeaning();
+                comment = entry.getComment();
+                example = entry.getExample();
+                if (entry.getAttempts() > 1) {
+                    entryAttempted = true;
+                    successRate = (int) entry.getSuccessRate();
+                }
+            }
+            this.searchLayout.setSearchFeedback(found, entryAttempted, description, meaning, comment, example,
+                    successRate);
+        });
+    }
 
+    private void addEventListenersToProfileLayout() {
+        this.profileLayout.addEventListener(ProfileLayout.EVENT_SUCCESSRATES, e -> {
+            if (this.profile != null) {
+                ArrayList<Double> successRates = profile.getSuccessRates();
+                for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
+                    profileLayout.updateLineChart(k, profile.getSuccessRates().get(i));
+                }
+            }
+        });
+    }
 
-
-        //additional events for login layout
+    private void addAdditionalEventListeners() {
         this.loginLayout.addEventListener("login",
                 e -> {
-                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
-                    //databaseLayout.addTable();
-                    //profileLayout.addLineChart();
+                    this.profile = this.findOrCreateProfile();
                     this.rootLayout.setChildPane(this.mainLayout);
                     Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
                     this.window.setScene(rootScene);
                 });
-
-
-        this.window.setScene(this.loginLayout.getLoginScene());
-
-        this.window.show();
     }
-
-
 
     //EFFECTS: reads the profiles
     //MODIFIES: this
@@ -196,9 +202,40 @@ public class VocabAppGui extends Application {
         }
     }
 
+    //EFFECTS: sets the profile to the profile of user or creates new if not found
+    //MODIFIES: this
+    public Profile findOrCreateProfile() {
+        String name = this.loginLayout.getLoginInput();
+        this.profile = new Profile();
+        if (this.reader.findProfile(name) == null) {
+            this.profile.setName(name);
+            this.profiles.add(this.profile);
+            if (SignUpAlert.displaySignUpAlert(name)) {
+                loadExampleDatabase();
+            }
+        } else {
+            this.profile = this.reader.findProfile(name);
+        }
+        return this.profile;
+    }
+
+    //EFFECTS: loads example data base
+    //MODIFIES: this
+    private void loadExampleDatabase() {
+        SingleEntry entry1 = new SingleEntry("toboggan", "sled",
+                "verb is 'to toboggan'", "riding down a hill with a sled");
+        SingleEntry entry2 = new SingleEntry("eh?", "'right?'",
+                "does not have to be used as question", "it's cold today, eh?");
+        SingleEntry entry3 = new SingleEntry("ubiquitous", "everywhere",
+                "yü-ˈbi-kwə-təs", "");
+        this.profile.getDatabase().addEntry(entry1);
+        this.profile.getDatabase().addEntry(entry2);
+        this.profile.getDatabase().addEntry(entry3);
+    }
+
     public void setDatabaseTable() {
-        if (profile != null) {
-            for (SingleEntry entry : profile.getDatabase().getEntries()) {
+        if (this.profile != null) {
+            for (SingleEntry entry : this.profile.getDatabase().getEntries()) {
                 this.databaseLayout.getTableItems().add(entry);
             }
         }
@@ -215,7 +252,6 @@ public class VocabAppGui extends Application {
         }
         this.window.close();
     }
-
 }
 
 

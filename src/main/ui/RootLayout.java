@@ -81,13 +81,13 @@ public class RootLayout extends Layout {
     //EFFECTS: adds triggers to the different menu items
     //MODIFIES: this
     private void addEventTriggers() {
-        this.databaseMenuItem.setOnAction(e -> handleEvent(e, EVENT_DATABASE));
-        this.searchMenuItem.setOnAction(e -> handleEvent(e, EVENT_SEARCH));
-        this.testMenuItem.setOnAction(e -> handleEvent(e, EVENT_TEST));
-        this.quitMenuItem.setOnAction(e -> handleEvent(e, EVENT_QUIT));
-        this.mainMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_MAIN));
-        this.aboutMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_ABOUT));
-        this.profileMenuLabel.setOnMouseClicked(e -> handleEvent(e, EVENT_PROFILE));
+        this.databaseMenuItem.setOnAction(e -> dispatchEvent(e, EVENT_DATABASE));
+        this.searchMenuItem.setOnAction(e -> dispatchEvent(e, EVENT_SEARCH));
+        this.testMenuItem.setOnAction(e -> dispatchEvent(e, EVENT_TEST));
+        this.quitMenuItem.setOnAction(e -> dispatchEvent(e, EVENT_QUIT));
+        this.mainMenuLabel.setOnMouseClicked(e -> dispatchEvent(e, EVENT_MAIN));
+        this.aboutMenuLabel.setOnMouseClicked(e -> dispatchEvent(e, EVENT_ABOUT));
+        this.profileMenuLabel.setOnMouseClicked(e -> dispatchEvent(e, EVENT_PROFILE));
     }
 
     //EFFECTS: sets the center of the root layout

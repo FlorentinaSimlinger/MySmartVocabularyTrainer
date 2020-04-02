@@ -15,7 +15,7 @@ public abstract class Layout {
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
 
     //EFFECTS: goes through all EventHandlers and handles events
-    protected void handleEvent(Event e, String eventName) {
+    protected void dispatchEvent(Event e, String eventName) {
         if (this.listeners.get(eventName) != null) {
             for (EventHandler handler : this.listeners.get(eventName)) {
                 handler.handle(e);

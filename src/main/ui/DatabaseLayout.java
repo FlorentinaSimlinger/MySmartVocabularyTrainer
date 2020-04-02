@@ -73,13 +73,6 @@ public class DatabaseLayout extends Layout {
     //EFFECTS: creates table with database
     //MODIFIES: this
     public ObservableList<SingleEntry> getTableItems() {
-        //ObservableList<SingleEntry> tableItems = FXCollections.observableArrayList();
-//
-//        if (profile != null) {
-//            for (SingleEntry entry : profile.getDatabase().getEntries()) {
-//                this.databaseLayout.getTableItems().add(entry);
-//            }
-//        }
         return this.tableItems;
     }
 
@@ -89,8 +82,8 @@ public class DatabaseLayout extends Layout {
     private void getAddAndDeleteButtons() {
         Button databaseAddButton = new Button("Add");
         Button databaseDeleteButton = new Button("Delete");
-        databaseAddButton.setOnMouseClicked(e -> handleEvent(e, EVENT_ADD));
-        databaseDeleteButton.setOnMouseClicked(e -> handleEvent(e, EVENT_DELETE));
+        databaseAddButton.setOnMouseClicked(e -> dispatchEvent(e, EVENT_ADD));
+        databaseDeleteButton.setOnMouseClicked(e -> dispatchEvent(e, EVENT_DELETE));
         this.databaseHBox.getChildren().addAll(databaseAddButton, databaseDeleteButton);
     }
 

@@ -8,10 +8,13 @@
       18.42105263157895,
       48.93617021276596,
       48.0,
-      48.0
+      48.0,
+      47.05882352941177,
+      27.586206896551722,
+      32.35294117647059
     ],
-    "successes": 24,
-    "attempts": 50,
+    "successes": 11,
+    "attempts": 34,
     "database": {
       "entries": [
         {
@@ -21,38 +24,8 @@
             "comment: ": "sdfsdfs",
             "example: ": "sdfsdfsd"
           },
-          "failures": 17,
-          "attempts": 25
-        },
-        {
-          "match": {
-            "meaning: ": "sdf",
-            "description: ": "sdf",
-            "comment: ": "sdf",
-            "example: ": "sdf"
-          },
-          "failures": 2,
-          "attempts": 8
-        },
-        {
-          "match": {
-            "meaning: ": "sdffds",
-            "description: ": "sdffds",
-            "comment: ": "sdffds",
-            "example: ": "sdffds"
-          },
-          "failures": 4,
-          "attempts": 8
-        },
-        {
-          "match": {
-            "meaning: ": "meaning",
-            "description: ": "description",
-            "comment: ": "skdhf",
-            "example: ": "ksdhf"
-          },
-          "failures": 1,
-          "attempts": 7
+          "failures": 18,
+          "attempts": 26
         },
         {
           "match": {
@@ -61,8 +34,8 @@
             "comment: ": "sdffd",
             "example: ": "fdfdfd"
           },
-          "failures": 1,
-          "attempts": 1
+          "failures": 2,
+          "attempts": 2
         },
         {
           "match": {
@@ -71,8 +44,18 @@
             "comment: ": "wer",
             "example: ": "wer"
           },
+          "failures": 2,
+          "attempts": 4
+        },
+        {
+          "match": {
+            "meaning: ": "I\u0027m freaking crazy",
+            "description: ": "if this works",
+            "comment: ": "sdf",
+            "example: ": "sdfds"
+          },
           "failures": 1,
-          "attempts": 1
+          "attempts": 2
         }
       ]
     }
@@ -161,6 +144,49 @@
           },
           "failures": 1,
           "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Georg",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 4,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 2,
+          "attempts": 2
         },
         {
           "match": {

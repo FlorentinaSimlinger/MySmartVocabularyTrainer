@@ -1,18 +1,21 @@
 package ui;
 
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import java.util.ArrayList;
 
 //represents a layout to display profile data
 public class ProfileLayout extends Layout {
     private LineChart<Number, Number> lineChart;
     private VBox profileLayout;
+    private XYChart.Series series;
+    public static final String EVENT_SUCCESSRATES = "success rates";
 
     //EFFECTS: constructs a profile layout
     public ProfileLayout() {
@@ -40,15 +43,14 @@ public class ProfileLayout extends Layout {
         yAxis.setLabel("Success rate in % per session");
         this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         this.lineChart.setTitle("My Success Rate");
-        XYChart.Series series = new XYChart.Series();
+        this.series = new XYChart.Series();
         series.setName("Success Rate");
-        if (profile != null) {
-            ArrayList<Double> successRates = profile.getSuccessRates();
-            for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
-                series.getData().add(new XYChart.Data(k, profile.getSuccessRates().get(i)));
-            }
-            this.lineChart.getData().add(series);
-        }
+        dispatchEvent(new Event(MouseEvent.MOUSE_PRESSED), EVENT_SUCCESSRATES);
+    }
+
+    public void updateLineChart(int numberOfSessions, Double successOfSession) {
+        this.series.getData().add(new XYChart.Data(numberOfSessions, successOfSession));
+        this.lineChart.getData().add(this.series);
     }
 
     @Override
