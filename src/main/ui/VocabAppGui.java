@@ -87,6 +87,34 @@ public class VocabAppGui extends Application {
         });
 
         //adding event listeners to search layout
+        this.testLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
+            boolean found;
+            SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(this.searchLayout.getSearchInput());
+            String description = "";
+            String meaning = "";
+            String comment = "";
+            String example = "";
+            int successRate = 0;
+            boolean entryAttempted;
+            if (entry == null) {
+                found = false;
+                entryAttempted = false;
+            } else {
+                found = true;
+                description = entry.getDescription();
+                meaning = entry.getMeaning();
+                comment = entry.getComment();
+                example = entry.getExample();
+                if (entry.getAttempts() == 1) {
+                    entryAttempted = false;
+                } else {
+                    entryAttempted = true;
+                    successRate = (int) entry.getSuccessRate();
+                }
+            }
+            this.searchLayout.setSearchFeedback(found, entryAttempted, description, meaning, comment, example,
+                    successRate);
+        });
 
         //adding event listeners to test layout
         this.testLayout.addEventListener(TestLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
@@ -134,30 +162,9 @@ public class VocabAppGui extends Application {
         });
 
 
-                //adding event listeners to about layout
+        //adding event listeners to profile layout
 
 
-                //adding event listeners to profile layout
-
-
-        addEventListenersToLayout(this.rootLayout);
-        addEventListenersToLayout(this.mainLayout);
-        addEventListenersToLayout(this.searchLayout);
-        addEventListenersToLayout(this.testLayout);
-        addEventListenersToLayout(this.databaseLayout);
-        addEventListenersToLayout(this.aboutLayout);
-        addEventListenersToLayout(this.profileLayout);
-
-//        this.loginLayout.addEventListener("login",
-//                e -> {
-//                    this.profile = loginLayout.findOrCreateProfile(reader, profiles);
-//                    Layout.setProfile(this.profile);
-//                    databaseLayout.addTable();
-//                    profileLayout.addLineChart();
-//                    this.rootLayout.setChildPane(this.mainLayout);
-//                    Scene rootScene = new Scene(this.rootLayout.getNode(), 920, 600);
-//                    this.window.setScene(rootScene);
-//                });
 
         //additional events for login layout
         this.loginLayout.addEventListener("login",
@@ -176,23 +183,6 @@ public class VocabAppGui extends Application {
         this.window.show();
     }
 
-    //EFFECTS: adds event listeners to each layout
-    //MODIFIES: this
-    public void addEventListenersToLayout(Layout layout) {
-        layout.addEventListener("database", e ->
-                this.rootLayout.setChildPane(this.databaseLayout));
-        layout.addEventListener("search", e ->
-                this.rootLayout.setChildPane(this.searchLayout));
-        layout.addEventListener("test", e ->
-                this.rootLayout.setChildPane(this.testLayout));
-        layout.addEventListener("quit", e -> closeProgram());
-        layout.addEventListener("main", e ->
-                this.rootLayout.setChildPane(this.mainLayout));
-        layout.addEventListener("about", e ->
-                this.rootLayout.setChildPane(this.aboutLayout));
-        layout.addEventListener("profile", e ->
-                this.rootLayout.setChildPane(this.profileLayout));
-    }
 
 
     //EFFECTS: reads the profiles

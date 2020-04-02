@@ -4,13 +4,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import model.SingleEntry;
 
 //represents a search layout where entries can be searched
 public class SearchLayout extends Layout {
     VBox searchLayout;
     TextField searchInput;
     Label feedbackLabel;
+    public static final String EVENT_SEARCHENTRY = "search entry";
 
     //EFFECTS: constructs a search layout
     public SearchLayout() {
@@ -19,33 +19,33 @@ public class SearchLayout extends Layout {
         this.searchInput = new TextField();
         this.searchInput.setPromptText("word or phrase");
         Button searchButton = new Button("Search");
-        searchButton.setOnAction(e -> search(searchInput.getText()));
+        searchButton.setOnAction(e -> handleEvent(e, EVENT_SEARCHENTRY));
         this.feedbackLabel = new Label("");
         searchLayout.getChildren().addAll(searchLabel, searchInput, searchButton, feedbackLabel);
     }
 
     //EFFECTS: searches for entry and sets label accordingly
     //MODIFIES: this
-    private void search(String search) {
+    public void setSearchFeedback(boolean found, boolean entryAttempted, String description, String meaning,
+                                  String comment, String example, int successRate) {
         String searchFeedbackText;
-        SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(search);
-        if (entry == null) {
+        if (!found) {
             searchFeedbackText = "Oops, we could not find such entry.";
         } else {
             String introText = "The entry you're looking for has the following properties: ";
-            String descriptionText = "Description: " + entry.getDescription();
-            String meaningText = "Meaning: " + entry.getMeaning();
-            String commentText = "Comment: " + entry.getComment();
-            String exampleText = "Example: " + entry.getExample();
-            String successRate;
-            if (entry.getAttempts() == 1) {
-                successRate = "You have no tests recorded for this entry.";
+            String descriptionText = "Description: " + description;
+            String meaningText = "Meaning: " + meaning;
+            String commentText = "Comment: " + comment;
+            String exampleText = "Example: " + example;
+            String successRateText;
+            if (!entryAttempted) {
+                successRateText = "You have no tests recorded for this entry.";
             } else {
-                successRate = "Your success rate for this entry is "
-                        + entry.getSuccessRate() + "%.";
+                successRateText = "Your success rate for this entry is "
+                        + successRate + "%.";
             }
             searchFeedbackText = introText + "\n" + descriptionText + "\n" + meaningText + "\n"
-                    + commentText + "\n" + exampleText + "\n" + successRate;
+                    + commentText + "\n" + exampleText + "\n" + successRateText;
         }
         feedbackLabel.setText(searchFeedbackText);
     }
@@ -53,6 +53,10 @@ public class SearchLayout extends Layout {
     @Override
     protected VBox getNode() {
         return this.searchLayout;
+    }
+
+    public String getSearchInput() {
+        return this.searchInput.getText();
     }
 }
 
