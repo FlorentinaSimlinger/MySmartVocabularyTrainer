@@ -71,6 +71,8 @@ public class VocabAppGui extends Application {
         this.window.show();
     }
 
+    //EFFECTS: add event listeners to root layout
+    //MODIFIES: this
     private void addEventListenersToRootLayout() {
         this.rootLayout.addEventListener(RootLayout.EVENT_ABOUT, e -> this.rootLayout.setChildPane(this.aboutLayout));
         this.rootLayout.addEventListener(RootLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
@@ -87,6 +89,8 @@ public class VocabAppGui extends Application {
         this.rootLayout.addEventListener(RootLayout.EVENT_QUIT, e -> closeProgram());
     }
 
+    //EFFECTS: add event listeners to main layout
+    //MODIFIES: this
     private void addEventListenersToMainLayout() {
         this.mainLayout.addEventListener(MainLayout.EVENT_TEST, e -> this.rootLayout.setChildPane(this.testLayout));
         this.mainLayout.addEventListener(MainLayout.EVENT_QUIT, e -> closeProgram());
@@ -103,6 +107,8 @@ public class VocabAppGui extends Application {
         });
     }
 
+    //EFFECTS: add event listeners to database layout
+    //MODIFIES: this
     private void addEventListenersToDatabaseLayout() {
         this.databaseLayout.addEventListener(DatabaseLayout.EVENT_ADD, e -> {
             SingleEntry singleEntry = new SingleEntry();
@@ -127,6 +133,8 @@ public class VocabAppGui extends Application {
         });
     }
 
+    //EFFECTS: add event listeners to test layout
+    //MODIFIES: this
     private void addEventListenersToTestLayout() {
         this.testLayout.addEventListener(TestLayout.EVENT_MAIN, e -> this.rootLayout.setChildPane(this.mainLayout));
         this.testLayout.addEventListener(TestLayout.EVENT_QUIT, e -> closeProgram());
@@ -146,6 +154,8 @@ public class VocabAppGui extends Application {
         });
     }
 
+    //EFFECTS: add event listeners to search layout
+    //MODIFIES: this
     public void addEventListenersToSearchLayout() {
         this.searchLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
             boolean found = false;
@@ -172,10 +182,14 @@ public class VocabAppGui extends Application {
         });
     }
 
+    //EFFECTS: add event listeners to profile layout
+    //MODIFIES: this
     private void addEventListenersToProfileLayout() {
         this.profileLayout.addEventListener(ProfileLayout.EVENT_SUCCESSRATES, e -> this.updateProfileLineChart());
     }
 
+    //EFFECTS: add additional event listeners
+    //MODIFIES: this
     private void addAdditionalEventListeners() {
         this.loginLayout.addEventListener("login",
                 e -> {
@@ -228,6 +242,8 @@ public class VocabAppGui extends Application {
         this.profile.getDatabase().addEntry(entry3);
     }
 
+    //EFFECTS: sets the database table of database layout
+    //MODIFIES: this
     public void setDatabaseTable() {
         if (this.profile != null) {
             for (SingleEntry entry : this.profile.getDatabase().getEntries()) {
@@ -236,6 +252,8 @@ public class VocabAppGui extends Application {
         }
     }
 
+    //EFFECTS: updates success rate line chart in profile layout
+    //MODIFIES: this
     public void updateProfileLineChart() {
         if (this.profile != null) {
             ArrayList<Double> successRates = this.profile.getSuccessRates();
@@ -248,11 +266,13 @@ public class VocabAppGui extends Application {
     //EFFECTS: adds current session to records, closes program and writes everything into Json File
     //MODIFIES: this
     private void closeProgram() {
-        this.profile.addSuccessRateOfSession();
-        try {
-            Writer.write(this.profiles);
-        } catch (IOException e) {
-            System.out.println("Something went wrong with closing the program.");
+        if (this.profile != null) {
+            this.profile.addSuccessRateOfSession();
+            try {
+                Writer.write(this.profiles);
+            } catch (IOException e) {
+                System.out.println("Something went wrong with closing the program.");
+            }
         }
         this.window.close();
     }

@@ -17,10 +17,12 @@
       31.428571428571427,
       31.428571428571427,
       31.428571428571427,
-      24.444444444444443
+      24.444444444444443,
+      23.91304347826087,
+      23.91304347826087
     ],
     "successes": 11,
-    "attempts": 45,
+    "attempts": 46,
     "database": {
       "entries": [
         {
@@ -82,6 +84,16 @@
           },
           "failures": 2,
           "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "wer",
+            "description: ": "new test",
+            "comment: ": "wer",
+            "example: ": "wer"
+          },
+          "failures": 1,
+          "attempts": 1
         }
       ]
     }
