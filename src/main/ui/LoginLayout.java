@@ -17,25 +17,27 @@ public class LoginLayout extends Layout {
     public LoginLayout() {
         this.loginLayout = new GridPane();
         this.loginLayout.setPadding(new Insets(10, 10, 10, 10));
-        this.loginLayout.setVgap(8);
+        this.loginLayout.setVgap(20);
         this.loginLayout.setHgap(10);
 
         //login label
-        Label loginLabel = new Label("Welcome to MySmartVocabularyTrainer! \nPlease enter your name to continue.");
-        GridPane.setConstraints(loginLabel, 0, 0);
+        Label loginLabel = new Label("Welcome to MySmartVocabularyTrainer! "
+                + "\n\nPlease enter your name and hit enter to continue.");
+        GridPane.setConstraints(loginLabel, 4, 0);
 
         //login text field
         this.loginInput = new TextField();
         this.loginInput.setPromptText("name");
-        GridPane.setConstraints(loginInput, 0, 1);
+        GridPane.setConstraints(loginInput, 4, 1);
 
         //login button
         Button loginToMainButton = new Button("Continue");
         loginToMainButton.setOnAction(e -> dispatchEvent(e, "login"));
-        GridPane.setConstraints(loginToMainButton, 1, 2);
+        GridPane.setConstraints(loginToMainButton, 5, 2);
 
         loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
         this.loginScene = new Scene(loginLayout, 850, 500);
+        this.loginScene.getStylesheets().add("ui/LoginStylesheet.css");
     }
 
     public Scene getLoginScene() {

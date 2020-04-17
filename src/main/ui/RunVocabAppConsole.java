@@ -1,9 +1,10 @@
 package ui;
 
 //Main class
-public class Main {
+public class RunVocabAppConsole {
     public static void main(String[] args) {
         new VocabAppConsole();
+        //VocabAppGui.main(args);
     }
 }
 
