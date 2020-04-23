@@ -11,7 +11,6 @@ import java.util.Map;
 
 //represents an abstract layout class
 public abstract class Layout {
-
     private Map<String, List<EventHandler>> listeners = new HashMap<>();
 
     //EFFECTS: goes through all EventHandlers and handles events

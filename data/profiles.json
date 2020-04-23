@@ -3,26 +3,13 @@
     "name": "Flo",
     "successRates": [
       0.0,
-      18.42105263157895,
-      18.42105263157895,
-      18.42105263157895,
-      48.93617021276596,
-      48.0,
-      48.0,
-      47.05882352941177,
-      27.586206896551722,
-      32.35294117647059,
-      31.428571428571427,
-      31.428571428571427,
-      31.428571428571427,
-      31.428571428571427,
-      31.428571428571427,
-      24.444444444444443,
-      23.91304347826087,
-      23.91304347826087
+      21.153846153846153,
+      21.153846153846153,
+      21.153846153846153,
+      21.153846153846153
     ],
     "successes": 11,
-    "attempts": 46,
+    "attempts": 52,
     "database": {
       "entries": [
         {
@@ -91,6 +78,66 @@
             "description: ": "new test",
             "comment: ": "wer",
             "example: ": "wer"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "sdfdsfdsf",
+            "description: ": "sfd",
+            "comment: ": "",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "yiyyiy",
+            "description: ": "kh",
+            "comment: ": "fhfg",
+            "example: ": "fghfgh"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "dgdgd",
+            "description: ": "sdsf",
+            "comment: ": "sfds",
+            "example: ": "sdfdsf"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "123",
+            "description: ": "1234455",
+            "comment: ": "123",
+            "example: ": "123"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "sdfsdf",
+            "description: ": "new entry",
+            "comment: ": "werwer",
+            "example: ": "12342312"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "ddfgdgsfsdg",
+            "description: ": "2345467890",
+            "comment: ": "fdsgfsdgfdg",
+            "example: ": "dsfgfdsgfdssgdf"
           },
           "failures": 1,
           "attempts": 1
@@ -296,6 +343,7 @@
     "name": "",
     "successRates": [
       0.0,
+      0.0,
       0.0
     ],
     "successes": 0,
@@ -328,6 +376,39 @@
             "description: ": "ubiquitous",
             "comment: ": "yü-ˈbi-kwə-təs",
             "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "shfkdshfjkd",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 2,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sdfsdf",
+            "description: ": "sdf",
+            "comment: ": "sdf",
+            "example: ": "sdf"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "rewrewf",
+            "description: ": "sdfdsfrew",
+            "comment: ": "fd",
+            "example: ": "fd"
           },
           "failures": 1,
           "attempts": 1

@@ -8,7 +8,7 @@ public class Profile {
     protected ArrayList<Double> successRates;    //rates of guessing words and expressions correctly
     protected int successes;
     protected int attempts;
-    Database database;            //database of entries
+    protected Database database;            //database of entries
 
 
     //REQUIRES: profile name is of non-zero length

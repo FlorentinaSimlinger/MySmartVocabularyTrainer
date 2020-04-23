@@ -1,43 +1,48 @@
 package ui;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 
 //represents the layout for login
 public class LoginLayout extends Layout {
     private TextField loginInput;
     private Scene loginScene;
-    private GridPane loginLayout;
+    private VBox loginLayout;
+    public static final String LOGIN = "login";
 
     //EFFECTS: constructs a login layout
     public LoginLayout() {
-        this.loginLayout = new GridPane();
-        this.loginLayout.setPadding(new Insets(10, 10, 10, 10));
-        this.loginLayout.setVgap(20);
-        this.loginLayout.setHgap(10);
+        this.loginLayout = new VBox();
+        this.loginLayout.setSpacing(20);
+        this.loginLayout.setAlignment(Pos.TOP_CENTER);
 
-        //login label
-        Label loginLabel = new Label("Welcome to MySmartVocabularyTrainer! "
-                + "\n\nPlease enter your name and hit enter to continue.");
-        GridPane.setConstraints(loginLabel, 4, 0);
+        //labels
+        Label welcomeLabel = new Label("Welcome to MySmartVocabularyTrainer!");
+        Label nameLabel = new Label("Please enter your name to continue");
+        welcomeLabel.setPadding(new Insets(100, 0, 50, 0));
 
         //login text field
         this.loginInput = new TextField();
         this.loginInput.setPromptText("name");
-        GridPane.setConstraints(loginInput, 4, 1);
+        this.loginInput.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                dispatchEvent(e, LOGIN);
+            }
+        });
+        this.loginInput.setMaxWidth(250);
 
-        //login button
-        Button loginToMainButton = new Button("Continue");
-        loginToMainButton.setOnAction(e -> dispatchEvent(e, "login"));
-        GridPane.setConstraints(loginToMainButton, 5, 2);
 
-        loginLayout.getChildren().addAll(loginLabel, loginInput, loginToMainButton);
+        loginLayout.getChildren().addAll(welcomeLabel, nameLabel, loginInput);
         this.loginScene = new Scene(loginLayout, 850, 500);
-        this.loginScene.getStylesheets().add("ui/LoginStylesheet.css");
+
+        //css
+        this.loginScene.getStylesheets().add("ui/LoginStyle.css");
+        welcomeLabel.getStyleClass().add("label-welcome");
     }
 
     public Scene getLoginScene() {
@@ -50,7 +55,7 @@ public class LoginLayout extends Layout {
     }
 
     @Override
-    protected GridPane getNode() {
+    protected VBox getNode() {
         return this.loginLayout;
     }
 }

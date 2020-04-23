@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,11 +12,13 @@ import java.util.List;
 
 //represents the main layout
 public class MainLayout extends Layout {
-    VBox mainLayout;
+    private VBox mainLayout;
     public static final String EVENT_TEST = "test";
     public static final String EVENT_QUIT = "quit";
     public static final String EVENT_ADD = "add";
     private ArrayList<TextField> textFields = new ArrayList<>();
+    private Label addFeedbackLabel;
+    private Button addButton;
 
     //constructs a main layout
     public MainLayout() {
@@ -23,28 +26,33 @@ public class MainLayout extends Layout {
         this.mainLayout.setAlignment(Pos.CENTER);
         this.mainLayout.setSpacing(20);
 
-        //label
+        //labels
         String labelText = "Welcome! To get started, enter a word or phrase you'd like to learn,"
                 + "\nthe synonym you're familiar with, a comment and an example sentence if you'd like.";
         Label mainLabel = new Label(labelText);
         mainLabel.setMaxWidth(500);
+        this.addFeedbackLabel = new Label("");
         this.mainLayout.getChildren().add(mainLabel);
 
         //user input
         this.addUserInputFields();
 
         //buttons
-        Button addButton = new Button("Add");
+        this.addButton = new Button("Add");
         Button testButton = new Button("Test myself");
         Button quitButton = new Button("Quit");
 
-        this.mainLayout.getChildren().addAll(addButton, testButton, quitButton);
+        //bindings for text fields
+        this.addBinding();
 
-        addButton.setOnMouseClicked(e -> dispatchEvent(e, EVENT_ADD));
+        this.mainLayout.getChildren().addAll(this.addFeedbackLabel, this.addButton, testButton, quitButton);
+
+        this.addButton.setOnMouseClicked(e -> dispatchEvent(e, EVENT_ADD));
         testButton.setOnAction(e -> dispatchEvent(e, EVENT_TEST));
         quitButton.setOnAction(e -> dispatchEvent(e, EVENT_QUIT));
-
     }
+
+
 
     //EFFECTS: creates fields for user input
     //MODIFIES: this
@@ -58,12 +66,32 @@ public class MainLayout extends Layout {
             TextField textField = new TextField();
             textField.setPromptText(fieldName);
             textField.setMaxWidth(500);
-            mainLayout.getChildren().add(textField);
-            if (textFields.size() < 4) {
-                textFields.add(textField);
+            this.mainLayout.getChildren().add(textField);
+            if (this.textFields.size() < 4) {
+                this.textFields.add(textField);
             }
         }
     }
+
+    //EFFECTS: disables add button so long fields 1 and 2 are not filled out
+    //MODIFIES: this
+    //SOURCE: https://stackoverflow.com/questions/23040531/how-to-disable-button-when-textfield-is-empty
+    private void addBinding() {
+        BooleanBinding booleanBinding = new BooleanBinding() {
+            {
+                super.bind(textFields.get(0).textProperty(),
+                        textFields.get(1).textProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (textFields.get(0).getText().isEmpty()
+                        || textFields.get(1).getText().isEmpty());
+            }
+        };
+        this.addButton.disableProperty().bind(booleanBinding);
+    }
+
 
     public VBox getNode() {
         return this.mainLayout;
@@ -73,8 +101,9 @@ public class MainLayout extends Layout {
         return this.textFields;
     }
 
+    //EFFECTS: clears text fields
     public void clearTextFields() {
-        for (TextField textField : textFields) {
+        for (TextField textField : this.textFields) {
             textField.clear();
         }
     }

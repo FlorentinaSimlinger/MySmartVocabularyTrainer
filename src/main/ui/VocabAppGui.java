@@ -95,8 +95,8 @@ public class VocabAppGui extends Application {
         this.mainLayout.addEventListener(MainLayout.EVENT_TEST, e -> this.rootLayout.setChildPane(this.testLayout));
         this.mainLayout.addEventListener(MainLayout.EVENT_QUIT, e -> closeProgram());
         this.mainLayout.addEventListener(MainLayout.EVENT_ADD, e -> {
-            SingleEntry singleEntry = new SingleEntry();
             ArrayList<TextField> textFields = mainLayout.getTextFields();
+            SingleEntry singleEntry = new SingleEntry();
             singleEntry.setDescription(textFields.get(0).getText());
             singleEntry.setMeaning(textFields.get(1).getText());
             singleEntry.setComment(textFields.get(2).getText());
@@ -158,7 +158,7 @@ public class VocabAppGui extends Application {
     //MODIFIES: this
     public void addEventListenersToSearchLayout() {
         this.searchLayout.addEventListener(SearchLayout.EVENT_SEARCHENTRY, e -> {
-            boolean found = false;
+            boolean entryFound = false;
             SingleEntry entry = profile.getDatabase().getEntryBasedOnValue(this.searchLayout.getSearchInput());
             String description = "";
             String meaning = "";
@@ -167,7 +167,7 @@ public class VocabAppGui extends Application {
             int successRate = 0;
             boolean entryAttempted = false;
             if (entry != null) {
-                found = true;
+                entryFound = true;
                 description = entry.getDescription();
                 meaning = entry.getMeaning();
                 comment = entry.getComment();
@@ -177,7 +177,7 @@ public class VocabAppGui extends Application {
                     successRate = (int) entry.getSuccessRate();
                 }
             }
-            this.searchLayout.setSearchFeedback(found, entryAttempted, description, meaning, comment, example,
+            this.searchLayout.setSearchFeedback(entryFound, entryAttempted, description, meaning, comment, example,
                     successRate);
         });
     }
@@ -246,6 +246,7 @@ public class VocabAppGui extends Application {
     //MODIFIES: this
     public void setDatabaseTable() {
         if (this.profile != null) {
+            this.databaseLayout.getTableItems().clear();
             for (SingleEntry entry : this.profile.getDatabase().getEntries()) {
                 this.databaseLayout.getTableItems().add(entry);
             }
