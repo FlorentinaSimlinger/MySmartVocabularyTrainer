@@ -33,7 +33,7 @@ public class ProfileLayout extends Layout {
                 profileAchievementsLabel, profileExportDataLabel, profileDeleteButton);
     }
 
-    //EFFECTS: adds a line chart
+    //EFFECTS: adds a line chart with new data series and dispatches to main to get data
     //MODIFIES: this
     //SOURCE: partly based on https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
     public void addLineChart() {
@@ -43,16 +43,23 @@ public class ProfileLayout extends Layout {
         yAxis.setLabel("Success rate in % per session");
         this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         this.lineChart.setTitle("My Success Rate");
-//        this.series.getData().add(new XYChart.Data(numberOfSessions, successOfSession));
-//        this.lineChart.getData().add(this.series);
+        this.series = new XYChart.Series();
+        this.series.setName("Success Rate");
         dispatchEvent(new Event(MouseEvent.MOUSE_PRESSED), EVENT_SUCCESSRATES);
     }
 
-    public void updateLineChart(int numberOfSessions, Double successOfSession) {
-        this.series = new XYChart.Series();
-        series.setName("Success Rate");
-        this.series.getData().add(new XYChart.Data(numberOfSessions, successOfSession));
+    //EFFECTS: adds data of number of session and success of session to line chart
+    //MODIFIES: this
+    public void updateLineChart(int numberOfSession, Double successOfSession) {
+        this.series.getData().add(new XYChart.Data(numberOfSession, successOfSession));
         this.lineChart.getData().add(this.series);
+    }
+
+    //EFFECTS: clears line chart
+    //MODIFIES: this
+    public void clearLineChart() {
+        this.lineChart.getData().clear();
+        this.series.getData().clear();
     }
 
     @Override

@@ -64,7 +64,7 @@ public class VocabAppGui extends Application {
         addEventListenersToTestLayout();
         addEventListenersToSearchLayout();
         addEventListenersToProfileLayout();
-        addAdditionalEventListeners();
+        addEventListenersToLoginLayout();
 
         this.window.setScene(this.loginLayout.getLoginScene());
 
@@ -182,7 +182,7 @@ public class VocabAppGui extends Application {
         });
     }
 
-    //EFFECTS: add event listeners to profile layout
+    //EFFECTS: adds event listeners to profile layout
     //MODIFIES: this
     private void addEventListenersToProfileLayout() {
         this.profileLayout.addEventListener(ProfileLayout.EVENT_SUCCESSRATES, e -> this.updateProfileLineChart());
@@ -190,7 +190,7 @@ public class VocabAppGui extends Application {
 
     //EFFECTS: add additional event listeners
     //MODIFIES: this
-    private void addAdditionalEventListeners() {
+    private void addEventListenersToLoginLayout() {
         this.loginLayout.addEventListener("login",
                 e -> {
                     this.profile = this.findOrCreateProfile();
@@ -258,6 +258,7 @@ public class VocabAppGui extends Application {
     public void updateProfileLineChart() {
         if (this.profile != null) {
             ArrayList<Double> successRates = this.profile.getSuccessRates();
+            this.profileLayout.clearLineChart();
             for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
                 this.profileLayout.updateLineChart(k, this.profile.getSuccessRates().get(i));
             }
