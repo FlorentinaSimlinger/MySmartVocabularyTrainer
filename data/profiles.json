@@ -1,0 +1,420 @@
+[
+  {
+    "name": "Flo",
+    "successRates": [
+      0.0,
+      21.153846153846153,
+      21.153846153846153,
+      21.153846153846153,
+      21.153846153846153,
+      21.153846153846153
+    ],
+    "successes": 11,
+    "attempts": 52,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sdfdsf",
+            "description: ": "sdfsdf",
+            "comment: ": "sdfsdfs",
+            "example: ": "sdfsdfsd"
+          },
+          "failures": 19,
+          "attempts": 27
+        },
+        {
+          "match": {
+            "meaning: ": "sdf",
+            "description: ": "sdfsdfsdfasdfd",
+            "comment: ": "sdffd",
+            "example: ": "fdfdfd"
+          },
+          "failures": 4,
+          "attempts": 4
+        },
+        {
+          "match": {
+            "meaning: ": "werwer",
+            "description: ": "werwer",
+            "comment: ": "wer",
+            "example: ": "wer"
+          },
+          "failures": 2,
+          "attempts": 4
+        },
+        {
+          "match": {
+            "meaning: ": "I\u0027m freaking crazy",
+            "description: ": "if this works",
+            "comment: ": "sdf",
+            "example: ": "sdfds"
+          },
+          "failures": 4,
+          "attempts": 5
+        },
+        {
+          "match": {
+            "meaning: ": "hkh",
+            "description: ": "gjgjh",
+            "comment: ": "kh",
+            "example: ": "kh"
+          },
+          "failures": 3,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "sdfdsfsdf",
+            "description: ": "sdfsdf",
+            "comment: ": "sdfsfds",
+            "example: ": "sfdsfds"
+          },
+          "failures": 2,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "wer",
+            "description: ": "new test",
+            "comment: ": "wer",
+            "example: ": "wer"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "sdfdsfdsf",
+            "description: ": "sfd",
+            "comment: ": "",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "yiyyiy",
+            "description: ": "kh",
+            "comment: ": "fhfg",
+            "example: ": "fghfgh"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "dgdgd",
+            "description: ": "sdsf",
+            "comment: ": "sfds",
+            "example: ": "sdfdsf"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "123",
+            "description: ": "1234455",
+            "comment: ": "123",
+            "example: ": "123"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "sdfsdf",
+            "description: ": "new entry",
+            "comment: ": "werwer",
+            "example: ": "12342312"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "ddfgdgsfsdg",
+            "description: ": "2345467890",
+            "comment: ": "fdsgfsdgfdg",
+            "example: ": "dsfgfdsgfdssgdf"
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Michelle",
+    "successRates": [
+      0.0,
+      36.36363636363637,
+      36.36363636363637,
+      36.36363636363637
+    ],
+    "successes": 4,
+    "attempts": 11,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "something",
+            "description: ": "bliablablub",
+            "comment: ": "lkdsflsdjlj",
+            "example: ": "sdfjdskljfdlskj"
+          },
+          "failures": 2,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "with different meaning",
+            "description: ": "some other word",
+            "comment: ": "slfjdsljl",
+            "example: ": "lsfjdlsdkjflkdsjf"
+          },
+          "failures": 1,
+          "attempts": 3
+        },
+        {
+          "match": {
+            "meaning: ": "sdflkjss",
+            "description: ": "skfhjksdhf",
+            "comment: ": "sdlkfslkj",
+            "example: ": "lsjfddlskj"
+          },
+          "failures": 2,
+          "attempts": 2
+        }
+      ]
+    }
+  },
+  {
+    "name": "hfhf",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 3,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Georg",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 4,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 2,
+          "attempts": 2
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "Ana",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 3,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "",
+    "successRates": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 3,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sled",
+            "description: ": "toboggan",
+            "comment: ": "verb is \u0027to toboggan\u0027",
+            "example: ": "riding down a hill with a sled"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "\u0027right?\u0027",
+            "description: ": "eh?",
+            "comment: ": "does not have to be used as question",
+            "example: ": "it\u0027s cold today, eh?"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "everywhere",
+            "description: ": "ubiquitous",
+            "comment: ": "yü-ˈbi-kwə-təs",
+            "example: ": ""
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  },
+  {
+    "name": "shfkdshfjkd",
+    "successRates": [
+      0.0,
+      0.0
+    ],
+    "successes": 0,
+    "attempts": 2,
+    "database": {
+      "entries": [
+        {
+          "match": {
+            "meaning: ": "sdfsdf",
+            "description: ": "sdf",
+            "comment: ": "sdf",
+            "example: ": "sdf"
+          },
+          "failures": 1,
+          "attempts": 1
+        },
+        {
+          "match": {
+            "meaning: ": "rewrewf",
+            "description: ": "sdfdsfrew",
+            "comment: ": "fd",
+            "example: ": "fd"
+          },
+          "failures": 1,
+          "attempts": 1
+        }
+      ]
+    }
+  }
+]

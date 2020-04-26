@@ -22,26 +22,61 @@ It is therefore **user-driven** in its application, **pragmatic** in its approac
 > Let's Go! - *My Smart Vocabulary Trainer*
  
 ##User Stories
-- As a user I want to be able to save entries [implemented]
+- As a user I want to be able to save entries to a database [implemented]
 - As a user I want to be able to delete entries [implemented]
 - As a user I want to be able to search for entries [implemented]
 - As a user I want to be able to test myself on a random selection from the database [implemented]
-- As a user I want to be able to track the success rate and based on it have certain words/phrases appear more often
 - As a user I want to have a profile where I can 
-    - see and reset the statistics
-    - see and change or delete entries
-    - export the database in different formats, such as pdf and excel
+    - change my name
+    - see statistics [implemented]
+    - reset statistics
     - delete the entire database
     - delete my profile
-    
+ - As a user I want to be able to save my profile [implemented]
+ - As a user I want to be able to reload my profile [implemented]
+ 
+ ##Instructions for Grader
+ 1) Run VocabAppGuiFX
+ 2) Enter your name and hit enter
+ 3) Decide whether you'd like to load an example database or not
+ 4) You are now in MAIN where you can add an entry to the database ***["add X to Y"]***
+ 5) Go to MORE -> DATABASE and notice that your entry (and the example database if applicable) appears.
+ 6) Delete an entry and add a new one ***["second required event related to elements of X in Y"]***
+ (it is not super robust yet, please add at least description and meaning, comment and example are not required).
+ 7) Go to MORE -> TEST to test yourself
+ 8) Go to MORE-> QUIT or hit the 'Quit' button to exit, the files will automatically 
+ save ***["save state of application"]***.
+ 9) Rerun the app with your name. Notice that this time it does not ask about the example database because you are not
+ a new user.
+ 10) Go to MORE -> DATABASE to see that your entries are still there ***["reload state of application"]***.
+ 11) Go to PROFILE to your success rate from the previous sessions ***["visual component"]*** (currently it only saves when
+ you quit the application, thus the result only appears after you login again)
+12) You can also search specific entries in your database
+
+##Phase 4: Task 2
+Dear Bhavesh, I hope you're well. This is how I implemented Task 2:
+- I make appropriate use of the Map interface in SingleEntry. A SingleEntry consists of a HashMap, I use the
+built in put and get methods to set key and value pairs and retrieve values based on keys.
+
+##Phase 4: Task 3
+And this is how I implemented Task 3:
+- I fixed poor cohesion in the VocabAppGui. It previously contained the entire logic for the layouts. Now the layouts
+are in separate classes and VocabAppGui has the sole responsibility of changing the data in the background.
+- I also decreased coupling by limiting the access to other classes through fields and instead call methods. An example
+of that are the event listeners in VocabGui so that it does not know how events are triggered
+(ie it does not know about the buttons and labels in the layout classes).
+
+
 ##Ideas for extended version
-- offers me to change existing entry if I try to add new entry with same description
-- scrape websites for example sentences
-- keep track of success rate for individual entries (through making a new field)
-- ask the user for their goals in terms of rate of adding new entries and success rates and keep track of those goals
-- call dictionaries to offer common synonyms
-- test yourself under timed conditions
-- keep track of how fast words are entered and track progress on that
-- remove unnecessary buttons such as the enter button (have next word/phrase appear once the old 
-one was successfully entered)
+- fix a few things
+- option to change existing entry if new entry with duplicate description is added
+- scrape websites for example sentences and synonyms
+- show awards for reaching 10 entries, 50 entries, 100 entries
+- show awards for 50%, 75%, 80% success rate
+- allow user to set individual goals such as success rates
+- testing under timed conditions
+- tracking response time 
+- export the database in different formats, such as pdf and excel
+- be able to import data
+- be able to categorize my vocabulary in different categories and display only certain categories which a checkbox
 - make an online version
