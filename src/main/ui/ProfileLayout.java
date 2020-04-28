@@ -50,16 +50,21 @@ public class ProfileLayout extends Layout {
 
     //EFFECTS: adds data of number of session and success of session to line chart
     //MODIFIES: this
-    public void updateLineChart(int numberOfSession, Double successOfSession) {
+    public void fillSeriesWithData(int numberOfSession, Double successOfSession) {
         this.series.getData().add(new XYChart.Data(numberOfSession, successOfSession));
+    }
+
+    //EFFECTS: adds the series to line chart
+    //MODIFIES: this
+    public void addSeriesToLineChart() {
         this.lineChart.getData().add(this.series);
     }
 
-    //EFFECTS: clears line chart
+    //EFFECTS: clears line chart and data associated with it
     //MODIFIES: this
     public void clearLineChart() {
-        this.lineChart.getData().clear();
         this.series.getData().clear();
+        this.lineChart.getData().clear();
     }
 
     @Override

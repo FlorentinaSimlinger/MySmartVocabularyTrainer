@@ -260,8 +260,9 @@ public class VocabAppGui extends Application {
             ArrayList<Double> successRates = this.profile.getSuccessRates();
             this.profileLayout.clearLineChart();
             for (int i = 0, k = 0; i < successRates.size(); i++, k++) {
-                this.profileLayout.updateLineChart(k, this.profile.getSuccessRates().get(i));
+                this.profileLayout.fillSeriesWithData(k, successRates.get(i));
             }
+            this.profileLayout.addSeriesToLineChart();
         }
     }
 
